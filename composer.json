@@ -28,6 +28,11 @@
       "email": "teguh.rianto22@gmail.com",
       "homepage": "http://teguhrianto22.pusku.com",
       "role": "Template Designer"
+    },
+    {
+      "name": "Aradea",
+      "email": "aradea.hind@gmail.com",
+      "role": "Wiki Writer"
     }
   ],
   "support": {
@@ -46,6 +51,9 @@
   "autoload": {
     "psr-4": {
       "O2System\\Gears\\": "src"
-    }
+    },
+    "files": [
+      "src/Helper.php"
+    ]
   }
 }
