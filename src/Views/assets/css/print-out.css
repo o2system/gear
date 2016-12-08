@@ -1,0 +1,160 @@
+body {
+    margin: 0;
+    font-family: "Franklin Gothic Medium", Geneva, Ubuntu, Arial;
+}
+
+div#gear-toolbar {
+    display: inline-block;
+    width: 100%;
+    background-color: #fff;
+}
+
+div#gear-toolbar img {
+    float: left;
+    width: 35px;
+    height: 35px;
+    position: relative;
+    top: 3px;
+    left: 5px;
+}
+
+ul#gear-toolbar-buttons {
+    list-style-type: none;
+    margin: 10px 8px 12px 0px;
+    text-align: right;
+}
+
+ul#gear-toolbar-buttons > li {
+    display: inline;
+    padding-left: 3px;
+}
+
+ul#gear-toolbar-buttons > li > a {
+    -webkit-border-radius: 4;
+    -moz-border-radius: 4;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 10px;
+    background: #a94442;
+    padding: 7px 15px 7px 15px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+ul#gear-toolbar-buttons > li > a:hover {
+    background: #3cb0fd;
+    background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+    text-decoration: none;
+}
+
+pre {
+    background-color: #333;
+    overflow: auto;
+    margin: 0;
+    padding: 1em;
+}
+
+pre code,
+pre .line-number {
+    font: normal normal 12px/14px Courier, Monospace;
+    color: #fff;
+    display: block;
+}
+
+pre .line-number {
+    float: left;
+    margin: 0 1em 0 -1em;
+    border-right: 1px solid;
+    text-align: right;
+    -webkit-user-select: none;
+}
+
+pre .line-number span {
+    display: block;
+    padding: 0 .5em 0 1em;
+}
+
+pre .clear-both, div.clear-both {
+    display: block;
+    clear: both;
+}
+
+div#gear-debug-backtrace {
+    display: inline-block;
+    width: 100%;
+}
+
+div#gear-debug-backtrace-heading {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    padding: 10px 12px;
+    display: block;
+}
+
+div#gear-debug-backtrace h1 {
+    padding: 0px;
+    margin: 0px;
+    text-transform: uppercase;
+    font-size: 18px;
+    float: left;
+}
+
+div#gear-debug-backtrace-heading > ul {
+    list-style-type: none;
+    text-align: right;
+    padding: 0px;
+    margin: 0px;
+}
+
+div#gear-debug-backtrace-heading > ul > li {
+    display: inline;
+    font-size: 12px;
+}
+
+div#gear-debug-backtrace-heading > ul > li > span {
+    text-transform: uppercase;
+    background-color: #a94442;
+    color: #fff;
+    border-radius: 4px;
+    padding: 4px 0px 4px 8px;
+    position: relative;
+    top: -2px;
+    font-size: 9px;
+    overflow: hidden;
+}
+
+div#gear-debug-backtrace-heading > ul > li > span > span {
+    text-transform: lowercase;
+    font-size: 9px;
+    background-color: #fff;
+    color: #a94442;
+    padding: 4px 8px;
+    margin: 0px 0px 0px 5px;
+    border-radius: 0px 4px 4px 0px;
+}
+
+ol#gear-debug-backtrace-chronology {
+    padding: 15px 30px;
+    margin: 0px;
+    font-size: 11px;
+}
+
+ol#gear-debug-backtrace-chronology > li {
+    border-bottom: 1px dotted #ccc;
+    padding: 10px 2px;
+    font-weight: bold;
+}
+
+ol#gear-debug-backtrace-chronology > li > i {
+    font-size: x-small;
+    font-weight: normal;
+}
+
+ol#gear-debug-backtrace-chronology > li:last-child {
+    border-bottom: none;
+}

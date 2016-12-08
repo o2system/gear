@@ -27,22 +27,6 @@ class Trace
      * @access  protected
      * @type    string name of called class
      */
-    const PROVIDE_OBJECT = DEBUG_BACKTRACE_PROVIDE_OBJECT;
-
-    /**
-     * Class Name
-     *
-     * @access  protected
-     * @type    string name of called class
-     */
-    const IGNORE_ARGS = DEBUG_BACKTRACE_IGNORE_ARGS;
-
-    /**
-     * Class Name
-     *
-     * @access  protected
-     * @type    string name of called class
-     */
     private $trace = null;
 
     /**
@@ -52,14 +36,6 @@ class Trace
      * @type    string name of called class
      */
     private $chronology = [ ];
-
-    /**
-     * Class Name
-     *
-     * @access  protected
-     * @type    string name of called class
-     */
-    private $benchmark = [ ];
 
     // ------------------------------------------------------------------------
 
@@ -72,17 +48,10 @@ class Trace
      */
     public function __construct ( $trace = [ ] )
     {
-        global $startTime, $startMemory;
-
-        $this->benchmark = [
-            'time'   => $startTime,
-            'memory' => $startMemory,
-        ];
-
         if ( ! empty( $trace ) ) {
             $this->trace = $trace;
         } else {
-            $this->trace = debug_backtrace();
+            $this->trace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS );
         }
 
         // reverse array to make steps line up chronologically
@@ -105,12 +74,6 @@ class Trace
     private function getChronology ()
     {
         foreach ( $this->trace as $trace ) {
-            if ( in_array( $trace[ 'function' ], [ 'showException', 'showError', 'showPhpError', 'shutdown' ] ) OR
-                 ( isset( $trace[ 'class' ] ) AND $trace[ 'class' ] === 'O2System\Core\Gear\Tracer' )
-            ) {
-                continue;
-            }
-
             $line = new Trace\Chronology();
 
             if ( isset( $trace[ 'class' ] ) && isset( $trace[ 'type' ] ) ) {
@@ -119,10 +82,6 @@ class Trace
             } else {
                 $line->call = $trace[ 'function' ] . '()';
                 $line->type = 'non-static';
-            }
-
-            if ( ! empty( $trace[ 'args' ] ) AND $line->call !== 'print_out()' ) {
-                $line->args = $trace[ 'args' ];
             }
 
             if ( ! isset( $trace[ 'file' ] ) ) {
@@ -134,11 +93,9 @@ class Trace
                 $line->line = @$trace[ 'line' ];
             }
 
-            $line->time = microtime( true ) - $this->benchmark[ 'time' ];
-            $line->memory = round(
-                                ( memory_get_usage( true ) - $this->benchmark[ 'memory' ] ) / 1024 / 1024,
-                                2
-                            ) . ' MB';
+            if( defined('PATH_ROOT') ) {
+                $line->file = str_replace(PATH_ROOT, '', $line->file);
+            }
 
             $this->chronology[] = $line;
 

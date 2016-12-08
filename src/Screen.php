@@ -13,6 +13,7 @@
 namespace O2System\Gear;
 
     // ------------------------------------------------------------------------
+use O2System\Gear\Profiler\Registries\Metric;
 
 /**
  * O2System Gear Output
@@ -57,6 +58,8 @@ class Screen
      */
     public static function printScreen ( $vars, $halt = true )
     {
+        $metric = new Metric('print-out');
+        $metric->start();
         ini_set( 'memory_limit', '512M' );
 
         $vars = static::prepareOutput( $vars );
@@ -64,6 +67,8 @@ class Screen
         $vars = htmlspecialchars( htmlspecialchars_decode( $vars, ENT_QUOTES ), ENT_QUOTES, 'UTF-8' );
         $trace = new Trace();
         $assetsURL = static::assetURL();
+        
+        $metric->stop();
 
         ob_start();
         include __DIR__ . '/Views/Screen.php';
