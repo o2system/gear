@@ -1,0 +1,211 @@
+#gear-toolbar-icon{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    border-radius: 20%;
+    margin: 5px;
+    z-index: 10000;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    clear: both;
+}
+
+#gear-toolbar-icon a svg{
+    margin: 1px ;
+    max-width:26px ;
+    max-height: 26px ;
+}
+#gear-toolbar a:active, #gear-toolbar a:link,#gear-toolbar a:visited {
+    color: #dd4814;
+}
+#gear-toolbar {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif ;
+    font-size: 14px ;
+    line-height: 1.5 ;
+    background: #fff ;
+    border-bottom: 1px solid #ddd ;
+    margin: 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    overflow-y: auto;
+    max-height: 62% ;
+    color:  #777;
+}
+#gear-toolbar h1,
+#gear-toolbar h2,
+#gear-toolbar h3{
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif ;
+    color: #666 ;
+}
+#gear-toolbar p {
+    font-size: 12px ;
+    margin: 0 0 10px 20px ;
+    padding: 0 ;
+}
+#gear-toolbar a {
+    text-decoration: none;
+}
+#gear-toolbar a:hover {
+    text-decoration: none;
+    text-decoration-color: #4e4a4a ;
+}
+#gear-toolbar .muted,
+#gear-toolbar .muted td {
+    color: #bbb ;
+}
+#gear-toolbar .toolbar {
+    display: block ;
+    position: relative ;
+    overflow: hidden ;
+    overflow-y: auto ;
+    white-space: nowrap ;
+    border-bottom: 1px solid #eee;
+    padding: 3px 20px ;
+    text-align: right ;
+}
+#gear-toolbar h1 {
+    font-size: 16px ;
+    font-weight: 300 ;
+    margin: 0 2em 0 0 ;
+    padding: 0 ;
+    text-align: left ;
+    display: inline-block ;
+    float: left ;
+}
+#gear-toolbar h2 {
+    font-size: 16px ;
+    font-weight: 300 ;
+    margin: 0 ;
+    padding: 0 ;
+}
+#gear-toolbar h2 span {
+    font-size: 13px ;
+}
+#gear-toolbar h3 {
+    text-transform: uppercase ;
+    font-size: 11px ;
+    font-weight: 200 ;
+    margin-left: 10pt ;
+}
+#gear-toolbar span {
+    display: inline-block ;
+    font-size: 12px ;
+    padding: .3em 1em .3em ;
+    line-height: 1.0 ;
+    vertical-align: baseline ;
+}
+#gear-toolbar table strong {
+    font-weight: 500 ;
+    color: rgba(0,0,0,0.3) ;
+}
+#gear-toolbar .gear-toolbar-label {
+    border-radius: 0.25em ;
+    text-shadow: none ;
+    background-color: #ee4449 ;
+    border: 1px solid #d82e32 ;
+    margin-left: 0.4em ;
+}
+
+#gear-toolbar .gear-toolbar-label a {
+    display: block ;
+    width: 100% ;
+    height: 100% ;
+    color: #fff ;
+    text-decoration: none ;
+}
+#gear-toolbar .gear-toolbar-label a:hover {
+    text-decoration: none ;
+}
+#gear-toolbar .gear-toolbar-label.active {
+    font-weight: 400 ;
+    background-color: #d82e32 ;
+    border-color: #ad2529 ;
+    padding: .3em 0.9em .3em ;
+}
+#gear-toolbar .tab {
+    display: none;
+    background: inherit ;
+    padding: 1em 2em;
+}
+
+#gear-toolbar table {
+    margin: 0 0 10px 20px ;
+    font-size: 13px ;
+    border-collapse:collapse ;
+    width: 100% ;
+}
+#gear-toolbar td,
+#gear-toolbar th {
+    display: table-cell ;
+    text-align: left ;
+}
+#gear-toolbar tr {
+    border: none ;
+}
+#gear-toolbar td {
+    border: none ;
+    padding: 2px 10px 2px 5px;
+    margin: 0 ;
+
+}
+#gear-toolbar th {
+    padding-bottom: 0.7em ;
+}
+#gear-toolbar tr td:first-child {
+    width: 20% ;
+}
+#gear-toolbar tr td:first-child.narrow {
+    width: 7em ;
+}
+#gear-toolbar tr:hover {
+    background-color: #f3f3f3 ;
+}
+#gear-toolbar table.timeline {
+    width: 100% ;
+    margin-left: 0 ;
+}
+#gear-toolbar table.timeline th {
+    font-size: 0.7em ;
+    font-weight: 200 ;
+    text-align: left ;
+    padding-bottom: 1em ;
+}
+#gear-toolbar table.timeline td,
+#gear-toolbar table.timeline th {
+    border-left: 1px solid #ddd ;
+    padding: 0 1em;
+    position: relative;
+}
+#gear-toolbar table.timeline tr td:first-child,
+#gear-toolbar table.timeline tr th:first-child {
+    border-left: 0 ;
+    padding-left: 0 ;
+}
+#gear-toolbar table.timeline td {
+    padding: 5px;
+}
+#gear-toolbar table.timeline .timer {
+    position: absolute ;
+    display: inline-block ;
+    padding: 3px ;
+    bottom: 9px ;
+    border-radius: 3px ;
+    background-color: #999 ;
+}
+#gear-toolbar .route-params,
+#gear-toolbar .route-params-item {
+    vertical-align: top ;
+}
+#gear-toolbar .route-params-item td:first-child {
+    padding-left: 1em ;
+    text-align: right ;
+    font-style: italic ;
+}

@@ -1,139 +1,128 @@
 <?php
 /**
- * O2System
+ * This file is part of the O2System PHP Framework package.
  *
- * An open source application development framework for PHP 5.4.0 or newer
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
- * This content is released under the MIT License (MIT)
- *
- * Copyright (c) 2014, O2System Framework Developer Team
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- *
- * @package        O2System\Core
- * @author         O2System Framework Developer Team
- * @copyright      Copyright (c) 2005 - 2014, O2System PHP Framework
- * @license        http://www.o2system.io/license.html
- * @license        http://opensource.org/licenses/MIT	MIT License
- * @link           http://www.o2system.io
- * @since          Version 2.0
- * @filesource
+ * @author         Steeve Andrian Salim
+ * @copyright      Copyright (c) Steeve Andrian Salim
  */
 // ------------------------------------------------------------------------
 
-namespace O2System\Gears;
-defined( 'GEARSPATH' ) || exit( 'No direct script access allowed' );
+namespace O2System\Gear;
 
-// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
 /**
- * O2System Gears Profiler
+ * O2System Gear Profiler
  *
- * @package O2System\Gears
+ * @package O2System\Gear
  */
 class Profiler
 {
-	public static $startTime;
-	public static $startMemory;
+    /**
+     * Profiler Benchmarks Stack
+     *
+     * @type    Profiler\Collections\Benchmarks
+     */
+    private static $benchmarks;
 
-	protected static $backtrace = [ ];
+    /**
+     * Profiler Start Time
+     *
+     * @var float
+     */
+    private $startTime;
 
-	public function __construct()
-	{
-		declare( ticks = 1 );
-		register_tick_function( [ &$this, 'benchmark' ] );
+    /**
+     * Profiler Start Memory Usage
+     *
+     * @var float
+     */
+    private $startMemory;
 
-		static::$startTime   = microtime( TRUE );
-		static::$startMemory = memory_get_usage( TRUE );
-	}
+    /**
+     * Profiler Metrics Stack
+     *
+     * @var Profiler\Collections\Metrics
+     */
+    private $metrics;
 
-	public function setStartTime( $startTime )
-	{
-		static::$startTime = $startTime;
-	}
+    // ------------------------------------------------------------------------
 
-	public function setStartMemory( $startMemory )
-	{
-		static::$startMemory = $startMemory;
-	}
+    /**
+     * Profiler::__construct
+     *
+     * @return Profiler
+     */
+    public function __construct ()
+    {
+        $this->startTime = defined( 'STARTUP_TIME' )
+            ? STARTUP_TIME
+            : microtime( true );
 
-	public function getStartTime()
-	{
-		return static::$startTime;
-	}
+        $this->startMemory = defined( 'STARTUP_MEMORY' )
+            ? STARTUP_MEMORY
+            : memory_get_usage( true );
 
-	public function getStartMemory()
-	{
-		return static::$startMemory;
-	}
+        $this->metrics = new Profiler\Metrics();
 
-	public function benchmark()
-	{
-		$backtrace = debug_backtrace();
+        $this->watch( 'TOTAL_EXECUTION' );
+    }
 
-		if ( count( $backtrace ) <= 1 )
-		{
-			return;
-		}
+    // ------------------------------------------------------------------------
 
-		foreach ( $backtrace as $key => $trace )
-		{
-			if ( isset( $trace[ 'class' ] ) AND $trace[ 'class' ] === 'O2System\Gears\Profiler' )
-			{
-				unset( $backtrace[ $key ] );
-				continue;
-			}
-			else
-			{
-				$marker = empty( $trace[ 'class' ] ) ? $trace[ 'function' ] : $trace[ 'class' ] . '::' . $trace[ 'function' ];
+    /**
+     * Watch
+     *
+     * @param string $marker
+     */
+    public function watch ( $marker )
+    {
+        // Stop Last Benchmark
+        $this->metrics->push( new Profiler\Registries\Metric( $marker ) );
+    }
 
-				if ( ! in_array( $marker, [ 'include', 'include_once', 'require', 'require_once' ] ) )
-				{
-					self::$backtrace[ $marker . '()' ] = [
-						'time'   => ( microtime( TRUE ) - static::$startTime ),
-						'memory' => round( ( memory_get_usage( TRUE ) - static::$startMemory ) / 1024 / 1024, 4 ) . ' MB',
-					];
+    /**
+     * Profiler::setStartTime
+     *
+     * @param float $startTime
+     *
+     * @return Profiler
+     */
+    public function setStartTime ( $startTime )
+    {
+        $this->startTime = $startTime;
 
-					self::$backtrace[ $marker . '()' ] = array_merge( $trace, self::$backtrace[ $marker . '()' ] );
-				}
+        return $this;
+    }
 
-				static::$startTime = microtime( TRUE );
+    // ------------------------------------------------------------------------
 
-				break;
-			}
-		}
-	}
+    /**
+     * Profiler::setStartMemory
+     *
+     * @param float $startMemory
+     *
+     * @return Profiler
+     */
+    public function setStartMemory ( $startMemory )
+    {
+        $this->startMemory = $startMemory;
 
-	public function getBacktrace()
-	{
-		return self::$backtrace;
-	}
+        return $this;
+    }
 
-	public function getOutput()
-	{
-		$backtrace = self::$backtrace;
+    // ------------------------------------------------------------------------
 
-		ob_start();
-		include GEARSPATH . 'Views/Profiler.php';
-		$output = ob_get_contents();
-		ob_end_clean();
+    public function getMetrics ()
+    {
+        return $this->metrics;
+    }
 
-		echo $output;
-	}
+    public function getTotalExecution ()
+    {
+        return $this->metrics->bottom();
+    }
 }

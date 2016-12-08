@@ -1,103 +1,75 @@
 <?php
 /**
- * O2System
+ * This file is part of the O2System PHP Framework package.
  *
- * An open source application development framework for PHP 5.4.0 or newer
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
- * This content is released under the MIT License (MIT)
- *
- * Copyright (c) 2014, O2System Framework Developer Team
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- *
- * @package        O2System\Core
- * @author         O2System Framework Developer Team
- * @copyright      Copyright (c) 2005 - 2014, O2System PHP Framework
- * @license        http://www.o2system.io/license.html
- * @license        http://opensource.org/licenses/MIT	MIT License
- * @link           http://www.o2system.io
- * @since          Version 2.0
- * @filesource
+ * @author         Steeve Andrian Salim
+ * @copyright      Copyright (c) Steeve Andrian Salim
  */
 // ------------------------------------------------------------------------
 
-namespace O2System\Gears\Trace;
-defined( 'GEARSPATH' ) || exit( 'No direct script access allowed' );
+namespace O2System\Gear\Trace;
 
-// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
 /**
- * O2System Gears Trace Chronology
+ * O2System Gear Trace Chronology
  *
- * @package O2System\Gears\Trace
+ * @package O2System\Gear\Trace
  */
 class Chronology
 {
-	/**
-	 * Chronology Called Class::Function Name
-	 *
-	 * @var string
-	 */
-	public $call;
+    /**
+     * Chronology Called Class::Function Name
+     *
+     * @var string
+     */
+    public $call;
 
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	/**
-	 * Chronology Type
-	 *
-	 * @var string
-	 */
-	public $type;
+    /**
+     * Chronology Type
+     *
+     * @var string
+     */
+    public $type;
 
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	/**
-	 * Chronology File Line Number
-	 * 
-	 * @var int
-	 */
-	public $line;
+    /**
+     * Chronology File Line Number
+     *
+     * @var int
+     */
+    public $line;
 
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	/**
-	 * Chronology Execution Time Elapsed
-	 * 
-	 * @var int
-	 */
-	public $time;
+    /**
+     * Chronology Execution Time Elapsed
+     *
+     * @var int
+     */
+    public $time;
 
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	/**
-	 * Chronology Execution Memory Elapsed
-	 * 
-	 * @var int
-	 */
-	public $memory;
+    /**
+     * Chronology Execution Memory Elapsed
+     *
+     * @var int
+     */
+    public $memory;
 
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	/**
-	 * Chronology Function Called Arguments
-	 * 
-	 * @var array
-	 */
-	public $args;
+    /**
+     * Chronology Function Called Arguments
+     *
+     * @var array
+     */
+    public $args;
 }

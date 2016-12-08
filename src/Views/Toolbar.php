@@ -1,192 +1,194 @@
-<nav id="view-toolbar" class="navbar navbar-inverse navbar-fixed-top">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="<?php echo base_url(); ?>">
-				<img src="<?php echo upload_url( 'images/favicon.png' ); ?>">
-			</a>
+<style type="text/css">
+    <?= preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(__DIR__.'/assets/css/toolbar.css')) ?>
+</style>
 
-		</div>
+<script type="text/javascript">
+    <?= file_get_contents( __DIR__ . '/assets/js/toolbar.js' ) ?>
+</script>
 
-		<!-- BUTTON CATALOG MENU -->
-		<button id="button-catalog" type="button" class="btn btn-default" href="javascript:void(0)"><i class="fa fa-gears"></i> <span>Tema</span></button>
+<div id="gear-toolbar">
+    <div class="toolbar">
+        <h1><a href="#" onclick="gearToolbar.toggleToolbar();">Debug Bar</a></h1>
 
-		<div id="navbar" class="navbar-collapse collapse">
-			<ul class="nav navbar-nav navbar-right">
-				<li>
-					<a data-action="view-port-reload" href="javascript:void(0);">
-						<i class="fa fa-refresh"></i> <span>Reload</span>
-					</a>
-				</li>
-				<li class="dropdown">
-					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-						<i class="entypo-monitor"></i> <span>Desktop</span>
-					</a>
+        <span>Duration: <?= $totalExecution->getDuration( 1 ) ?></span>
+        <span>Memory Usage: <?= $totalExecution->getMemory() ?></span>
+        <span>Memory Peak Usage: <?= $totalExecution->getPeakMemory() ?></span>
+        <span class="gear-toolbar-label"><a href="javascript: void(0)"
+                                            data-tab="gear-toolbar-timeline">Metrics</a></span>
+        <span class="gear-toolbar-label"><a href="javascript: void(0)" data-tab="gear-toolbar-files">Files</a></span>
+        <span class="gear-toolbar-label"><a href="javascript: void(0)" data-tab="gear-toolbar-vars">Vars</a></span>
+        <span class="gear-toolbar-label"><a href="javascript: void(0)" data-tab="gear-toolbar-logs">Logs</a></span>
+    </div>
 
-					<ul class="dropdown-menu sub-menu">
-						<li>
-							<a data-action="view-port" data-width="1024" href="javascript:void(0);">
-								<span>XGA</span>
-								<label class="pull-right label label-info">1024px</label>
-							</a>
-						</li>
+    <!-- Timeline -->
+    <div id="gear-toolbar-timeline" class="tab">
+        <table class="timeline">
+            <thead>
+            <tr>
+                <th style="width: 30%">EVENT</th>
+                <th style="width: 10%;">DURATION</th>
+                <?php for ( $i = 0; $i < $segmentCount; $i++ ) : ?>
+                    <th><?= $i * $segmentDuration ?> ms</th>
+                <?php endfor; ?>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ( $metrics as $metric ): ?>
+                <tr>
+                    <td><?= $metric->getMarker(); ?></td>
+                    <td style="text-align: right"><?= $metric->getDuration( 1 ); ?></td>
+                    <td colspan="7" style="overflow: hidden">
+                        <span class="timer" style="left: <?= $metric->offset; ?>%; width: <?= $metric->length; ?>%;"
+                              title="<?= number_format( $metric->length, 2 ); ?>%"></span>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 
-						<li>
-							<a data-action="view-port" data-width="1056" href="javascript:void(0);">
-								<span>XGA+</span>
-								<label class="pull-right label label-info">1056px</label>
-							</a>
-						</li>
+    <!-- Files -->
+    <div id="gear-toolbar-files" class="tab">
+        <h2>Files <span>(<?= count( $files ); ?>)</span></h2>
 
-						<li>
-							<a data-action="view-port" data-width="1152" href="javascript:void(0);">
-								<span>XGA+</span>
-								<label class="pull-right label label-info">1152px</label>
-							</a>
-						</li>
+        <table>
+            <tbody>
+            <?php foreach ( $files as $file ): ?>
+                <tr>
+                    <td style="width: 20em;"><?= pathinfo( $file, PATHINFO_FILENAME ); ?></td>
+                    <td><?= $file; ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 
-						<li>
-							<a data-action="view-port" data-width="1280" href="javascript:void(0);">
-								<span>SXVGA</span>
-								<label class="pull-right label label-info">1280px</label>
-							</a>
-						</li>
 
-						<li>
-							<a data-action="view-port" data-width="1360" href="javascript:void(0);">
-								<span>HD</span>
-								<label class="pull-right label label-info">1360px</label>
-							</a>
-						</li>
+    <!-- Vars -->
+    <div id="gear-toolbar-vars" class="tab">
+        <?php foreach ( $vars as $varKey => $varValue ): ?>
+            <?php if ( count( $varValue ) ): ?>
+                <a href="#"
+                   onclick="gearToolbar.toggleDataTable('gears-toolbar-table-vars-<?= $varKey; ?>'); return false;">
+                    <h2><?= strtoupper( $varKey ); ?></h2>
+                </a>
+                <table id="gears-toolbar-table-vars-session">
+                    <tbody>
+                    <?php foreach ( $varValue as $key => $value ): ?>
+                        <tr>
+                            <td><?= $key; ?></td>
+                            <td><?= $value; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
+        <?php endforeach; ?>
 
-						<li>
-							<a data-action="view-port" data-width="1366" href="javascript:void(0);">
-								<span>HD+</span>
-								<label class="pull-right label label-info">1366px</label>
-							</a>
-						</li>
+        <h2>Request <span>( HTTP/1.1 )</span></h2>
 
-						<li>
-							<a data-action="view-port" data-width="1400" href="javascript:void(0);">
-								<span>SXVGA+</span>
-								<label class="pull-right label label-info">1400px</label>
-							</a>
-						</li>
 
-						<li>
-							<a data-action="view-port" data-width="1440" href="javascript:void(0);">
-								<span>WXGA+</span>
-								<label class="pull-right label label-info">1440px</label>
-							</a>
-						</li>
+        <a href="#" onclick="gearToolbar.toggleDataTable('request_headers'); return false;">
+            <h3>Headers</h3>
+        </a>
 
-						<li>
-							<a data-action="view-port" data-width="1680" href="javascript:void(0);">
-								<span>WSXGA+</span>
-								<label class="pull-right label label-info">1680px</label>
-							</a>
-						</li>
+        <table id="request_headers_table">
+            <tbody>
 
-						<li>
-							<a data-action="view-port" data-width="1600" href="javascript:void(0);">
-								<span>UXGA</span>
-								<label class="pull-right label label-info">1600px</label>
-							</a>
-						</li>
+            <tr>
+                <td>Cache-Control</td>
+                <td>max-age=0</td>
+            </tr>
+            <tr>
+                <td>Upgrade-Insecure-Requests</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>Connection</td>
+                <td>keep-alive</td>
+            </tr>
+            <tr>
+                <td>Cookie</td>
+                <td>debug-bar-state=open</td>
+            </tr>
+            <tr>
+                <td>Accept-Encoding</td>
+                <td>gzip, deflate</td>
+            </tr>
+            <tr>
+                <td>Accept-Language</td>
+                <td>en-US,en;q=0.5</td>
+            </tr>
+            <tr>
+                <td>Accept</td>
+                <td>text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</td>
+            </tr>
+            <tr>
+                <td>User-Agent</td>
+                <td>Mozilla/5.0 (Windows NT 10.0; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0</td>
+            </tr>
+            <tr>
+                <td>Host</td>
+                <td>localhost</td>
+            </tr>
+            <tr>
+                <td>Mod-Rewrite</td>
+                <td>on</td>
+            </tr>
+            </tbody>
+        </table>
 
-						<li>
-							<a data-action="view-port" data-width="1920" href="javascript:void(0);">
-								<span>WUXGA</span>
-								<label class="pull-right label label-info">1920px</label>
-							</a>
-						</li>
+        <a href="#" onclick="gearToolbar.toggleDataTable('cookie'); return false;">
+            <h3>Cookies</h3>
+        </a>
 
-						<li>
-							<a data-action="view-port" data-width="2048" href="javascript:void(0);">
-								<span>QXGA</span>
-								<label class="pull-right label label-info">2048px</label>
-							</a>
-						</li>
+        <table id="cookie_table">
+            <tbody>
+            <tr>
+                <td>debug-bar-state</td>
+                <td>open</td>
+            </tr>
+            </tbody>
+        </table>
 
-						<li>
-							<a data-action="view-port" data-width="2560" href="javascript:void(0);">
-								<span>WQXGA</span>
-								<label class="pull-right label label-info">2560px</label>
-							</a>
-						</li>
-					</ul>
-				</li>
+        <h2>Response <span>( 200 - OK )</span></h2>
 
-				<li class="dropdown">
-					<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-						<i class="entypo-mobile"></i> <span>Mobile</span>
-					</a>
+        <a href="#" onclick="gearToolbar.toggleDataTable('response_headers'); return false;">
+            <h3>Headers</h3>
+        </a>
 
-					<ul class="dropdown-menu sub-menu">
-						<li>
-							<a data-action="view-port" data-width="240" href="javascript:void(0);">
-								<span>HQVGA</span>
-								<label class="pull-right label label-info">240px</label>
-							</a>
-						</li>
+        <table id="response_headers_table">
+            <tbody>
+            <tr>
+                <td>Cache-control</td>
+                <td>no-store, max-age=0, no-cache</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-						<li>
-							<a data-action="view-port" data-width="320" href="javascript:void(0);">
-								<span>QVGA</span>
-								<label class="pull-right label label-info">320px</label>
-							</a>
-						</li>
+    <!-- Logs -->
+    <div id="gear-toolbar-logs" class="tab">
+        <h2>Logs <span>(20)</span></h2>
 
-						<li>
-							<a data-action="view-port" data-width="480" href="javascript:void(0);">
-								<span>WQVGA</span>
+        <theader></theader>
+        <table>
+            <tbody>
+            <tr>
+                <th>Severity</th>
+                <th>Message</th>
+            </tr>
+            </tbody>
+            <tbody>
+            <tr>
+                <td>info</td>
+                <td>Controller "App\Controllers\Home" loaded.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
-								<label class="pull-right label label-info">480px</label>
-							</a>
-						</li>
-
-						<li>
-							<a data-action="view-port" data-width="640" href="javascript:void(0);">
-								<span>VGA</span>
-								<label class="pull-right label label-info">640px</label>
-							</a>
-						</li>
-
-						<li>
-							<a data-action="view-port" data-width="720" href="javascript:void(0);">
-								<span>PAL</span>
-
-								<div class="pull-right label label-info">720px</div>
-							</a>
-						</li>
-
-						<li>
-							<a data-action="view-port" data-width="768" href="javascript:void(0);">
-								<span>PAL+</span>
-								<label class="pull-right label label-info">768px</label>
-							</a>
-						</li>
-
-						<li>
-							<a data-action="view-port" data-width="800" href="javascript:void(0);">
-								<span>SVGA</span>
-								<label class="pull-right label label-info">800px</label>
-							</a>
-						</li>
-					</ul>
-				</li>
-
-				<li>
-					<a href="<?php echo base_url( 'tutorial' ); ?>" target="_blank">
-						<i class="entypo-help-circled"></i> <span>Help</span>
-					</a>
-				</li>
-			</ul>
-		</div><!--/.nav-collapse -->
-	</div>
-</nav>
+<script>
+    gearToolbar.init();
+</script>

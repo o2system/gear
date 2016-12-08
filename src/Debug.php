@@ -1,159 +1,126 @@
 <?php
 /**
- * O2System
+ * This file is part of the O2System PHP Framework package.
  *
- * An open source application development framework for PHP 5.4.0 or newer
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
- * This content is released under the MIT License (MIT)
- *
- * Copyright (c) 2014, O2System Framework Developer Team
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- *
- * @package        O2System\Core
- * @author         O2System Framework Developer Team
- * @copyright      Copyright (c) 2005 - 2014, O2System PHP Framework
- * @license        http://www.o2system.io/license.html
- * @license        http://opensource.org/licenses/MIT	MIT License
- * @link           http://www.o2system.io
- * @since          Version 2.0
- * @filesource
+ * @author         Steeve Andrian Salim
+ * @copyright      Copyright (c) Steeve Andrian Salim
  */
 // ------------------------------------------------------------------------
 
-namespace O2System\Gears;
-defined( 'GEARSPATH' ) || exit( 'No direct script access allowed' );
+namespace O2System\Gear;
 
-// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
 /**
- * O2System Gears Debug
+ * O2System Gear Debug
  *
- * @package O2System\Gears
+ * @package O2System\Gear
  */
 class Debug
 {
-	/**
-	 * List of Debug Chronology
-	 *
-	 * @access  private
-	 * @static
-	 *
-	 * @type    array
-	 */
-	private static $chronology = [ ];
+    /**
+     * List of Debug Chronology
+     *
+     * @access  private
+     * @static
+     *
+     * @type    array
+     */
+    private static $chronology = [ ];
 
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	/**
-	 * Start
-	 *
-	 * Start Debug Process
-	 *
-	 * @access  public
-	 * @static  static method
-	 */
-	public static function start()
-	{
-		static::$chronology = [ ];
-		static::$chronology[] = static::__whereCall( __CLASS__ . '::start()' );
-	}
+    /**
+     * Start
+     *
+     * Start Debug Process
+     *
+     * @access  public
+     * @static  static method
+     */
+    public static function start ()
+    {
+        static::$chronology = [ ];
+        static::$chronology[] = static::__whereCall( __CLASS__ . '::start()' );
+    }
 
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	/**
-	 * Where Call Method
-	 *
-	 * Finding where the call is made
-	 *
-	 * @access          private
-	 *
-	 * @param   $call   String Call Method
-	 *
-	 * @return          Trace Object
-	 */
-	private static function __whereCall( $call )
-	{
-		$tracer = new Trace();
+    /**
+     * Where Call Method
+     *
+     * Finding where the call is made
+     *
+     * @access          private
+     *
+     * @param   $call   String Call Method
+     *
+     * @return          Trace Object
+     */
+    private static function __whereCall ( $call )
+    {
+        $tracer = new Trace();
 
-		foreach ( $tracer->chronology() as $trace )
-		{
-			if ( $trace->call === $call )
-			{
-				return $trace;
-				break;
-			}
-		}
-	}
+        foreach ( $tracer->chronology() as $trace ) {
+            if ( $trace->call === $call ) {
+                return $trace;
+                break;
+            }
+        }
+    }
 
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	/**
-	 * Line
-	 *
-	 * Add debug line output
-	 *
-	 * @param mixed $vars
-	 * @param bool  $export
-	 */
-	public static function line( $vars, $export = FALSE )
-	{
-		$trace = static::__whereCall( __CLASS__ . '::line()' );
+    /**
+     * Line
+     *
+     * Add debug line output
+     *
+     * @param mixed $vars
+     * @param bool  $export
+     */
+    public static function line ( $vars, $export = false )
+    {
+        $trace = static::__whereCall( __CLASS__ . '::line()' );
 
-		if ( $export === TRUE )
-		{
-			$trace->data = var_export( $vars, TRUE );
-		}
-		else
-		{
-			$trace->data = Output::prepareOutput( $vars );
-		}
+        if ( $export === true ) {
+            $trace->data = var_export( $vars, true );
+        } else {
+            $trace->data = Screen::prepareOutput( $vars );
+        }
 
-		static::$chronology[] = $trace;
-	}
+        static::$chronology[] = $trace;
+    }
 
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	/**
-	 * Marker
-	 *
-	 * Set Debug Marker
-	 */
-	public static function marker()
-	{
-		$trace = static::__whereCall( __CLASS__ . '::marker()' );
-		static::$chronology[] = $trace;
-	}
+    /**
+     * Marker
+     *
+     * Set Debug Marker
+     */
+    public static function marker ()
+    {
+        $trace = static::__whereCall( __CLASS__ . '::marker()' );
+        static::$chronology[] = $trace;
+    }
 
-	// ------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
 
-	/**
-	 * Stop Debug
-	 *
-	 * @param bool $halt
-	 */
-	public static function stop( $halt = TRUE )
-	{
-		static::$chronology[] = static::__whereCall( __CLASS__ . '::stop()' );
-		$chronology = static::$chronology;
-		static::$chronology = [ ];
+    /**
+     * Stop Debug
+     *
+     * @param bool $halt
+     */
+    public static function stop ( $halt = true )
+    {
+        static::$chronology[] = static::__whereCall( __CLASS__ . '::stop()' );
+        $chronology = static::$chronology;
+        static::$chronology = [ ];
 
-		Output::printScreen( $chronology, $halt );
-	}
+        Screen::printScreen( $chronology, $halt );
+    }
 }
