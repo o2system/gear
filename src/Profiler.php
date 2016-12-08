@@ -12,7 +12,7 @@
 
 namespace O2System\Gear;
 
-    // ------------------------------------------------------------------------
+// ------------------------------------------------------------------------
 
 /**
  * O2System Gear Profiler
@@ -21,13 +21,6 @@ namespace O2System\Gear;
  */
 class Profiler
 {
-    /**
-     * Profiler Benchmarks Stack
-     *
-     * @type    Profiler\Collections\Benchmarks
-     */
-    private static $benchmarks;
-
     /**
      * Profiler Start Time
      *

@@ -14,8 +14,6 @@ namespace O2System\Gear;
 
 // ------------------------------------------------------------------------
 
-use PhpConsole\Handler;
-
 /**
  * O2System Gear Console
  *
@@ -84,18 +82,24 @@ class Console
      */
     public static function sendOutput ( $type, $label, $vars )
     {
-        $phpConsoleHandler = Handler::getInstance();
-        $phpConsoleHandler->start(); // start handling PHP errors & exceptions
+        $sourceBasePath = defined( 'ROOTPATH' )
+            ? ROOTPATH
+            : dirname( $_SERVER['SCRIPT_FILENAME'] );
 
-        $sourceBasePath = defined( 'ROOTPATH' ) ? ROOTPATH : dirname( $_SERVER[ 'SCRIPT_FILENAME' ] );
+        if ( class_exists( '\Phpconsole\Handler', false ) ) {
+            $phpConsoleHandler = \Phpconsole\Handler::getInstance();
+            $phpConsoleHandler->start(); // start handling PHP errors & exceptions
 
-        $phpConsoleHandler->getConnector()->setSourcesBasePath( $sourceBasePath );
+            $phpConsoleHandler->getConnector()->setSourcesBasePath( $sourceBasePath );
+        }
 
         echo '<script type="text/javascript">' . PHP_EOL;
         switch ( $type ) {
             default:
             case 1:
-                $phpConsoleHandler->debug( $vars, $label );
+                if ( isset( $phpConsoleHandler ) ) {
+                    $phpConsoleHandler->debug( $vars, $label );
+                }
                 echo "console.debug('%c $label ', 'background: #777; color: #fff');" . PHP_EOL;
                 break;
             case 2:
@@ -110,9 +114,11 @@ class Console
         }
 
         if ( ! empty( $vars ) ) {
-            $vars = is_object( $vars ) || is_array( $vars ) ? 'JSON.parse(\'' . json_encode(
+            $vars = is_object( $vars ) || is_array( $vars )
+                ? 'JSON.parse(\'' . json_encode(
                     $vars
-                ) . '\')' : '\'' . $vars . '\'';
+                ) . '\')'
+                : '\'' . $vars . '\'';
 
             switch ( $type ) {
                 default:

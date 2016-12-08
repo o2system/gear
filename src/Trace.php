@@ -12,7 +12,7 @@
 
 namespace O2System\Gear;
 
-    // ------------------------------------------------------------------------
+// ------------------------------------------------------------------------
 
 /**
  * O2System Gear Trace
@@ -89,7 +89,7 @@ class Trace
         $this->trace = array_reverse( $this->trace );
 
         // Generate Lines
-        $this->__generateChronology();
+        $this->getChronology();
     }
 
     // ------------------------------------------------------------------------
@@ -102,7 +102,7 @@ class Trace
      * @access           private
      * @return           void
      */
-    private function __generateChronology ()
+    private function getChronology ()
     {
         foreach ( $this->trace as $trace ) {
             if ( in_array( $trace[ 'function' ], [ 'showException', 'showError', 'showPhpError', 'shutdown' ] ) OR

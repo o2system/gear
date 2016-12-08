@@ -12,13 +12,30 @@
 
 namespace O2System\Gear;
 
+/**
+ * Class Toolbar
+ *
+ * @package O2System\Gear
+ */
 class Toolbar
 {
+    /**
+     * Toolbar::__toString
+     * 
+     * @return string
+     */
     public function __toString ()
     {
         return $this->getOutput();
     }
 
+    // ------------------------------------------------------------------------
+
+    /**
+     * Toolbar::getOutput
+     * 
+     * @return string
+     */
     public function getOutput ()
     {
         $totalExecution = profiler()->getTotalExecution();
@@ -26,7 +43,8 @@ class Toolbar
         $totalTime = ( microtime( true ) - $startTime ) * 1000;
         $profilerMetrics = profiler()->getMetrics();
 
-        $segmentDuration = $this->roundTo( $totalTime / 7, 5 );
+        $increments = 1 / 5;
+        $segmentDuration = ( ceil( ($totalTime / 7) * $increments ) / $increments );
         $segmentCount = (int) ceil( $totalTime / $segmentDuration );
 
         $displayTime = $segmentCount * $segmentDuration;
@@ -55,6 +73,13 @@ class Toolbar
         return $output;
     }
 
+    // ------------------------------------------------------------------------
+
+    /**
+     * Toolbar::getFiles
+     * 
+     * @return \string[]
+     */
     public function getFiles ()
     {
         $files = get_included_files();
@@ -92,17 +117,31 @@ class Toolbar
         return $files;
     }
 
+    // ------------------------------------------------------------------------
+
+    /**
+     * Toolbar::getLogs
+     * 
+     * @return array
+     */
     public function getLogs ()
     {
         $logs = [ ];
 
         if ( function_exists( 'logger' ) ) {
             $logs = logger()->getLines();
-
-            return $logs;
         }
+
+        return $logs;
     }
 
+    // ------------------------------------------------------------------------
+
+    /**
+     * Toolbar::getVars
+     * 
+     * @return \ArrayObject
+     */
     public function getVars ()
     {
         $vars = new \ArrayObject( [ ], \ArrayObject::ARRAY_AS_PROPS );
@@ -117,21 +156,4 @@ class Toolbar
 
         return $vars;
     }
-
-    /**
-     * Rounds a number to the nearest incremental value.
-     *
-     * @param     $number
-     * @param int $increments
-     *
-     * @return float
-     */
-    protected function roundTo ( $number, $increments = 5 )
-    {
-        $increments = 1 / $increments;
-
-        return ( ceil( $number * $increments ) / $increments );
-    }
-
-    //--------------------------------------------------------------------
 }

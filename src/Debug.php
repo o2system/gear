@@ -44,7 +44,7 @@ class Debug
     public static function start ()
     {
         static::$chronology = [ ];
-        static::$chronology[] = static::__whereCall( __CLASS__ . '::start()' );
+        static::$chronology[] = static::whereCall( __CLASS__ . '::start()' );
     }
 
     // ------------------------------------------------------------------------
@@ -60,7 +60,7 @@ class Debug
      *
      * @return          Trace Object
      */
-    private static function __whereCall ( $call )
+    private static function whereCall ( $call )
     {
         $tracer = new Trace();
 
@@ -84,7 +84,7 @@ class Debug
      */
     public static function line ( $vars, $export = false )
     {
-        $trace = static::__whereCall( __CLASS__ . '::line()' );
+        $trace = static::whereCall( __CLASS__ . '::line()' );
 
         if ( $export === true ) {
             $trace->data = var_export( $vars, true );
@@ -104,7 +104,7 @@ class Debug
      */
     public static function marker ()
     {
-        $trace = static::__whereCall( __CLASS__ . '::marker()' );
+        $trace = static::whereCall( __CLASS__ . '::marker()' );
         static::$chronology[] = $trace;
     }
 
@@ -117,7 +117,7 @@ class Debug
      */
     public static function stop ( $halt = true )
     {
-        static::$chronology[] = static::__whereCall( __CLASS__ . '::stop()' );
+        static::$chronology[] = static::whereCall( __CLASS__ . '::stop()' );
         $chronology = static::$chronology;
         static::$chronology = [ ];
 
