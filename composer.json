@@ -1,5 +1,5 @@
 {
-  "name": "o2system/gears",
+  "name": "o2system/gear",
   "description": "PHP Developer Tools Library",
   "license": "MIT",
   "type": "php-libraries",
@@ -12,12 +12,6 @@
   ],
   "authors": [
     {
-      "name": "",
-      "email": "developer@circle-creative.com",
-      "homepage": "http://www.circle-creative.com",
-      "role": "Founder"
-    },
-    {
       "name": "Steeven Andrian Salim",
       "email": "steevenz@steevenz.com",
       "homepage": "http://www.steevenz.com",
@@ -28,29 +22,19 @@
       "email": "teguh.rianto22@gmail.com",
       "homepage": "http://teguhrianto22.pusku.com",
       "role": "Template Designer"
-    },
-    {
-      "name": "Aradea",
-      "email": "aradea.hind@gmail.com",
-      "role": "Wiki Writer"
     }
   ],
   "support": {
-    "email": "developer@circle-creative.com",
-    "issues": "https://github.com/circlecreative/o2system/issues",
+    "email": "o2system@yahoo.com",
+    "issues": "https://github.com/o2system/gear/issues",
     "forum": "https://www.facebook.com/groups/498147006994512"
   },
-  "links": {
-    "info": "http://www.circle-creative.com/products/gears.html",
-    "wiki": "http://o2system.center/standalone/gears/user-guide/getting-started.html",
-    "github-wiki": "http://github.com/circlecreative/gears/wiki"
-  },
   "require": {
-    "php": ">=5.4.0"
+    "php": ">=5.6.0"
   },
   "autoload": {
     "psr-4": {
-      "O2System\\Gears\\": "src"
+      "O2System\\Gear\\": "src"
     },
     "files": [
       "src/Helper.php"

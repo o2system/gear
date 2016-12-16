@@ -60,7 +60,7 @@ pre {
 
 pre code,
 pre .line-number {
-    font: normal normal 12px/14px Courier, Monospace;
+    font: normal normal 12px/14px Monospace, Courier;
     color: #fff;
     display: block;
 }

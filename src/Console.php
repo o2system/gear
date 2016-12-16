@@ -52,9 +52,9 @@ class Console
     // ------------------------------------------------------------------------
 
     /**
-     * Log
+     * Console::log
      *
-     * Send output to browser log console
+     * Send output to browser log console.
      *
      * @access  public
      * @static  static class method
@@ -69,9 +69,9 @@ class Console
     // ------------------------------------------------------------------------
 
     /**
-     * Send Output
+     * Console::sendOutput
      *
-     * Send output to browser debug console
+     * Send output to browser debug console.
      *
      * @access  public
      * @static  static class method
@@ -142,9 +142,9 @@ class Console
     // ------------------------------------------------------------------------
 
     /**
-     * Info
+     * Console::info
      *
-     * Send output to browser info console
+     * Send output to browser info console.
      *
      * @access  public
      * @static  static class method
@@ -160,9 +160,9 @@ class Console
     // ------------------------------------------------------------------------
 
     /**
-     * Warning
+     * Console::warning
      *
-     * Send output to browser warning console
+     * Send output to browser warning console.
      *
      * @access  public
      * @static  static class method
@@ -177,9 +177,9 @@ class Console
     // ------------------------------------------------------------------------
 
     /**
-     * Error
+     * Console::error
      *
-     * Send output to browser error console
+     * Send output to browser error console.
      *
      * @access  public
      * @static  static class method
