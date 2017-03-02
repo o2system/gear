@@ -74,9 +74,9 @@ class Trace
     private function getChronology ()
     {
         foreach ( $this->trace as $trace ) {
-            $line = new Trace\Chronology();
+            $line = new Trace\Chronology( $trace );
 
-            if ( isset( $trace[ 'class' ] ) && isset( $trace[ 'type' ] ) ) {
+            if ( isset( $trace[ 'class' ] ) AND isset( $trace[ 'type' ] ) ) {
                 $line->call = $trace[ 'class' ] . $trace[ 'type' ] . $trace[ 'function' ] . '()';
                 $line->type = $trace[ 'type' ] === '->' ? 'non-static' : 'static';
             } else {
@@ -86,15 +86,12 @@ class Trace
 
             if ( ! isset( $trace[ 'file' ] ) ) {
                 $currentTrace = current( $this->trace );
-                $line->file = @$currentTrace[ 'file' ];
-                $line->line = @$currentTrace[ 'line' ];
-            } else {
-                $line->file = @$trace[ 'file' ];
-                $line->line = @$trace[ 'line' ];
+                $line->file = isset( $currentTrace[ 'file' ] ) ? $currentTrace['file'] : null;
+                $line->line = isset( $currentTrace[ 'line' ] ) ? $currentTrace['line'] : null;
             }
 
             if( defined('PATH_ROOT') ) {
-                $line->file = str_replace(PATH_ROOT, '', $line->file);
+                $line->file = str_replace( PATH_ROOT, '', $line->file );
             }
 
             $this->chronology[] = $line;

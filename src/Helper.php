@@ -32,6 +32,11 @@ if ( ! function_exists( 'print_out' ) ) {
      */
     function print_out ( $vars, $halt = true )
     {
+        if ( php_sapi_name() === 'cli' ) {
+            print_cli( $vars, $halt );
+            return;
+        }
+
         O2System\Gear\Screen::printScreen( $vars, $halt );
     }
 }
@@ -124,7 +129,7 @@ if ( ! function_exists( 'print_console' ) ) {
      * @param array  $vars
      * @param int    $type
      */
-    function print_console ( $title, $vars = [ ], $type = \O2System\Gear\Console::LOG )
+    function print_console ( $title, $vars = [], $type = \O2System\Gear\Console::LOG )
     {
         O2System\Gear\Screen::printConsole( $title, $vars, $type );
     }

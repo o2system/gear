@@ -13,7 +13,7 @@ var gearToolbar = {
         this.toolbar = document.getElementById('gear-toolbar');
 
         gearToolbar.createListeners();
-        //gearToolbar.setToolbarState();
+        gearToolbar.setToolbarState();
     },
 
     //--------------------------------------------------------------------
@@ -117,7 +117,7 @@ var gearToolbar = {
     /**
      *   Toggle tool bar from full to icon and icon to full
      */
-    /*toggleToolbar : function()
+    toggleToolbar : function()
     {
         var elementToolbarIcon = document.getElementById('gear-toolbar-icon');
         var elementToolbar = document.getElementById('gear-toolbar');
@@ -129,7 +129,7 @@ var gearToolbar = {
         // Remember it for other page loads on this site
         gearToolbar.createCookie('gear-toolbar-state', '', -1);
         gearToolbar.createCookie('gear-toolbar-state', open == true ? 'minimized' : 'open' , 365);
-    },*/
+    },
 
     //--------------------------------------------------------------------
 
@@ -137,7 +137,7 @@ var gearToolbar = {
      * Sets the initial state of the toolbar (open or minimized) when
      * the page is first loaded to allow it to remember the state between refreshes.
      */
-    /*setToolbarState: function()
+    setToolbarState: function()
     {
         var open = gearToolbar.readCookie('gear-toolbar-state');
         var elementToolbarIcon = document.getElementById('gear-toolbar-icon');
@@ -145,7 +145,7 @@ var gearToolbar = {
 
         elementToolbarIcon.style.display = open != 'open' ? 'inline-block' : 'none';
         elementToolbar.style.display  = open == 'open' ? 'inline-block' : 'none';
-    },*/
+    },
 
     //--------------------------------------------------------------------
 
@@ -156,7 +156,7 @@ var gearToolbar = {
      * @param value
      * @param days
      */
-    /*createCookie : function(name,value,days)
+    createCookie : function(name,value,days)
     {
         if (days)
         {
@@ -172,11 +172,11 @@ var gearToolbar = {
         }
 
         document.cookie = name+"="+value+expires+"; path=/";
-    },*/
+    },
 
     //--------------------------------------------------------------------
 
-    /*readCookie : function(name)
+    readCookie : function(name)
     {
         var nameEQ = name + "=";
         var ca = document.cookie.split(';');
@@ -194,5 +194,5 @@ var gearToolbar = {
             }
         }
         return null;
-    }*/
+    }
 };

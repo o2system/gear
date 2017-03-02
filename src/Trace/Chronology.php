@@ -19,57 +19,19 @@ namespace O2System\Gear\Trace;
  *
  * @package O2System\Gear\Trace
  */
-class Chronology
+class Chronology extends \ArrayObject
 {
-    /**
-     * Chronology Called Class::Function Name
-     *
-     * @var string
-     */
-    public $call;
+    public function __construct( array $chronology = [] )
+    {
+        $chronology = empty($chronology) ? [
+            'call' => null,
+            'type' => null,
+            'line' => null,
+            'time' => null,
+            'args' => [],
+            'file' => null,
+        ] : $chronology;
 
-    // ------------------------------------------------------------------------
-
-    /**
-     * Chronology Type
-     *
-     * @var string
-     */
-    public $type;
-
-    // ------------------------------------------------------------------------
-
-    /**
-     * Chronology File Line Number
-     *
-     * @var int
-     */
-    public $line;
-
-    // ------------------------------------------------------------------------
-
-    /**
-     * Chronology Execution Time Elapsed
-     *
-     * @var int
-     */
-    public $time;
-
-    // ------------------------------------------------------------------------
-
-    /**
-     * Chronology Execution Memory Elapsed
-     *
-     * @var int
-     */
-    public $memory;
-
-    // ------------------------------------------------------------------------
-
-    /**
-     * Chronology Function Called Arguments
-     *
-     * @var array
-     */
-    public $args;
+        parent::__construct($chronology, \ArrayObject::ARRAY_AS_PROPS);
+    }
 }

@@ -92,25 +92,7 @@ class Toolbar
                     continue;
                 }
 
-                $files[ $key ] = str_replace(
-                    [
-                        PATH_KERNEL,
-                        PATH_FRAMEWORK,
-                        PATH_APP,
-                        PATH_PUBLIC,
-                        __DIR__ . DIRECTORY_SEPARATOR,
-                        PATH_VENDOR,
-                    ],
-                    [
-                        'PATH_KERNEL' . DIRECTORY_SEPARATOR,
-                        'PATH_FRAMEWORK' . DIRECTORY_SEPARATOR,
-                        'PATH_APP' . DIRECTORY_SEPARATOR,
-                        'PATH_PUBLIC' . DIRECTORY_SEPARATOR,
-                        'PATH_GEAR' . DIRECTORY_SEPARATOR,
-                        'PATH_VENDOR' . DIRECTORY_SEPARATOR,
-                    ],
-                    $file
-                );
+                $files[ $key ] = str_replace( PATH_ROOT, DIRECTORY_SEPARATOR, $file );
             }
         }
 
@@ -146,13 +128,28 @@ class Toolbar
     {
         $vars = new \ArrayObject( [ ], \ArrayObject::ARRAY_AS_PROPS );
 
-        $vars->env =& $_ENV;
-        $vars->server =& $_SERVER;
-        $vars->session =& $_SESSION;
-        $vars->cookies =& $_COOKIE;
-        $vars->get =& $_GET;
-        $vars->post =& $_POST;
-        $vars->files =& $_FILES;
+        $vars->env = $_ENV;
+        $vars->server = $_SERVER;
+        $vars->session = $_SESSION;
+        $vars->cookies = $_COOKIE;
+        $vars->get = $_GET;
+        $vars->post = $_POST;
+        $vars->files = $_FILES;
+
+        if( function_exists( 'apache_request_headers' ) ) {
+            $vars->headers = apache_request_headers();
+        } elseif( function_exists('getallheaders') ) {
+            $vars->headers = getallheaders();
+        } else {
+            $vars->headers = [];
+            foreach ($_SERVER as $name => $value)
+            {
+                if (substr($name, 0, 5) == 'HTTP_')
+                {
+                    $vars->headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+                }
+            }
+        }
 
         return $vars;
     }
