@@ -30,10 +30,11 @@ if ( ! function_exists( 'print_out' ) ) {
      * @param mixed $vars
      * @param bool  $halt
      */
-    function print_out ( $vars, $halt = true )
+    function print_out( $vars, $halt = true )
     {
         if ( php_sapi_name() === 'cli' ) {
             print_cli( $vars, $halt );
+
             return;
         }
 
@@ -53,7 +54,7 @@ if ( ! function_exists( 'print_line' ) ) {
      * @param string $line
      * @param bool   $halt
      */
-    function print_line ( $line = '', $halt = false )
+    function print_line( $line = '', $halt = false )
     {
         O2System\Gear\Screen::printLine( $line, $halt );
     }
@@ -71,7 +72,7 @@ if ( ! function_exists( 'print_code' ) ) {
      * @param mixed $vars
      * @param bool  $halt
      */
-    function print_code ( $vars, $halt = false )
+    function print_code( $vars, $halt = false )
     {
         O2System\Gear\Screen::printCode( $vars, $halt );
     }
@@ -89,7 +90,7 @@ if ( ! function_exists( 'print_dump' ) ) {
      * @param mixed $vars
      * @param bool  $halt
      */
-    function print_dump ( $vars, $halt = true )
+    function print_dump( $vars, $halt = true )
     {
         O2System\Gear\Screen::printDump( $vars, $halt );
     }
@@ -110,7 +111,7 @@ if ( ! function_exists( 'print_json' ) ) {
      * @param null|int $option JSON Constants Options
      * @param bool     $halt
      */
-    function print_json ( $vars, $option = null, $halt = true )
+    function print_json( $vars, $option = null, $halt = true )
     {
         O2System\Gear\Screen::printJSON( $vars, $option, $halt );
     }
@@ -129,7 +130,7 @@ if ( ! function_exists( 'print_console' ) ) {
      * @param array  $vars
      * @param int    $type
      */
-    function print_console ( $title, $vars = [], $type = \O2System\Gear\Console::LOG )
+    function print_console( $title, $vars = [], $type = \O2System\Gear\Console::LOG )
     {
         O2System\Gear\Screen::printConsole( $title, $vars, $type );
     }
@@ -144,11 +145,30 @@ if ( ! function_exists( 'print_cli' ) ) {
      * @param mixed $vars
      * @param bool  $halt
      */
-    function print_cli ( $vars, $halt = true )
+    function print_cli( $vars, $halt = true )
     {
-        echo "------------------------------------------- print CLI ---- START" . PHP_EOL;
+        $trace = new \O2System\Gear\Trace();
+
+        echo chr( 27 ) . chr( 91 ) . 'H' . chr( 27 ) . chr( 91 ) . 'J';
+        echo PHP_EOL . 'START of gears:print_cli' . PHP_EOL;
+        echo "--------------------------------------------------------------------------------------" . PHP_EOL . PHP_EOL;
         print_r( $vars ) . PHP_EOL;
-        echo "------------------------------------------- print CLI ---- END" . PHP_EOL;
+        echo PHP_EOL . PHP_EOL . '--------------------------------------------------------------------------------------' . PHP_EOL . PHP_EOL;
+
+        echo 'DEBUG BACKTRACE' . PHP_EOL;
+        echo '--------------------------------------------------------------------------------------' . PHP_EOL . PHP_EOL;
+        $i = 1;
+        foreach ( $trace->getChronology() as $chronology ) {
+            echo $i . '. Method: ' . $chronology->call . PHP_EOL;
+            echo str_repeat(
+                    ' ',
+                    strlen( $i )
+                ) . '  Line: ' . $chronology->file . ':' . $chronology->line . PHP_EOL . PHP_EOL;
+            $i++;
+        }
+
+        echo PHP_EOL . "-------------------------------------------------------------------------------------- " . PHP_EOL;
+        echo 'END of gears:print_cli' . PHP_EOL . PHP_EOL;
 
         if ( $halt ) {
             die;
@@ -162,7 +182,7 @@ if ( ! function_exists( 'pre_open' ) ) {
      *
      * Echo a <pre> tag open HTML element.
      */
-    function pre_open ()
+    function pre_open()
     {
         echo '<pre>';
     }
@@ -179,7 +199,7 @@ if ( ! function_exists( 'pre_line' ) ) {
      * @param mixed $line
      * @param bool  $implode
      */
-    function pre_line ( $line, $implode = true )
+    function pre_line( $line, $implode = true )
     {
         if ( is_array( $line ) AND $implode === true ) {
             $line = implode( PHP_EOL, $line );
@@ -213,7 +233,7 @@ if ( ! function_exists( 'pre_close' ) ) {
      *
      * @param bool $halt
      */
-    function pre_close ( $halt = false )
+    function pre_close( $halt = false )
     {
         echo '</pre>';
 

@@ -21,10 +21,10 @@ class Toolbar
 {
     /**
      * Toolbar::__toString
-     * 
+     *
      * @return string
      */
-    public function __toString ()
+    public function __toString()
     {
         return $this->getOutput();
     }
@@ -33,10 +33,10 @@ class Toolbar
 
     /**
      * Toolbar::getOutput
-     * 
+     *
      * @return string
      */
-    public function getOutput ()
+    public function getOutput()
     {
         $totalExecution = profiler()->getTotalExecution();
         $startTime = $totalExecution->getRawStartTime();
@@ -44,15 +44,14 @@ class Toolbar
         $profilerMetrics = profiler()->getMetrics();
 
         $increments = 1 / 5;
-        $segmentDuration = ( ceil( ($totalTime / 7) * $increments ) / $increments );
-        $segmentCount = (int) ceil( $totalTime / $segmentDuration );
+        $segmentDuration = ( ceil( ( $totalTime / 7 ) * $increments ) / $increments );
+        $segmentCount = (int)ceil( $totalTime / $segmentDuration );
 
         $displayTime = $segmentCount * $segmentDuration;
 
-        $metrics = [ ];
+        $metrics = [];
         foreach ( $profilerMetrics as $profilerMetric ) {
-            $profilerMetric->offset = ( ( $profilerMetric->getRawStartTime(
-                        ) - $startTime ) * 1000 / $displayTime ) * 100;
+            $profilerMetric->offset = ( ( $profilerMetric->getRawStartTime() - $startTime ) * 1000 / $displayTime ) * 100;
             $profilerMetric->length = ( $profilerMetric->getRawDuration() * 1000 / $displayTime ) * 100;
             $metrics[] = $profilerMetric;
         }
@@ -77,10 +76,10 @@ class Toolbar
 
     /**
      * Toolbar::getFiles
-     * 
+     *
      * @return \string[]
      */
-    public function getFiles ()
+    public function getFiles()
     {
         $files = get_included_files();
 
@@ -103,12 +102,12 @@ class Toolbar
 
     /**
      * Toolbar::getLogs
-     * 
+     *
      * @return array
      */
-    public function getLogs ()
+    public function getLogs()
     {
-        $logs = [ ];
+        $logs = [];
 
         if ( function_exists( 'logger' ) ) {
             $logs = logger()->getLines();
@@ -121,12 +120,12 @@ class Toolbar
 
     /**
      * Toolbar::getVars
-     * 
+     *
      * @return \ArrayObject
      */
-    public function getVars ()
+    public function getVars()
     {
-        $vars = new \ArrayObject( [ ], \ArrayObject::ARRAY_AS_PROPS );
+        $vars = new \ArrayObject( [], \ArrayObject::ARRAY_AS_PROPS );
 
         $vars->env = $_ENV;
         $vars->server = $_SERVER;
@@ -136,17 +135,16 @@ class Toolbar
         $vars->post = $_POST;
         $vars->files = $_FILES;
 
-        if( function_exists( 'apache_request_headers' ) ) {
+        if ( function_exists( 'apache_request_headers' ) ) {
             $vars->headers = apache_request_headers();
-        } elseif( function_exists('getallheaders') ) {
+        } elseif ( function_exists( 'getallheaders' ) ) {
             $vars->headers = getallheaders();
         } else {
             $vars->headers = [];
-            foreach ($_SERVER as $name => $value)
-            {
-                if (substr($name, 0, 5) == 'HTTP_')
-                {
-                    $vars->headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+            foreach ( $_SERVER as $name => $value ) {
+                if ( substr( $name, 0, 5 ) == 'HTTP_' ) {
+                    $vars->headers[ str_replace( ' ', '-',
+                        ucwords( strtolower( str_replace( '_', ' ', substr( $name, 5 ) ) ) ) ) ] = $value;
                 }
             }
         }

@@ -12,7 +12,7 @@
 
 namespace O2System\Gear\Trace;
 
-    // ------------------------------------------------------------------------
+// ------------------------------------------------------------------------
 
 /**
  * O2System Gear Trace Chronology
@@ -23,7 +23,7 @@ class Chronology extends \ArrayObject
 {
     public function __construct( array $chronology = [] )
     {
-        $chronology = empty($chronology) ? [
+        $chronology = empty( $chronology ) ? [
             'call' => null,
             'type' => null,
             'line' => null,
@@ -32,6 +32,6 @@ class Chronology extends \ArrayObject
             'file' => null,
         ] : $chronology;
 
-        parent::__construct($chronology, \ArrayObject::ARRAY_AS_PROPS);
+        parent::__construct( $chronology, \ArrayObject::ARRAY_AS_PROPS );
     }
 }

@@ -21,11 +21,11 @@ namespace O2System\Gear\Profiler;
  */
 class Metrics extends \SplStack
 {
-    protected static $logged = [ ];
+    protected static $logged = [];
 
     // ------------------------------------------------------------------------
 
-    public function push ( $metric )
+    public function push( $metric )
     {
         if ( $this->isEmpty() === false AND null !== $this->top() ) {
             $this->top()->stop();
@@ -41,7 +41,7 @@ class Metrics extends \SplStack
      *
      * @return Benchmark
      */
-    public function current ()
+    public function current()
     {
         if ( null === ( $current = parent::current() ) ) {
             $this->rewind();

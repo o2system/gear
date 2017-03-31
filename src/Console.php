@@ -62,7 +62,7 @@ class Console
      * @param   string $label string of output title
      * @param   mixed  $vars  mixed type variables of data
      */
-    public static function log ( $label, $vars )
+    public static function log( $label, $vars )
     {
         static::sendOutput( static::LOG, $label, $vars );
     }
@@ -80,11 +80,11 @@ class Console
      * @param   string $label string of output title
      * @param   mixed  $vars  mixed type variables of data
      */
-    public static function sendOutput ( $type, $label, $vars )
+    public static function sendOutput( $type, $label, $vars )
     {
         $sourceBasePath = defined( 'ROOTPATH' )
             ? ROOTPATH
-            : dirname( $_SERVER['SCRIPT_FILENAME'] );
+            : dirname( $_SERVER[ 'SCRIPT_FILENAME' ] );
 
         if ( class_exists( '\Phpconsole\Handler', false ) ) {
             $phpConsoleHandler = \Phpconsole\Handler::getInstance();
@@ -152,7 +152,7 @@ class Console
      * @param   string $label string of output title
      * @param   mixed  $vars  mixed type variables of data
      */
-    public static function info ( $label, $vars )
+    public static function info( $label, $vars )
     {
         static::sendOutput( static::INFO, $label, $vars );
     }
@@ -170,7 +170,7 @@ class Console
      * @param   string $label string of output title
      * @param   mixed  $vars  mixed type variables of data
      */
-    public static function warning ( $label, $vars )
+    public static function warning( $label, $vars )
     {
         static::sendOutput( static::WARNING, $label, $vars );
     }
@@ -187,7 +187,7 @@ class Console
      * @param   string $label string of output title
      * @param   mixed  $vars  mixed type variables of data
      */
-    public static function error ( $label, $vars )
+    public static function error( $label, $vars )
     {
         static::sendOutput( static::ERROR, $label, $vars );
     }

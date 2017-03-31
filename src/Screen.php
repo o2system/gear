@@ -12,7 +12,7 @@
 
 namespace O2System\Gear;
 
-    // ------------------------------------------------------------------------
+// ------------------------------------------------------------------------
 use O2System\Gear\Profiler\Registries\Metric;
 
 /**
@@ -22,7 +22,7 @@ use O2System\Gear\Profiler\Registries\Metric;
  */
 class Screen
 {
-    protected static $lines = [ ];
+    protected static $lines = [];
 
     /**
      * Print JSON
@@ -34,7 +34,7 @@ class Screen
      * @param mixed $option bool|integer JSON Encode Option
      * @param mixed $halt   bool set FALSE to disabled halt output
      */
-    public static function printJSON ( $vars, $option = null, $halt = true )
+    public static function printJSON( $vars, $option = null, $halt = true )
     {
         if ( is_bool( $option ) ) {
             $halt = $option;
@@ -56,9 +56,9 @@ class Screen
      * @param mixed $vars string|array|object|integer|boolean
      * @param bool  $halt set FALSE to disabled halt output
      */
-    public static function printScreen ( $vars, $halt = true )
+    public static function printScreen( $vars, $halt = true )
     {
-        $metric = new Metric('print-out');
+        $metric = new Metric( 'print-out' );
         $metric->start();
         ini_set( 'memory_limit', '512M' );
 
@@ -67,7 +67,7 @@ class Screen
         $vars = htmlspecialchars( htmlspecialchars_decode( $vars, ENT_QUOTES ), ENT_QUOTES, 'UTF-8' );
         $trace = new Trace();
         $assetsURL = static::assetURL();
-        
+
         $metric->stop();
 
         ob_start();
@@ -93,7 +93,7 @@ class Screen
      *
      * @return mixed|string
      */
-    public static function prepareOutput ( $vars )
+    public static function prepareOutput( $vars )
     {
         if ( is_bool( $vars ) ) {
             if ( $vars === true ) {
@@ -116,7 +116,7 @@ class Screen
 
     // ------------------------------------------------------------------------
 
-    public static function assetURL ()
+    public static function assetURL()
     {
         $scriptFilename = str_replace( [ '/', '\\' ], '/', dirname( $_SERVER[ 'SCRIPT_FILENAME' ] ) );
         $scriptName = str_replace( [ '/', '\\' ], '/', dirname( $_SERVER[ 'SCRIPT_NAME' ] ) );
@@ -128,10 +128,10 @@ class Screen
         }
 
         return '//' . $_SERVER[ 'HTTP_HOST' ] . $scriptName . str_replace(
-            $scriptFilename,
-            '',
-            $gearsDirectory
-        ) . '/Views/assets/';
+                $scriptFilename,
+                '',
+                $gearsDirectory
+            ) . '/Views/assets/';
     }
 
     // ------------------------------------------------------------------------
@@ -146,10 +146,10 @@ class Screen
      * @param mixed $halt  set TRUE to halt output
      *                     set (string) FLUSH to flush previous sets of lines output
      */
-    public static function printLine ( $line = '', $halt = false )
+    public static function printLine( $line = '', $halt = false )
     {
         if ( strtoupper( $halt ) === 'FLUSH' ) {
-            static::$lines = [ ];
+            static::$lines = [];
             static::$lines[] = $line;
         }
 
@@ -161,7 +161,7 @@ class Screen
 
         if ( $halt === true OR $line === '---' ) {
             $vars = implode( PHP_EOL, static::$lines );
-            static::$lines = [ ];
+            static::$lines = [];
             static::printScreen( $vars, $halt );
         }
     }
@@ -177,7 +177,7 @@ class Screen
      * @param mixed $vars string|array|object|integer|boolean
      * @param mixed $halt set FALSE to disabled halt output
      */
-    public static function printDump ( $vars, $halt = true )
+    public static function printDump( $vars, $halt = true )
     {
         ob_start();
         var_dump( $vars );
@@ -198,7 +198,7 @@ class Screen
      * @param mixed $vars string|array|object|integer|boolean
      * @param mixed $halt set FALSE to disabled halt output
      */
-    public static function printCode ( $vars, $halt = true )
+    public static function printCode( $vars, $halt = true )
     {
         ini_set( 'memory_limit', '512M' );
 
@@ -225,7 +225,7 @@ class Screen
      * @param array  $vars
      * @param int    $type
      */
-    public static function printConsole ( $label, $vars, $type = Console::LOG )
+    public static function printConsole( $label, $vars, $type = Console::LOG )
     {
         Console::sendOutput( $type, $label, $vars );
     }

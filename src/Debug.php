@@ -12,7 +12,7 @@
 
 namespace O2System\Gear;
 
-    // ------------------------------------------------------------------------
+// ------------------------------------------------------------------------
 
 /**
  * O2System Gear Debug
@@ -29,7 +29,7 @@ class Debug
      *
      * @type    array
      */
-    private static $chronology = [ ];
+    private static $chronology = [];
 
     // ------------------------------------------------------------------------
 
@@ -41,9 +41,9 @@ class Debug
      * @access  public
      * @static  static method
      */
-    public static function start ()
+    public static function start()
     {
-        static::$chronology = [ ];
+        static::$chronology = [];
         static::$chronology[] = static::whereCall( __CLASS__ . '::start()' );
     }
 
@@ -60,11 +60,11 @@ class Debug
      *
      * @return          Trace Object
      */
-    private static function whereCall ( $call )
+    private static function whereCall( $call )
     {
         $tracer = new Trace();
 
-        foreach ( $tracer->chronology() as $trace ) {
+        foreach ( $tracer->getChronology() as $trace ) {
             if ( $trace->call === $call ) {
                 return $trace;
                 break;
@@ -82,7 +82,7 @@ class Debug
      * @param mixed $vars
      * @param bool  $export
      */
-    public static function line ( $vars, $export = false )
+    public static function line( $vars, $export = false )
     {
         $trace = static::whereCall( __CLASS__ . '::line()' );
 
@@ -102,7 +102,7 @@ class Debug
      *
      * Set Debug Marker
      */
-    public static function marker ()
+    public static function marker()
     {
         $trace = static::whereCall( __CLASS__ . '::marker()' );
         static::$chronology[] = $trace;
@@ -115,11 +115,11 @@ class Debug
      *
      * @param bool $halt
      */
-    public static function stop ( $halt = true )
+    public static function stop( $halt = true )
     {
         static::$chronology[] = static::whereCall( __CLASS__ . '::stop()' );
         $chronology = static::$chronology;
-        static::$chronology = [ ];
+        static::$chronology = [];
 
         Screen::printScreen( $chronology, $halt );
     }

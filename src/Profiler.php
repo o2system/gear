@@ -49,7 +49,7 @@ class Profiler
      *
      * @return Profiler
      */
-    public function __construct ()
+    public function __construct()
     {
         $this->startTime = defined( 'STARTUP_TIME' )
             ? STARTUP_TIME
@@ -71,7 +71,7 @@ class Profiler
      *
      * @param string $marker
      */
-    public function watch ( $marker )
+    public function watch( $marker )
     {
         // Stop Last Benchmark
         $this->metrics->push( new Profiler\Registries\Metric( $marker ) );
@@ -84,7 +84,7 @@ class Profiler
      *
      * @return Profiler
      */
-    public function setStartTime ( $startTime )
+    public function setStartTime( $startTime )
     {
         $this->startTime = $startTime;
 
@@ -100,7 +100,7 @@ class Profiler
      *
      * @return Profiler
      */
-    public function setStartMemory ( $startMemory )
+    public function setStartMemory( $startMemory )
     {
         $this->startMemory = $startMemory;
 
@@ -109,12 +109,12 @@ class Profiler
 
     // ------------------------------------------------------------------------
 
-    public function getMetrics ()
+    public function getMetrics()
     {
         return $this->metrics;
     }
 
-    public function getTotalExecution ()
+    public function getTotalExecution()
     {
         return $this->metrics->bottom();
     }

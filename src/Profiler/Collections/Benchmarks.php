@@ -16,7 +16,7 @@ use O2System\Gear\Profiler\Benchmark;
 
 class Benchmarks extends \SplStack
 {
-    public function push ( $benchmark )
+    public function push( $benchmark )
     {
         if ( $this->isEmpty() === false AND null !== $this->top() ) {
             $this->top()->stop();
@@ -32,7 +32,7 @@ class Benchmarks extends \SplStack
      *
      * @return Benchmark
      */
-    public function current ()
+    public function current()
     {
         if ( null === ( $current = parent::current() ) ) {
             $this->rewind();

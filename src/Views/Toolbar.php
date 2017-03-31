@@ -79,7 +79,7 @@
                     <?php foreach ( $varValue as $key => $value ): ?>
                         <tr>
                             <td><?= $key; ?></td>
-                            <td><?= ( is_array($value) ? print_r( $value, true ) : $value ); ?></td>
+                            <td><?= ( is_array( $value ) ? print_r( $value, true ) : $value ); ?></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>

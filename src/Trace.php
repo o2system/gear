@@ -27,15 +27,14 @@ class Trace
      * @access  protected
      * @type    string name of called class
      */
-    private $trace = null;
+    protected $backtrace = null;
 
     /**
-     * Class Name
+     * Trace::$chronology
      *
-     * @access  protected
-     * @type    string name of called class
+     * @var array
      */
-    private $chronology = [ ];
+    protected $chronology = [];
 
     // ------------------------------------------------------------------------
 
@@ -46,19 +45,19 @@ class Trace
      *
      * @param string $flag tracer option
      */
-    public function __construct ( $trace = [ ] )
+    public function __construct( $trace = [] )
     {
         if ( ! empty( $trace ) ) {
-            $this->trace = $trace;
+            $this->backtrace = $trace;
         } else {
-            $this->trace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS );
+            $this->backtrace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS );
         }
 
         // reverse array to make steps line up chronologically
-        $this->trace = array_reverse( $this->trace );
+        $this->backtrace = array_reverse( $this->backtrace );
 
         // Generate Lines
-        $this->getChronology();
+        $this->setChronology();
     }
 
     // ------------------------------------------------------------------------
@@ -71,9 +70,9 @@ class Trace
      * @access           private
      * @return           void
      */
-    private function getChronology ()
+    private function setChronology()
     {
-        foreach ( $this->trace as $trace ) {
+        foreach ( $this->backtrace as $trace ) {
             $line = new Trace\Chronology( $trace );
 
             if ( isset( $trace[ 'class' ] ) AND isset( $trace[ 'type' ] ) ) {
@@ -85,12 +84,12 @@ class Trace
             }
 
             if ( ! isset( $trace[ 'file' ] ) ) {
-                $currentTrace = current( $this->trace );
-                $line->file = isset( $currentTrace[ 'file' ] ) ? $currentTrace['file'] : null;
-                $line->line = isset( $currentTrace[ 'line' ] ) ? $currentTrace['line'] : null;
+                $currentTrace = current( $this->backtrace );
+                $line->file = isset( $currentTrace[ 'file' ] ) ? $currentTrace[ 'file' ] : null;
+                $line->line = isset( $currentTrace[ 'line' ] ) ? $currentTrace[ 'line' ] : null;
             }
 
-            if( defined('PATH_ROOT') ) {
+            if ( defined( 'PATH_ROOT' ) ) {
                 $line->file = str_replace( PATH_ROOT, '', $line->file );
             }
 
@@ -115,12 +114,12 @@ class Trace
      *
      * @return  array
      */
-    public function chronology ( $reset = true )
+    public function getChronology( $reset = true )
     {
         $chronology = $this->chronology;
 
         if ( $reset === true ) {
-            $this->chronology = [ ];
+            $this->chronology = [];
         }
 
         return $chronology;
