@@ -6,7 +6,7 @@
  * Time: 10:28 PM
  */
 
-namespace O2System\Gear\Profiler\Registries;
+namespace O2System\Gear\Profiler\Datastructures;
 
 
 class Metric

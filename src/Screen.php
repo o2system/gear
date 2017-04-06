@@ -13,7 +13,7 @@
 namespace O2System\Gear;
 
 // ------------------------------------------------------------------------
-use O2System\Gear\Profiler\Registries\Metric;
+use O2System\Gear\Profiler\Datastructures\Metric;
 
 /**
  * O2System Gear Output

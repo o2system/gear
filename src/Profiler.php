@@ -74,7 +74,7 @@ class Profiler
     public function watch( $marker )
     {
         // Stop Last Benchmark
-        $this->metrics->push( new Profiler\Registries\Metric( $marker ) );
+        $this->metrics->push( new Profiler\Datastructures\Metric( $marker ) );
     }
 
     /**
