@@ -1,14 +1,24 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: steevenz
- * Date: 11/30/16
- * Time: 10:28 PM
+ * This file is part of the O2System PHP Framework package.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @author         Steeve Andrian Salim
+ * @copyright      Copyright (c) Steeve Andrian Salim
  */
+// ------------------------------------------------------------------------
 
 namespace O2System\Gear\Profiler\Datastructures;
 
+// ------------------------------------------------------------------------
 
+/**
+ * Class Metric
+ *
+ * @package O2System\Gear\Profiler\Datastructures
+ */
 class Metric
 {
     protected $marker;
@@ -21,6 +31,13 @@ class Metric
 
     protected $endMemory;
 
+    // ------------------------------------------------------------------------
+
+    /**
+     * Metric constructor.
+     *
+     * @param $marker
+     */
     public function __construct( $marker )
     {
         $this->marker = $marker;
@@ -31,21 +48,29 @@ class Metric
         );
     }
 
+    // ------------------------------------------------------------------------
+
     public function start( $startTime = null, $startMemory = null )
     {
         $this->startTime = isset( $startTime ) ? $startTime : microtime( true );
         $this->startMemory = isset( $startMemory ) ? $startMemory : memory_get_usage( true );
     }
 
+    // ------------------------------------------------------------------------
+
     public function getMarker()
     {
         return $this->marker;
     }
 
+    // ------------------------------------------------------------------------
+
     public function getStartTime( $precision = 0, $floatingPrecision = 3, $showUnit = true )
     {
         return $this->getFormattedTime( $this->startTime, $precision, $floatingPrecision, $showUnit );
     }
+
+    // ------------------------------------------------------------------------
 
     public function getFormattedTime(
         $time,
@@ -83,10 +108,14 @@ class Metric
         }
     }
 
+    // ------------------------------------------------------------------------
+
     public function getRawStartTime()
     {
         return $this->startTime;
     }
+
+    // ------------------------------------------------------------------------
 
     public function getRawEndTime()
     {
@@ -97,6 +126,8 @@ class Metric
         return $this->endTime;
     }
 
+    // ------------------------------------------------------------------------
+
     public function stop()
     {
         $this->endTime = microtime( true );
@@ -105,10 +136,14 @@ class Metric
         return $this;
     }
 
+    // ------------------------------------------------------------------------
+
     public function getStartMemory()
     {
         return $this->getFormattedMemorySize( $this->startMemory );
     }
+
+    // ------------------------------------------------------------------------
 
     private function getFormattedMemorySize( $size )
     {
@@ -121,6 +156,8 @@ class Metric
         }
     }
 
+    // ------------------------------------------------------------------------
+
     public function getEndTime( $precision = 0, $floatingPrecision = 3, $showUnit = true )
     {
         if ( empty( $this->endTime ) ) {
@@ -129,6 +166,8 @@ class Metric
 
         return $this->getFormattedTime( $this->endTime, $precision, $floatingPrecision, $showUnit );
     }
+
+    // ------------------------------------------------------------------------
 
     public function getDuration( $precision = 0, $floatingPrecision = 3, $showUnit = true )
     {
@@ -139,6 +178,8 @@ class Metric
         return $this->getFormattedTime( $this->endTime - $this->startTime, $precision, $floatingPrecision, $showUnit );
     }
 
+    // ------------------------------------------------------------------------
+
     public function getRawDuration()
     {
         if ( empty( $this->endTime ) ) {
@@ -148,15 +189,21 @@ class Metric
         return $this->endTime - $this->startTime;
     }
 
+    // ------------------------------------------------------------------------
+
     public function getMemory()
     {
         return $this->getEndMemory();
     }
 
+    // ------------------------------------------------------------------------
+
     public function getEndMemory()
     {
         return $this->getFormattedMemorySize( $this->endMemory );
     }
+
+    // ------------------------------------------------------------------------
 
     public function getPeakMemory()
     {

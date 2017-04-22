@@ -38,7 +38,7 @@ class Profiler
     /**
      * Profiler Metrics Stack
      *
-     * @var Profiler\Collections\Metrics
+     * @var Profiler\Metrics
      */
     private $metrics;
 

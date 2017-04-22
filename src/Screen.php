@@ -13,6 +13,7 @@
 namespace O2System\Gear;
 
 // ------------------------------------------------------------------------
+
 use O2System\Gear\Profiler\Datastructures\Metric;
 
 /**
@@ -24,6 +25,8 @@ class Screen
 {
     protected static $lines = [];
 
+    // ------------------------------------------------------------------------
+
     /**
      * Print JSON
      *
@@ -34,7 +37,7 @@ class Screen
      * @param mixed $option bool|integer JSON Encode Option
      * @param mixed $halt   bool set FALSE to disabled halt output
      */
-    public static function printJSON( $vars, $option = null, $halt = true )
+    public static function printJson( $vars, $option = null, $halt = true )
     {
         if ( is_bool( $option ) ) {
             $halt = $option;
@@ -47,6 +50,8 @@ class Screen
             static::printScreen( json_encode( $vars ), $halt );
         }
     }
+
+    // ------------------------------------------------------------------------
 
     /**
      * Print Out
