@@ -2,6 +2,7 @@
   "name": "o2system/gear",
   "description": "PHP Developer Tools Library",
   "license": "MIT",
+  "version": "1.0.0.-dev",
   "type": "php-libraries",
   "keywords": [
     "utilities",
