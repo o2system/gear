@@ -2,8 +2,7 @@
   "name": "o2system/gear",
   "description": "PHP Developer Tools Library",
   "license": "MIT",
-  "version": "1.0.0.-dev",
-  "type": "php-libraries",
+  "type": "package",
   "keywords": [
     "utilities",
     "php",
@@ -41,9 +40,5 @@
       "src/Helper.php"
     ]
   },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "1.0.x-dev"
-    }
-  }
+  "minimum-stability": "dev"
 }
