@@ -40,5 +40,5 @@
       "src/Helper.php"
     ]
   },
-  "minimum-stability": "dev-master"
+  "minimum-stability": "dev"
 }
