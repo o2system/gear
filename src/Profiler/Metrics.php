@@ -14,6 +14,8 @@ namespace O2System\Gear\Profiler;
 
 // ------------------------------------------------------------------------
 
+use O2System\Gear\Profiler\Datastructures\Metric;
+
 /**
  * Class Metrics
  *
@@ -39,7 +41,7 @@ class Metrics extends \SplStack
     /**
      * Return the current Benchmark
      *
-     * @return Benchmark
+     * @return Metric
      */
     public function current()
     {
