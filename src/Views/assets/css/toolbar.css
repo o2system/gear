@@ -1,54 +1,64 @@
-#gear-toolbar-icon{
-    position: fixed;
+/**
+ * This file is part of the O2System PHP Framework package.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @author         Steeve Andrian Salim
+ * @copyright      Copyright (c) Steeve Andrian Salim
+ *
+ * ------------------------------------------------------------------------
+ */
+#gear-toolbar {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-size: 12px;
+    line-height: 1.5;
+    background: #fff;
+}
+
+#gear-toolbar-icon {
+    position: relative;
     top: 0px;
     left: 0px;
-    width: 30px;
-    height: 30px;
-    background: #fff;
-    border-radius: 20%;
-    margin: 5px;
+    text-align: left;
     z-index: 10000;
+}
+
+#gear-toolbar-container {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    z-index: 100;
+}
+
+#gear-toolbar-icons {
+    position: relative;
+    padding: 5px 7px 7px 0px;
+    width: 100%;
+    text-align: right;
+    background: #fff;
     box-shadow: 0px 1px 15px rgba(0,0,0,0.1);
-    clear: both;
+}
+
+#gear-toolbar-tabs {
+    display: none;
+    height: 350px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+}
+#gear-toolbar-logo{
+    position: relative;
+    left: 0px;
+    margin: 5px;
+    float: left;
+    z-index: 10000;
 }
 
 #gear-toolbar a:active, #gear-toolbar a:link,#gear-toolbar a:visited {
     color: #dd4814;
 }
-#gear-toolbar {
-    font-family: -apple-system, BlinkMacSystemFont,
-    "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans",
-    "Droid Sans", "Helvetica Neue", sans-serif;
-    font-size: 12px ;
-    line-height: 1.5 ;
-    background: #fff ;
-    margin: 0;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 10000;
-    box-shadow: 0px 1px 15px rgba(0,0,0,0.1);
-    overflow: hidden;
-    overflow-y: auto;
-    max-height: 62% ;
-    color:  #777;
-    /* IE 8 */
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 
-    /* IE 5-7 */
-    filter: alpha(opacity=75);
-
-    /* Netscape */
-    -moz-opacity: 0.75;
-
-    /* Safari 1.x */
-    -khtml-opacity: 0.75;
-
-    /* Good browsers */
-    opacity: 0.75;
-}
 #gear-toolbar h1,
 #gear-toolbar h2,
 #gear-toolbar h3{
@@ -70,16 +80,15 @@
 #gear-toolbar .muted td {
     color: #bbb ;
 }
-#gear-toolbar .toolbar {
-    display: block ;
-    position: relative ;
-    overflow: hidden ;
-    overflow-y: auto ;
-    white-space: nowrap ;
-    padding: 5px 10px ;
-    border-bottom: 1px solid #f3f3f3;
-    text-align: right ;
+
+#gear-toolbar .hidden {
+    display: none;
 }
+
+#gear-toolbar .show {
+    display: block;
+}
+
 #gear-toolbar h1 {
     font-size: 16px ;
     font-weight: 300 ;

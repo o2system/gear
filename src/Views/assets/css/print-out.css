@@ -1,15 +1,27 @@
+/**
+ * This file is part of the O2System PHP Framework package.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @author         Steeve Andrian Salim
+ * @copyright      Copyright (c) Steeve Andrian Salim
+ *
+ * ------------------------------------------------------------------------
+ */
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont,
     "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans",
     "Droid Sans", "Helvetica Neue", sans-serif;
+    background-color: #fff !important;
 }
 
 div#gear-toolbar {
     display: inline-block;
     width: 100%;
-    background-color: #fff;
+    background-color: #fff !important;
 }
 
 div#gear-toolbar img {
@@ -36,16 +48,16 @@ ul#gear-toolbar-buttons > li > a {
     -webkit-border-radius: 4;
     -moz-border-radius: 4;
     border-radius: 4px;
-    color: #ffffff;
+    color: #ffffff !important;
     font-size: 10px;
-    background: #a94442;
+    background: #a94442 !important;
     padding: 7px 15px 7px 15px;
     text-decoration: none;
     text-transform: uppercase;
 }
 
 ul#gear-toolbar-buttons > li > a:hover {
-    background: #3cb0fd;
+    background: #3cb0fd !important;
     background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
     background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
     background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
@@ -55,7 +67,7 @@ ul#gear-toolbar-buttons > li > a:hover {
 }
 
 pre {
-    background-color: #333;
+    background-color: #333 !important;
     overflow: auto;
     margin: 0;
     padding: 1em;
@@ -93,8 +105,8 @@ div#gear-debug-backtrace {
 
 div#gear-debug-backtrace-heading {
     color: #a94442;
-    background-color: #f2dede;
-    border-color: #ebccd1;
+    background-color: #f2dede !important;
+    border-color: #ebccd1 !important;
     padding: 10px 12px;
     display: block;
 }
@@ -121,8 +133,8 @@ div#gear-debug-backtrace-heading > ul > li {
 
 div#gear-debug-backtrace-heading > ul > li > span {
     text-transform: uppercase;
-    background-color: #a94442;
-    color: #fff;
+    background-color: #a94442 !important;
+    color: #fff !important;
     border-radius: 4px;
     padding: 4px 0px 4px 8px;
     position: relative;
@@ -134,8 +146,8 @@ div#gear-debug-backtrace-heading > ul > li > span {
 div#gear-debug-backtrace-heading > ul > li > span > span {
     text-transform: lowercase;
     font-size: 9px;
-    background-color: #fff;
-    color: #a94442;
+    background-color: #fff !important;
+    color: #a94442 !important;
     padding: 4px 8px;
     margin: 0px 0px 0px 5px;
     border-radius: 0px 4px 4px 0px;
@@ -148,7 +160,7 @@ ol#gear-debug-backtrace-chronology {
 }
 
 ol#gear-debug-backtrace-chronology > li {
-    border-bottom: 1px dotted #ccc;
+    border-bottom: 1px dotted #ccc !important;
     padding: 10px 2px;
     font-weight: bold;
 }

@@ -5,7 +5,7 @@
     </title>
 
     <style type="text/css">
-        <?php echo preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(__DIR__.'/assets/css/print-out.css')); ?>
+        <?php echo preg_replace('#[\r\n\t ]+#', ' ', file_get_contents(__DIR__.'/assets/css/print-out.min.css')); ?>
     </style>
 </head>
 <body>
@@ -19,7 +19,7 @@
     </ul>
 </div>
 
-<pre id="gear-precode"><code id="gear-code-container"><?php echo trim( $vars ); ?></code></pre>
+<pre id="gear-precode"><code id="gear-code-container"><?php echo trim( $expression ); ?></code></pre>
 
 <div id="gear-debug-backtrace">
     <div id="gear-debug-backtrace-heading">
@@ -43,7 +43,7 @@
 </div>
 
 <script type="text/javascript">
-    <?php echo file_get_contents( __DIR__ . '/assets/js/print-out.js' ) ?>
+    <?php echo file_get_contents( __DIR__ . '/assets/js/print-out.min.js' ) ?>
 </script>
 
 </body>

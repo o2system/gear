@@ -21,174 +21,70 @@ namespace O2System\Gear;
  */
 class Console
 {
-    /**
-     * Console Log
-     *
-     * @var int
-     */
-    const LOG = 1;
+    const LOG_MESSAGE = 0;
+    const INFO_MESSAGE = 1;
+    const WARNING_MESSAGE = 2;
+    const ERROR_MESSAGE = 3;
+    const DEBUG_MESSAGE = 4;
 
-    /**
-     * Console Info
-     *
-     * @var int
-     */
-    const INFO = 2;
-
-    /**
-     * Console Warnine
-     *
-     * @var int
-     */
-    const WARNING = 3;
-
-    /**
-     * Console Error
-     *
-     * @var int
-     */
-    const ERROR = 4;
+    private $label;
+    private $expression;
+    private $messageType;
 
     // ------------------------------------------------------------------------
 
-    /**
-     * Console::log
-     *
-     * Send output to browser log console.
-     *
-     * @access  public
-     * @static  static class method
-     *
-     * @param   string $label string of output title
-     * @param   mixed  $vars  mixed type variables of data
-     */
-    public static function log( $label, $vars )
+    public function __construct( $label, $expression, $messageType = self::LOG_MESSAGE )
     {
-        static::sendOutput( static::LOG, $label, $vars );
+        $this->label = $label;
+        $this->expression = $expression;
+        $this->messageType = $messageType;
     }
-    // ------------------------------------------------------------------------
 
-    /**
-     * Console::sendOutput
-     *
-     * Send output to browser debug console.
-     *
-     * @access  public
-     * @static  static class method
-     *
-     * @param   int    $type  console type
-     * @param   string $label string of output title
-     * @param   mixed  $vars  mixed type variables of data
-     */
-    public static function sendOutput( $type, $label, $vars )
+    public function send()
     {
-        $sourceBasePath = defined( 'ROOTPATH' )
-            ? ROOTPATH
-            : dirname( $_SERVER[ 'SCRIPT_FILENAME' ] );
-
-        if ( class_exists( '\Phpconsole\Handler', false ) ) {
-            $phpConsoleHandler = \Phpconsole\Handler::getInstance();
-            $phpConsoleHandler->start(); // start handling PHP errors & exceptions
-
-            $phpConsoleHandler->getConnector()->setSourcesBasePath( $sourceBasePath );
-        }
+        $this->expression = is_object( $this->expression ) || is_array( $this->expression )
+            ? 'JSON.parse(\'' . json_encode(
+                $this->expression
+            ) . '\')'
+            : '\'' . $this->expression . '\'';
 
         echo '<script type="text/javascript">' . PHP_EOL;
-        switch ( $type ) {
+
+        switch ( $this->messageType ) {
             default:
-            case 1:
-                if ( isset( $phpConsoleHandler ) ) {
-                    $phpConsoleHandler->debug( $vars, $label );
-                }
-                echo "console.debug('%c $label ', 'background: #777; color: #fff');" . PHP_EOL;
+            case self::LOG_MESSAGE :
+                $messageType = 'log';
+                $backgroundColor = '#777777';
+                $textColor = '#ffffff';
                 break;
-            case 2:
-                echo "console.info('%c $label ', 'background: #5bc0de; color: #fff');" . PHP_EOL;
+            case self::INFO_MESSAGE :
+                $messageType = 'info';
+                $backgroundColor = '#5bc0de';
+                $textColor = '#ffffff';
                 break;
-            case 3:
-                echo "console.warn('%c $label ', 'background: #f0ad4e; color: #fff');" . PHP_EOL;
+            case self::WARNING_MESSAGE :
+                $messageType = 'warn';
+                $backgroundColor = '#f0ad4e';
+                $textColor = '#ffffff';
                 break;
-            case 4:
-                echo "console.error('%c $label ', 'background: #d9534f; color: #fff');" . PHP_EOL;
+            case self::ERROR_MESSAGE :
+                $messageType = 'error';
+                $backgroundColor = '#d9534f';
+                $textColor = '#ffffff';
+                break;
+            case self::DEBUG_MESSAGE :
+                $messageType = 'debug';
+                $backgroundColor = '#333333';
+                $textColor = '#ffffff';
                 break;
         }
 
-        if ( ! empty( $vars ) ) {
-            $vars = is_object( $vars ) || is_array( $vars )
-                ? 'JSON.parse(\'' . json_encode(
-                    $vars
-                ) . '\')'
-                : '\'' . $vars . '\'';
-
-            switch ( $type ) {
-                default:
-                case 1:
-                    echo "console.debug($vars);" . PHP_EOL;
-                    break;
-                case 2:
-                    echo "console.info($vars);" . PHP_EOL;
-                    break;
-                case 3:
-                    echo "console.warn($vars);" . PHP_EOL;
-                    break;
-                case 4:
-                    echo "console.error($vars);" . PHP_EOL;
-                    break;
-            }
+        if( ! empty( $this->label ) ) {
+            echo "console.". $messageType ."('%c " . $this->label . " ', 'background: ". $backgroundColor ."; color: ". $textColor ."');" . PHP_EOL;
         }
+
+        echo "console.". $messageType ."(" . $this->expression . ");" . PHP_EOL;
+
         echo '</script>' . PHP_EOL;
-    }
-
-    // ------------------------------------------------------------------------
-
-    /**
-     * Console::info
-     *
-     * Send output to browser info console.
-     *
-     * @access  public
-     * @static  static class method
-     *
-     * @param   string $label string of output title
-     * @param   mixed  $vars  mixed type variables of data
-     */
-    public static function info( $label, $vars )
-    {
-        static::sendOutput( static::INFO, $label, $vars );
-    }
-
-    // ------------------------------------------------------------------------
-
-    /**
-     * Console::warning
-     *
-     * Send output to browser warning console.
-     *
-     * @access  public
-     * @static  static class method
-     *
-     * @param   string $label string of output title
-     * @param   mixed  $vars  mixed type variables of data
-     */
-    public static function warning( $label, $vars )
-    {
-        static::sendOutput( static::WARNING, $label, $vars );
-    }
-    // ------------------------------------------------------------------------
-
-    /**
-     * Console::error
-     *
-     * Send output to browser error console.
-     *
-     * @access  public
-     * @static  static class method
-     *
-     * @param   string $label string of output title
-     * @param   mixed  $vars  mixed type variables of data
-     */
-    public static function error( $label, $vars )
-    {
-        static::sendOutput( static::ERROR, $label, $vars );
     }
 }

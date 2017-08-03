@@ -14,12 +14,14 @@ namespace O2System\Gear;
 
 // ------------------------------------------------------------------------
 
+use O2System\Gear\Trace;
+
 /**
  * O2System Gear Debug
  *
  * @package O2System\Gear
  */
-class Debug
+class Debugger
 {
     /**
      * List of Debug Chronology
@@ -44,7 +46,7 @@ class Debug
     public static function start()
     {
         static::$chronology = [];
-        static::$chronology[] = static::whereCall( __CLASS__ . '::start()' );
+        static::$chronology[] = static::whereCall( __CLASS__ . '::start()', 'debug_start()' );
     }
 
     // ------------------------------------------------------------------------
@@ -60,12 +62,15 @@ class Debug
      *
      * @return          Trace Object
      */
-    private static function whereCall( $call )
+    private static function whereCall( $call, $helper )
     {
         $tracer = new Trace();
 
         foreach ( $tracer->getChronology() as $trace ) {
-            if ( $trace->call === $call ) {
+            if( $trace->call === $helper ) {
+                return $trace;
+                break;
+            } elseif ( $trace->call === $call ) {
                 return $trace;
                 break;
             }
@@ -79,17 +84,17 @@ class Debug
      *
      * Add debug line output
      *
-     * @param mixed $vars
+     * @param mixed $expression
      * @param bool  $export
      */
-    public static function line( $vars, $export = false )
+    public static function line( $expression, $export = false )
     {
-        $trace = static::whereCall( __CLASS__ . '::line()' );
+        $trace = static::whereCall( __CLASS__ . '::line()', 'debug_line()' );
 
         if ( $export === true ) {
-            $trace->data = var_export( $vars, true );
+            $trace->expression = var_export( $expression, true );
         } else {
-            $trace->data = Screen::prepareOutput( $vars );
+            $trace->expression = var_format( $expression );
         }
 
         static::$chronology[] = $trace;
@@ -104,7 +109,7 @@ class Debug
      */
     public static function marker()
     {
-        $trace = static::whereCall( __CLASS__ . '::marker()' );
+        $trace = static::whereCall( __CLASS__ . '::marker()', 'debug_marker()' );
         static::$chronology[] = $trace;
     }
 
@@ -112,15 +117,24 @@ class Debug
 
     /**
      * Stop Debug
-     *
-     * @param bool $halt
      */
-    public static function stop( $halt = true )
+    public static function stop()
     {
-        static::$chronology[] = static::whereCall( __CLASS__ . '::stop()' );
-        $chronology = static::$chronology;
+        static::$chronology[] = static::whereCall( __CLASS__ . '::stop()', 'debug_stop()' );
+        static::render();
+    }
+
+    public static function render()
+    {
+        $trace = static::$chronology;
+
+        ob_start();
+        include __DIR__ . '/Views/Debugger.php';
+        $output = ob_get_contents();
+        ob_end_clean();
+
         static::$chronology = [];
 
-        Screen::printScreen( $chronology, $halt );
+        echo $output;
     }
 }

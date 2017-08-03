@@ -73,7 +73,7 @@ class Trace
     private function setChronology()
     {
         foreach ( $this->backtrace as $trace ) {
-            $line = new Trace\Chronology( $trace );
+            $line = new Trace\Datastructures\Chronology( $trace );
 
             if ( isset( $trace[ 'class' ] ) AND isset( $trace[ 'type' ] ) ) {
                 $line->call = $trace[ 'class' ] . $trace[ 'type' ] . $trace[ 'function' ] . '()';

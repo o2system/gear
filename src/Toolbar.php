@@ -63,6 +63,7 @@ class Toolbar
         $metrics = array_reverse( $metrics );
 
         $files = $this->getFiles();
+        $queries = $this->getQueries();
         $logs = $this->getLogs();
         $vars = $this->getVars();
 
@@ -101,6 +102,11 @@ class Toolbar
     }
 
     // ------------------------------------------------------------------------
+
+    public function getQueries()
+    {
+        return [];
+    }
 
     /**
      * Toolbar::getLogs

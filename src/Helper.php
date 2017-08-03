@@ -9,111 +9,71 @@
  * @copyright      Copyright (c) Steeve Andrian Salim
  */
 // ------------------------------------------------------------------------
-
 /**
- * Gear Helper
+ * Printer Helper
  *
- * Collections shortcut functions for Gear Output classes and other functions that
- * simplify the developers to perform debugging.
- *
- * @see http://o2system.io/user-guide/developers/gears.html
+ * A collection of helper function to help PHP programmer to prints a human-readable information
+ * about a variable, object and etc into the browser or command line.
  */
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists( 'var_format' ) ) {
+    /**
+     * var_format
+     *
+     * Formats a variable with extra information.
+     *
+     * @param mixed $expression The variable tobe formatted.
+     *
+     * @return mixed
+     */
+    function var_format( $expression )
+    {
+        if ( is_bool( $expression ) ) {
+            if ( $expression === true ) {
+                $expression = '(bool) TRUE';
+            } else {
+                $expression = '(bool) FALSE';
+            }
+        } elseif ( is_resource( $expression ) ) {
+            $expression = '(resource) ' . get_resource_type( $expression );
+        } elseif ( is_array( $expression ) || is_object( $expression ) ) {
+            $expression = @print_r( $expression, true );
+        } elseif ( is_int( $expression ) OR is_numeric( $expression ) ) {
+            $expression = '(int) ' . $expression;
+        } elseif ( is_null( $expression ) ) {
+            $expression = '(null)';
+        }
+
+        return $expression;
+    }
+}
 
 // ------------------------------------------------------------------------
 
 if ( ! function_exists( 'print_out' ) ) {
     /**
-     * Print Out
+     * print_code
      *
-     * Equipping developers to issue any kind of variable output to the browser.
+     * Prints a variable into Gear Browser.
      *
-     * @param mixed $vars
-     * @param bool  $halt
+     * @param mixed $expression The variable tobe formatted.
+     * @param bool  $exit       The exit flag of the current script execution.
      */
-    function print_out( $vars, $halt = true )
+    function print_out( $expression, $exit = true )
     {
         if ( php_sapi_name() === 'cli' ) {
-            print_cli( $vars, $halt );
+            print_cli( $expression, $exit );
 
             return;
         }
 
-        O2System\Gear\Screen::printScreen( $vars, $halt );
-    }
-}
+        echo ( new \O2System\Gear\Browser( $expression ) )->render();
 
-// ------------------------------------------------------------------------
-
-if ( ! function_exists( 'print_line' ) ) {
-    /**
-     * Print Line
-     *
-     * Equipping developers to issue any kind of variable output to the browser,
-     * can be placed in various places in the source code program.
-     *
-     * @param string $line
-     * @param bool   $halt
-     */
-    function print_line( $line = '', $halt = false )
-    {
-        O2System\Gear\Screen::printLine( $line, $halt );
-    }
-}
-
-// ------------------------------------------------------------------------
-
-if ( ! function_exists( 'print_code' ) ) {
-    /**
-     * Print Code
-     *
-     * Make it easier for developers to issue any kind of variable output to the browser
-     * inside pre tag.
-     *
-     * @param mixed $vars
-     * @param bool  $halt
-     */
-    function print_code( $vars, $halt = false )
-    {
-        O2System\Gear\Screen::printCode( $vars, $halt );
-    }
-}
-
-// ------------------------------------------------------------------------
-
-if ( ! function_exists( 'print_dump' ) ) {
-    /**
-     * Print Dump
-     *
-     * Make it easier for developers to dump any kind of variable output to the browser
-     * inside pre tag.
-     *
-     * @param mixed $vars
-     * @param bool  $halt
-     */
-    function print_dump( $vars, $halt = true )
-    {
-        O2System\Gear\Screen::printDump( $vars, $halt );
-    }
-}
-
-// ------------------------------------------------------------------------
-
-if ( ! function_exists( 'print_json' ) ) {
-    /**
-     * Print JSON
-     *
-     * Make it easier for developers to output object or array variable type
-     * to the browser in JSON format.
-     *
-     * @see http://php.net/manual/en/json.constants.php
-     *
-     * @param mixed    $vars
-     * @param null|int $option JSON Constants Options
-     * @param bool     $halt
-     */
-    function print_json( $vars, $option = null, $halt = true )
-    {
-        O2System\Gear\Screen::printJSON( $vars, $option, $halt );
+        if ( $exit ) {
+            die;
+        }
     }
 }
 
@@ -121,66 +81,214 @@ if ( ! function_exists( 'print_json' ) ) {
 
 if ( ! function_exists( 'print_console' ) ) {
     /**
-     * Print Console
+     * print_console
      *
-     * Equipping developers to issue any kind of variable output to the browser console,
-     * can be placed in various places in the source code program.
+     * Prints a variable into browser console.
      *
-     * @param string $title
-     * @param array  $vars
-     * @param int    $type
+     * @param mixed $expression The variable tobe formatted.
+     * @param bool  $exit       The exit flag of the current script execution.
      */
-    function print_console( $title, $vars = [], $type = \O2System\Gear\Console::LOG )
-    {
-        O2System\Gear\Screen::printConsole( $title, $vars, $type );
-    }
-}
+    function print_console(
+        $expression,
+        $label = null,
+        $messageType = \O2System\Gear\Console::LOG_MESSAGE,
+        $exit = true
+    ) {
+        if ( php_sapi_name() === 'cli' ) {
+            print_cli( $expression, $exit );
 
-if ( ! function_exists( 'print_cli' ) ) {
-    /**
-     * print_cli
-     *
-     * print_r in command line interface.
-     *
-     * @param mixed $vars
-     * @param bool  $halt
-     */
-    function print_cli( $vars, $halt = true )
-    {
-        $trace = new \O2System\Gear\Trace();
-
-        echo chr( 27 ) . chr( 91 ) . 'H' . chr( 27 ) . chr( 91 ) . 'J';
-        echo PHP_EOL . 'START of gears:print_cli' . PHP_EOL;
-        echo "--------------------------------------------------------------------------------------" . PHP_EOL . PHP_EOL;
-        print_r( $vars ) . PHP_EOL;
-        echo PHP_EOL . PHP_EOL . '--------------------------------------------------------------------------------------' . PHP_EOL . PHP_EOL;
-
-        echo 'DEBUG BACKTRACE' . PHP_EOL;
-        echo '--------------------------------------------------------------------------------------' . PHP_EOL . PHP_EOL;
-        $i = 1;
-        foreach ( $trace->getChronology() as $chronology ) {
-            echo $i . '. Method: ' . $chronology->call . PHP_EOL;
-            echo str_repeat(
-                    ' ',
-                    strlen( $i )
-                ) . '  Line: ' . $chronology->file . ':' . $chronology->line . PHP_EOL . PHP_EOL;
-            $i++;
+            return;
         }
 
-        echo PHP_EOL . "-------------------------------------------------------------------------------------- " . PHP_EOL;
-        echo 'END of gears:print_cli' . PHP_EOL . PHP_EOL;
+        ( new \O2System\Gear\Console( $label, $expression, $messageType ) )->send();
 
-        if ( $halt ) {
+        if ( $exit ) {
             die;
         }
     }
 }
 
+// ------------------------------------------------------------------------
+
+if ( ! function_exists( 'print_cli' ) ) {
+    /**
+     * print_cli
+     *
+     * Prints a variable into command line interface output.
+     *
+     * @param mixed $expression The variable tobe formatted.
+     * @param bool  $exit       The exit flag of the current script execution.
+     */
+    function print_cli( $expression, $exit = true )
+    {
+        ( new \O2System\Gear\Cli( $expression ) )->send();
+
+        if ( $exit ) {
+            die;
+        }
+    }
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists( 'print_code' ) ) {
+    /**
+     * print_code
+     *
+     * Prints a variable inside pre-code html tag.
+     *
+     * @param mixed $expression The variable tobe formatted.
+     * @param bool  $exit       The exit flag of the current script execution.
+     */
+    function print_code( $expression, $exit = false )
+    {
+        $expression = htmlentities( var_format( $expression ) );
+        $expression = htmlspecialchars( htmlspecialchars_decode( $expression, ENT_QUOTES ), ENT_QUOTES, 'UTF-8' );
+
+        echo '<pre>' . $expression . '</pre>';
+
+        if ( $exit === true ) {
+            die;
+        }
+    }
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists( 'print_dump' ) ) {
+    /**
+     * print_dump
+     *
+     * Prints a dumps information about a variable inside pre-code html tag.
+     *
+     * @param mixed $expression The variable tobe formatted.
+     * @param bool  $exit       The exit flag of the current script execution.
+     */
+    function print_dump( $expression, $exit = false )
+    {
+        ob_start();
+        var_dump( $expression );
+        $output = ob_get_contents();
+        ob_end_clean();
+
+        if ( strpos( $output, 'xdebug-var-dump' ) !== false ) {
+            if ( defined( 'PATH_ROOT' ) ) {
+                $helper_file = implode( DIRECTORY_SEPARATOR,
+                    [ 'vendor', 'o2system', 'gear', 'src', 'Helper.php:170:' ] );
+                $output = str_replace( '<small>' . PATH_ROOT . $helper_file . '</small>', '', $output );
+            }
+
+            echo $output;
+
+            if ( $exit ) {
+                die;
+            }
+        } else {
+            print_code( $output, $exit );
+        }
+    }
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists( 'print_json' ) ) {
+    /**
+     * print_json
+     *
+     * Prints a variable into json formatted string.
+     *
+     * @param mixed $expression The variable tobe formatted.
+     * @param int   $options    The optional json_encode options.
+     * @param bool  $exit       The exit flag of the current script execution.
+     */
+    function print_json( $expression, $options = null, $exit = true )
+    {
+        if ( is_bool( $options ) ) {
+            $exit = $options;
+            $options = null;
+        }
+
+        if ( is_array( $expression ) || is_object( $expression ) ) {
+            if ( empty( $options ) ) {
+                $output = json_encode( $expression );
+            } else {
+                $output = json_encode( $expression, $options );
+            }
+
+            print_out( $output, $exit );
+        } else {
+            print_out( 'Invalid Expression!', $exit );
+        }
+    }
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists( 'print_serialize' ) ) {
+    /**
+     * print_serialize
+     *
+     * Prints a variable into serialized formatted string.
+     *
+     * @param mixed $expression The variable tobe formatted.
+     * @param bool  $exit       The exit flag of the current script execution.
+     */
+    function print_serialize( $expression, $exit = true )
+    {
+        if ( is_array( $expression ) || is_object( $expression ) ) {
+            print_out( serialize( $expression ), $exit );
+        } else {
+            print_out( 'Invalid Expression!', $exit );
+        }
+    }
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists( 'print_line' ) ) {
+    /**
+     * print_line
+     *
+     * Prints a multiple stacked lines of variable.
+     *
+     * The print_line command can be placed in various places in the source code program,
+     * the print_line will stacked all variable into a static memory and will be printed when
+     * the expression is fill with --- string.
+     *
+     * @param mixed $expression The variable tobe formatted.
+     * @param bool  $exit       The exit flag of the current script execution.
+     */
+    function print_line( $expression, $exit = false )
+    {
+        static $lines;
+
+        if ( strtoupper( $exit ) === 'FLUSH' ) {
+            $lines = [];
+            $lines[] = $expression;
+        }
+
+        if ( is_array( $expression ) || is_object( $expression ) ) {
+            $lines[] = print_r( $expression, true );
+        } else {
+            $lines[] = var_format( $expression );
+        }
+
+        if ( $exit === true || $expression === '---' ) {
+            $expression = implode( PHP_EOL, $lines );
+            $lines = [];
+
+            print_out( $expression, $exit );
+        }
+    }
+}
+
+// ------------------------------------------------------------------------
+
 if ( ! function_exists( 'pre_open' ) ) {
     /**
-     * Pre Open
+     * pre_open
      *
-     * Echo a <pre> tag open HTML element.
+     * Prints an open pre HTML tag.
      */
     function pre_open()
     {
@@ -192,34 +300,34 @@ if ( ! function_exists( 'pre_open' ) ) {
 
 if ( ! function_exists( 'pre_line' ) ) {
     /**
-     * Pre Line
+     * pre_line
      *
-     * Echo a pre line content.
+     * Prints a variable into pre HTML tag.
      *
-     * @param mixed $line
-     * @param bool  $implode
+     * @param mixed $expression The variable tobe formatted.
+     * @param bool  $implode    The flag to implode lines.
      */
-    function pre_line( $line, $implode = true )
+    function pre_line( $expression, $implode = true )
     {
-        if ( is_array( $line ) AND $implode === true ) {
-            $line = implode( PHP_EOL, $line );
-        } elseif ( is_bool( $line ) ) {
-            if ( $line === true ) {
-                $line = '(bool) TRUE';
+        if ( is_array( $expression ) AND $implode === true ) {
+            $expression = implode( PHP_EOL, $expression );
+        } elseif ( is_bool( $expression ) ) {
+            if ( $expression === true ) {
+                $expression = '(bool) TRUE';
             } else {
-                $line = '(bool) FALSE';
+                $expression = '(bool) FALSE';
             }
-        } elseif ( is_resource( $line ) ) {
-            $line = '(resource) ' . get_resource_type( $line );
-        } elseif ( is_array( $line ) || is_object( $line ) ) {
-            $line = @print_r( $line, true );
-        } elseif ( is_int( $line ) OR is_numeric( $line ) ) {
-            $line = '(int) ' . $line;
-        } elseif ( is_null( $line ) ) {
-            $line = '(null)';
+        } elseif ( is_resource( $expression ) ) {
+            $expression = '(resource) ' . get_resource_type( $expression );
+        } elseif ( is_array( $expression ) || is_object( $expression ) ) {
+            $expression = @print_r( $expression, true );
+        } elseif ( is_int( $expression ) OR is_numeric( $expression ) ) {
+            $expression = '(int) ' . $expression;
+        } elseif ( is_null( $expression ) ) {
+            $expression = '(null)';
         }
 
-        echo $line . PHP_EOL;
+        echo $expression . PHP_EOL;
     }
 }
 
@@ -227,18 +335,76 @@ if ( ! function_exists( 'pre_line' ) ) {
 
 if ( ! function_exists( 'pre_close' ) ) {
     /**
-     * Pre Close
+     * pre_close
      *
-     * Echo a </pre> tag close HTML element.
-     *
-     * @param bool $halt
+     * Prints a close pre HTML tag.
      */
-    function pre_close( $halt = false )
+    function pre_close( $exit = false )
     {
         echo '</pre>';
 
-        if ( $halt ) {
+        if ( $exit ) {
             die;
         }
+    }
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists( 'debug_start' ) ) {
+    /**
+     * debug_start
+     *
+     * Starts a debugger stacks.
+     */
+    function debug_start()
+    {
+        \O2System\Gear\Debugger::start();
+    }
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists( 'debug_line' ) ) {
+    /**
+     * debug_line
+     *
+     * Add a debug line variable into debugger stacks.
+     *
+     * @param mixed $expression The variable tobe formatted.
+     * @param bool  $export     The variable export flag, to export the variable into parsable string representation.
+     */
+    function debug_line( $expression, $export = false )
+    {
+        \O2System\Gear\Debugger::line( $expression, $export );
+    }
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists( 'debug_marker' ) ) {
+    /**
+     * debug_marker
+     *
+     * Add a debug marker into debugger stacks.
+     */
+    function debug_marker()
+    {
+        \O2System\Gear\Debugger::marker();
+    }
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists( 'debug_stop' ) ) {
+    /**
+     * debug_stop
+     *
+     * Stop the script execution and prints the debugger output into browser.
+     */
+    function debug_stop()
+    {
+        \O2System\Gear\Debugger::stop();
+        die;
     }
 }
