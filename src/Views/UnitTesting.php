@@ -20,13 +20,25 @@
                     <strong><?php echo $report->label; ?></strong>
                 </td>
                 <td width="20">
-                    <?php echo $report->result; ?>
+                    <?php if( is_array( $report->result ) || is_object( $report->result ) ): ?>
+                        <pre>
+                            <?php echo print_r( $report->result, true ); ?>
+                        </pre>
+                    <?php else: ?>
+                        <?php echo $report->result; ?>
+                    <?php endif; ?>
                 </td>
                 <td width="5">
                     <span class="label label-info"><?php echo $report->datatype->result; ?></span>
                 </td>
                 <td width="20">
-                    <?php echo $report->expected; ?>
+                    <?php if( is_array( $report->expected ) || is_object( $report->expected ) ): ?>
+                        <pre>
+                            <?php echo print_r( $report->expected, true ); ?>
+                        </pre>
+                    <?php else: ?>
+                        <?php echo $report->expected; ?>
+                    <?php endif; ?>
                 </td>
                 <td width="5">
                     <span class="label label-info"><?php echo $report->datatype->expected; ?></span>

@@ -58,6 +58,10 @@ class UnitTesting
             $passed = (bool)( $closure === $expected );
         }
 
+        if ( is_bool( $closure ) ) {
+            $closure = ( $closure === true ) ? 'true' : 'false';
+        }
+
         if ( is_bool( $expected ) ) {
             $expected = ( $expected === true ) ? 'true' : 'false';
         }
