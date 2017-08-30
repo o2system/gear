@@ -87,7 +87,7 @@ class Metric
             is_bool( $showUnit );
 
         if ( $test ) {
-            $duration = round( $time * 10 ** ( $precision * 3 ), $floatingPrecision );
+            $duration = round( $time * 10 * ( $precision * 3 ), $floatingPrecision );
 
             if ( $showUnit ) {
                 switch ( $precision ) {
