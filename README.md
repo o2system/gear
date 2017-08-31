@@ -1,10 +1,17 @@
 # O2System Gear
 O2System Gear is a PHP Library for all PHP Developer to simplify debugging, profiling and testing process.
 
+### Debugging Features
+- Browser Information Toolbar
+- Debugger Class with Helper
+- Profiler Class
+- UnitTesting Class
+- Browser and Command Line Interface Dump Output
+
 ### Composer Installation
 The best way to install O2System Gear is to use [Composer](https://getcomposer.org)
 ```
-composer require o2system/gear --prefer-dist dev-master
+composer require o2system/gear
 ```
 > Packagist: [https://packagist.org/packages/o2system/gear](https://packagist.org/packages/o2system/gear)
 
