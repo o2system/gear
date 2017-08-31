@@ -86,7 +86,7 @@
 }
 
 #gear-toolbar .show {
-    display: block;
+    display: block !important;
 }
 
 #gear-toolbar h1 {
@@ -126,12 +126,7 @@
     color: rgba(0,0,0,0.3) ;
 }
 #gear-toolbar .gear-toolbar-label {
-    border-radius: 0.25em ;
-    text-shadow: none ;
-    background-color: #ee4449 ;
-    border: 1px solid #d82e32 ;
-    padding: .3em 1em .25em ;
-    margin-left: 0.4em ;
+    margin-left: 0.2em ;
 }
 
 #gear-toolbar .gear-toolbar-label a {
@@ -139,15 +134,18 @@
     width: 100% ;
     color: #fff ;
     text-decoration: none ;
+    border-radius: 0.25em ;
+    text-shadow: none ;
+    background-color: #ee4449 ;
+    border: 1px solid #d82e32 ;
+    padding: 3px 8px 4px 8px ;
 }
 #gear-toolbar .gear-toolbar-label a:hover {
+    background-color: #d82e32 ;
     text-decoration: none ;
 }
-#gear-toolbar .gear-toolbar-label.active {
-    font-weight: 400 ;
+#gear-toolbar .gear-toolbar-label a.active {
     background-color: #d82e32 ;
-    border-color: #ad2529 ;
-    padding: .3em 0.9em .3em ;
 }
 #gear-toolbar .tab {
     display: none;
@@ -184,35 +182,35 @@
 #gear-toolbar tr:hover {
     background-color: #f3f3f3 ;
 }
-#gear-toolbar table.timeline {
+#gear-toolbar table.metrics-timeline {
     width: 100% ;
     margin-left: 0 ;
 }
-#gear-toolbar table.timeline th {
+#gear-toolbar table.metrics-timeline th {
     font-size: 0.7em ;
     font-weight: 200 ;
     text-align: left ;
     padding: 1em .5em ;
 }
-#gear-toolbar table.timeline td,
-#gear-toolbar table.timeline th {
+#gear-toolbar table.metrics-timeline td,
+#gear-toolbar table.metrics-timeline th {
     border-left: 1px solid #ddd ;
     padding: 0 1em;
     position: relative;
 }
-#gear-toolbar table.timeline td {
+#gear-toolbar table.metrics-timeline td {
     font-size: 0.8em ;
     font-weight: normal;
 }
-#gear-toolbar table.timeline tr td:first-child,
-#gear-toolbar table.timeline tr th:first-child {
+#gear-toolbar table.metrics-timeline tr td:first-child,
+#gear-toolbar table.metrics-timeline tr th:first-child {
     border-left: 0 ;
     padding-left: 0 ;
 }
-#gear-toolbar table.timeline td {
+#gear-toolbar table.metrics-timeline td {
     padding: 5px;
 }
-#gear-toolbar table.timeline .timer {
+#gear-toolbar table.metrics-timeline .timer {
     position: absolute ;
     display: inline-block ;
     padding: 3px ;

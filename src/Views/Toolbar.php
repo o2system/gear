@@ -15,18 +15,18 @@
             <span>Rendering Time: <?= $totalExecution->getDuration( 1 ) ?></span>
             <span>Memory: <?= $totalExecution->getMemory() ?></span>
             <span>Memory Peak: <?= $totalExecution->getPeakMemory() ?></span>
-            <span class="gear-toolbar-label"><a href="javascript:void(0)" onclick="gearToolbar.showTab('metrics');">Metrics</a></span>
-            <span class="gear-toolbar-label"><a href="javascript:void(0)" onclick="gearToolbar.showTab('files');">Files</a></span>
-            <span class="gear-toolbar-label"><a href="javascript:void(0)" onclick="gearToolbar.showTab('vars');">Vars</a></span>
+            <span class="gear-toolbar-label"><a id="tab-button-metrics" class="tab-button" href="javascript:void(0)" onclick="gearToolbar.showTab('metrics');">Metrics</a></span>
+            <span class="gear-toolbar-label"><a id="tab-button-files" class="tab-button" href="javascript:void(0)" onclick="gearToolbar.showTab('files');">Files</a></span>
+            <span class="gear-toolbar-label"><a id="tab-button-vars" class="tab-button" href="javascript:void(0)" onclick="gearToolbar.showTab('vars');">Vars</a></span>
             <?php if( ! empty( $logs ) ): ?>
-            <span class="gear-toolbar-label"><a href="javascript:void(0)" onclick="gearToolbar.showTab('logs');">Logs</a></span>
+            <span class="gear-toolbar-label"><a id="tab-button-logs" class="tab-button" href="javascript:void(0)" onclick="gearToolbar.showTab('logs');">Logs</a></span>
             <?php endif; ?>
         </div>
 
         <div id="gear-toolbar-tabs">
             <!-- Timeline -->
             <div id="gear-toolbar-tab-metrics" class="tab">
-                <table class="timeline">
+                <table class="metrics-timeline">
                     <thead>
                     <tr>
                         <th style="width: 30%">EVENT</th>
@@ -76,7 +76,7 @@
                            onclick="gearToolbar.toggleDataTable('gears-toolbar-table-vars-<?= $varKey; ?>'); return false;">
                             <h2><?= strtoupper( $varKey ); ?></h2>
                         </a>
-                        <table id="'gears-toolbar-table-vars-<?= $varKey; ?>'">
+                        <table id="gears-toolbar-table-vars-<?= $varKey; ?>">
                             <tbody>
                             <?php foreach ( $varValue as $key => $value ): ?>
                                 <tr>

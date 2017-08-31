@@ -24,22 +24,27 @@ var gearToolbar = {
 
     showTab: function (tabId) {
         var tabs = document.querySelectorAll('.tab');
+        var tabButtons = document.querySelectorAll('.tab-button');
         var tabContainer = document.getElementById('gear-toolbar-tabs');
         var tabActive = document.getElementById('gear-toolbar-tab-' + tabId);
+        var tabButtonActive = document.getElementById('tab-button-' + tabId);
 
         if(gearToolbar.tabActive === tabId) {
             if(tabContainer.classList.contains('show')){
                 tabActive.classList.remove('show');
                 tabContainer.classList.remove('show');
+                tabButtonActive.classList.remove('active');
             }
             gearToolbar.tabActive = null;
         } else {
             for (var i = 0; i < tabs.length; i++) {
                 tabs[i].classList.remove('show');
+                tabButtons[i].classList.remove('active');
             }
             gearToolbar.tabActive = tabId;
             tabContainer.classList.add('show');
             tabActive.classList.add('show');
+            tabButtonActive.classList.add('active');
         }
     },
 
@@ -91,13 +96,14 @@ var gearToolbar = {
         var tabs = document.querySelectorAll('.tab');
         var tabContainer = document.getElementById('gear-toolbar-tabs');
 
-        for (var i = 0; i < tabs.length; i++) {
-            tabs[i].classList.remove('show');
+        if(tabContainer.classList.contains('show')){
+            tabContainer.classList.remove('show');
+        } else {
+            tabContainer.classList.add('show');
+            if( gearToolbar.tabActive === null ) {
+                gearToolbar.showTab('metrics');
+            }
         }
-
-        gearToolbar.tabActive = tabId;
-        tabContainer.classList.add('show');
-        tabActive.classList.add('show');
     },
 
     //--------------------------------------------------------------------
