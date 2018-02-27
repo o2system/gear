@@ -67,12 +67,26 @@ if ( ! function_exists( 'print_out' ) ) {
             print_cli( $expression, $exit );
 
             return;
-        }
+        } elseif( ! empty( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) && strtolower(
+                $_SERVER[ 'HTTP_X_REQUESTED_WITH' ]
+            ) === 'xmlhttprequest' ) {
+            if ( is_array( $expression ) ) {
+                echo json_encode( $expression, JSON_PRETTY_PRINT );
+            } elseif(is_object($expression)) {
+                print_r($expression);
+            } else {
+                echo $expression;
+            }
 
-        echo ( new \O2System\Gear\Browser( $expression ) )->render();
+            if ( $exit ) {
+                die;
+            }
+        } else {
+            echo ( new \O2System\Gear\Browser( $expression ) )->render();
 
-        if ( $exit ) {
-            die;
+            if ( $exit ) {
+                die;
+            }
         }
     }
 }
