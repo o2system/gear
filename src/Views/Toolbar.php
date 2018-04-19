@@ -6,6 +6,54 @@
     <?= file_get_contents( __DIR__ . '/assets/js/toolbar.min.js' ) ?>
 </script>
 
+<?php
+function toolbar_table($array) {
+    $output  = '';
+    if(is_array($array)) {
+        $output.= '<table>';
+        foreach($array as $key => $value) {
+            $output.= '<tr>';
+            if(is_string($key)) {
+                $output.= '<th valign="top">'.$key.'</th>';
+            }
+            if(is_array($value)) {
+                $output.= '<td>'.toolbar_table($value).'</td>';
+            } elseif($value instanceof \ArrayObject) {
+                $output.= '<td>'.toolbar_table($value).'</td>';
+            } elseif(is_object($value) && method_exists($value, '__toString')) {
+                $output.= '<td>'.$value->__toString().'</td>';
+            } elseif(is_object($value)) {
+                $object = new \ReflectionClass($value);
+                $output.= '<td>(object) '.$object->getName().'</td>';
+            } elseif(is_bool($value)) {
+                $output.= '<td>'.($value === true ? 'true' : 'false').'</td>';
+            } elseif($value === '' || is_null($value)) {
+                $output.= '<td><strong style="color: #ccc;">no value</strong></td>';
+            } else {
+                $output.= '<td>'.$value.'</td>';
+            }
+
+            $output.= '</tr>';
+        }
+        $output.= '</table>';
+    } elseif($array instanceof \ArrayObject) {
+        $output.= toolbar_table($array->getArrayCopy());
+    } elseif(is_object($array) && method_exists($array, '__toString')) {
+        $output.= $array->__toString();
+    } elseif(is_object($array)) {
+        $object = new \ReflectionClass($array);
+        $output.= '(object) ' . $object->getName();
+    } elseif(is_bool($array)) {
+        $output.= ($array === true ? 'true' : 'false');
+    } elseif($array === '' || is_null($array)) {
+        $output.= '<strong style="color: #ccc;">no value</strong>';
+    } else {
+        $output.= $array;
+    }
+    return $output;
+}
+?>
+
 <div id="gear-toolbar">
     <div id="gear-toolbar-container" class="toolbar">
         <div id="gear-toolbar-logo"><a href="javascript:void(0);" onclick="gearToolbar.toggleToolbar();"><img
@@ -18,6 +66,9 @@
             <span class="gear-toolbar-label"><a id="tab-button-metrics" class="tab-button" href="javascript:void(0)" onclick="gearToolbar.showTab('metrics');">Metrics</a></span>
             <span class="gear-toolbar-label"><a id="tab-button-files" class="tab-button" href="javascript:void(0)" onclick="gearToolbar.showTab('files');">Files</a></span>
             <span class="gear-toolbar-label"><a id="tab-button-vars" class="tab-button" href="javascript:void(0)" onclick="gearToolbar.showTab('vars');">Vars</a></span>
+            <?php if( ! empty( $database ) ): ?>
+                <span class="gear-toolbar-label"><a id="tab-button-database" class="tab-button" href="javascript:void(0)" onclick="gearToolbar.showTab('database');">Database</a></span>
+            <?php endif; ?>
             <?php if( ! empty( $logs ) ): ?>
             <span class="gear-toolbar-label"><a id="tab-button-logs" class="tab-button" href="javascript:void(0)" onclick="gearToolbar.showTab('logs');">Logs</a></span>
             <?php endif; ?>
@@ -53,7 +104,7 @@
 
             <!-- Files -->
             <div id="gear-toolbar-tab-files" class="tab">
-                <h2>Files <span>(<?= count( $files ); ?>)</span></h2>
+                <h2>Files <small><?= count( $files ); ?> loaded files</small></h2>
 
                 <table>
                     <tbody>
@@ -80,8 +131,8 @@
                             <tbody>
                             <?php foreach ( $varValue as $key => $value ): ?>
                                 <tr>
-                                    <td><?= $key; ?></td>
-                                    <td><?= ( is_array( $value ) ? print_r( $value, true ) : $value ); ?></td>
+                                    <th valign="top"><?= $key; ?></th>
+                                    <td><?= toolbar_table($value); ?></td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
@@ -89,6 +140,61 @@
                     <?php endif; ?>
                 <?php endforeach; ?>
             </div>
+
+            <?php if( ! empty( $database ) ): ?>
+                <!-- Database -->
+                <div id="gear-toolbar-tab-database" class="tab">
+                    <h2>Executed Queries</h2>
+
+                    <table>
+                        <thead>
+                        <tr>
+                            <th width="70%">STATEMENT</th>
+                            <th width="10%">AFFECTED</th>
+                            <th width="10%">HITS</th>
+                            <th width="10%">TIME</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php $totalAffected = 0; ?>
+                        <?php $totalHits = 0; ?>
+                        <?php $totalTime = 0; ?>
+                        <?php foreach( $database as $connection => $queries ): ?>
+                            <tr style="border-bottom: 1px solid #ebebeb;">
+                                <th colspan="4" style="padding: 5px; color: #ccc;"><?= strtoupper($connection); ?></th>
+                            </tr>
+                            <?php if(!empty($queries)): ?>
+                                <?php foreach($queries as $query): ?>
+                                    <tr>
+                                        <?php $totalAffected = $totalAffected + $query->getAffectedRows(); ?>
+                                        <?php $totalHits = $totalHits + $query->getHits(); ?>
+                                        <?php $totalTime = $totalTime + $query->getExecutionDuration(); ?>
+                                        <td style="padding: 5px;">
+                                            <small><?= $query->getSqlFinalStatement(); ?></small>
+                                        </td>
+                                        <td style="padding: 5px;"><?= $query->getAffectedRows(); ?></td>
+                                        <td style="padding: 5px;"><?= $query->getHits(); ?></td>
+                                        <td style="padding: 5px;"><?= $query->getExecutionDuration(); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr style="border-bottom: 1px solid #ebebeb;">
+                                    <th colspan="4" style="padding: 5px; color: #ccc;">No queries are executed!</th>
+                                </tr>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr style="border-top: 1px solid #ebebeb;">
+                                <th style="text-align: right; padding: 5px;">TOTAL</th>
+                                <th style="padding: 5px;"><?= $totalAffected; ?></th>
+                                <th style="padding: 5px;"><?= $totalHits; ?></th>
+                                <th style="padding: 5px;"><?= $totalTime; ?></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            <?php endif; ?>
 
             <?php if( ! empty( $logs ) ): ?>
             <!-- Logs -->
