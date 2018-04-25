@@ -63,9 +63,9 @@ class Toolbar
         $metrics = array_reverse( $metrics );
 
         $files = $this->getFiles();
-        $queries = $this->getQueries();
         $logs = $this->getLogs();
         $vars = $this->getVars();
+        $database = $this->getDatabase();
 
         ob_start();
         include __DIR__ . '/Views/Toolbar.php';
@@ -103,9 +103,19 @@ class Toolbar
 
     // ------------------------------------------------------------------------
 
-    public function getQueries()
+    public function getDatabase()
     {
-        return [];
+        $database = [];
+
+        if(class_exists('O2System\Framework', false)) {
+            $connections = database()->getIterator();
+
+            foreach($connections as $offset => $connection) {
+                $database[ $offset ] = $connection->getQueries();
+            }
+        }
+
+        return $database;
     }
 
     /**
