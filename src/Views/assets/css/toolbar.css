@@ -29,7 +29,6 @@
     top: 0px;
     left: 0px;
     z-index: 100;
-    background: #fff;
 }
 
 #gear-toolbar-icons {
@@ -38,8 +37,7 @@
     width: 100%;
     text-align: right;
     background: #fff;
-    border: solid #ebebeb;
-    border-width: 1px 0px 1px 0px;
+    box-shadow: 0px 1px 15px rgba(0,0,0,0.1);
 }
 
 #gear-toolbar-tabs {
@@ -52,7 +50,7 @@
 #gear-toolbar-logo{
     position: relative;
     left: 0px;
-    margin: 9px;
+    margin: 5px;
     float: left;
     z-index: 10000;
 }
@@ -159,6 +157,7 @@
     margin: 0 0 10px 0px;
     font-size: 12px ;
     border-collapse:collapse ;
+    width: 100% ;
 }
 #gear-toolbar td,
 #gear-toolbar th {
