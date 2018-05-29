@@ -21,15 +21,15 @@ namespace O2System\Gear\Profiler\Datastructures;
  */
 class Metric
 {
-    protected $marker;
+    public $marker;
 
-    protected $startTime;
+    public $startTime;
 
-    protected $endTime;
+    public $endTime;
 
-    protected $startMemory;
+    public $startMemory;
 
-    protected $endMemory;
+    public $endMemory;
 
     // ------------------------------------------------------------------------
 
@@ -42,10 +42,7 @@ class Metric
     {
         $this->marker = $marker;
 
-        $this->start(
-            microtime( true ),
-            defined( 'STARTUP_MEMORY' ) ? memory_get_usage( true ) - STARTUP_MEMORY : memory_get_usage( true )
-        );
+        $this->start();
     }
 
     // ------------------------------------------------------------------------
@@ -58,9 +55,12 @@ class Metric
 
     // ------------------------------------------------------------------------
 
-    public function getMarker()
+    public function stop()
     {
-        return $this->marker;
+        $this->endTime = microtime( true );
+        $this->endMemory = memory_get_peak_usage(true);
+
+        return $this;
     }
 
     // ------------------------------------------------------------------------
@@ -68,6 +68,28 @@ class Metric
     public function getStartTime( $precision = 0, $floatingPrecision = 3, $showUnit = true )
     {
         return $this->getFormattedTime( $this->startTime, $precision, $floatingPrecision, $showUnit );
+    }
+
+    // ------------------------------------------------------------------------
+
+    public function getEndTime( $precision = 0, $floatingPrecision = 3, $showUnit = true )
+    {
+        if ( empty( $this->endTime ) ) {
+            $this->stop();
+        }
+
+        return $this->getFormattedTime( $this->endTime, $precision, $floatingPrecision, $showUnit );
+    }
+
+    // ------------------------------------------------------------------------
+
+    public function getDuration( $precision = 0, $floatingPrecision = 3, $showUnit = true )
+    {
+        if ( empty( $this->endTime ) ) {
+            $this->stop();
+        }
+
+        return $this->getFormattedTime( $this->endTime - $this->startTime, $precision, $floatingPrecision, $showUnit );
     }
 
     // ------------------------------------------------------------------------
@@ -110,90 +132,9 @@ class Metric
 
     // ------------------------------------------------------------------------
 
-    public function getRawStartTime()
-    {
-        return $this->startTime;
-    }
-
-    // ------------------------------------------------------------------------
-
-    public function getRawEndTime()
-    {
-        if ( empty( $this->endTime ) ) {
-            $this->stop();
-        }
-
-        return $this->endTime;
-    }
-
-    // ------------------------------------------------------------------------
-
-    public function stop()
-    {
-        $this->endTime = microtime( true );
-        $this->endMemory = memory_get_peak_usage( true ) - $this->startMemory;
-
-        return $this;
-    }
-
-    // ------------------------------------------------------------------------
-
     public function getStartMemory()
     {
         return $this->getFormattedMemorySize( $this->startMemory );
-    }
-
-    // ------------------------------------------------------------------------
-
-    private function getFormattedMemorySize( $size )
-    {
-        if ( $size < 1024 ) {
-            return $size . " bytes";
-        } elseif ( $size < 1048576 ) {
-            return round( $size / 1024, 2 ) . " kilobytes";
-        } else {
-            return round( $size / 1048576, 2 ) . " megabytes";
-        }
-    }
-
-    // ------------------------------------------------------------------------
-
-    public function getEndTime( $precision = 0, $floatingPrecision = 3, $showUnit = true )
-    {
-        if ( empty( $this->endTime ) ) {
-            $this->stop();
-        }
-
-        return $this->getFormattedTime( $this->endTime, $precision, $floatingPrecision, $showUnit );
-    }
-
-    // ------------------------------------------------------------------------
-
-    public function getDuration( $precision = 0, $floatingPrecision = 3, $showUnit = true )
-    {
-        if ( empty( $this->endTime ) ) {
-            $this->stop();
-        }
-
-        return $this->getFormattedTime( $this->endTime - $this->startTime, $precision, $floatingPrecision, $showUnit );
-    }
-
-    // ------------------------------------------------------------------------
-
-    public function getRawDuration()
-    {
-        if ( empty( $this->endTime ) ) {
-            $this->stop();
-        }
-
-        return $this->endTime - $this->startTime;
-    }
-
-    // ------------------------------------------------------------------------
-
-    public function getMemory()
-    {
-        return $this->getEndMemory();
     }
 
     // ------------------------------------------------------------------------
@@ -205,7 +146,36 @@ class Metric
 
     // ------------------------------------------------------------------------
 
-    public function getPeakMemory()
+    public function getMemoryUsage()
+    {
+        if ( empty( $this->endMemory ) ) {
+            $this->stop();
+        }
+
+        return $this->getFormattedMemorySize( $this->endMemory - $this->startMemory );
+    }
+
+    public function getFormattedMemorySize( $size )
+    {
+        if ( $size < 1024 ) {
+            return $size . " bytes";
+        } elseif ( $size < 1048576 ) {
+            return round( $size / 1024, 2 ) . " kb";
+        } else {
+            return round( $size / 1048576, 2 ) . " mb";
+        }
+    }
+
+    // ------------------------------------------------------------------------
+
+    public function getMemory()
+    {
+        return $this->getEndMemory();
+    }
+
+    // ------------------------------------------------------------------------
+
+    public function getPeakMemoryUsage()
     {
         return $this->getFormattedMemorySize( memory_get_peak_usage( true ) );
     }

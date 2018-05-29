@@ -8,6 +8,7 @@
  * @author         Steeve Andrian Salim
  * @copyright      Copyright (c) Steeve Andrian Salim
  */
+
 // ------------------------------------------------------------------------
 
 namespace O2System\Gear;
@@ -23,29 +24,29 @@ class Cli
 {
     private $expression;
 
-    public function __construct( $expression )
+    public function __construct($expression)
     {
         $this->expression = $expression;
     }
-    
+
     public function send()
     {
         $trace = new \O2System\Gear\Trace();
 
-        echo chr( 27 ) . chr( 91 ) . 'H' . chr( 27 ) . chr( 91 ) . 'J';
+        echo chr(27) . chr(91) . 'H' . chr(27) . chr(91) . 'J';
         echo PHP_EOL . 'START of gears:print_cli' . PHP_EOL;
         echo "--------------------------------------------------------------------------------------" . PHP_EOL . PHP_EOL;
-        print_r( $this->expression ) . PHP_EOL;
+        print_r($this->expression) . PHP_EOL;
         echo PHP_EOL . PHP_EOL . '--------------------------------------------------------------------------------------' . PHP_EOL . PHP_EOL;
 
         echo 'DEBUG BACKTRACE' . PHP_EOL;
         echo '--------------------------------------------------------------------------------------' . PHP_EOL . PHP_EOL;
         $i = 1;
-        foreach ( $trace->getChronology() as $chronology ) {
+        foreach ($trace->getChronology() as $chronology) {
             echo $i . '. Method: ' . $chronology->call . PHP_EOL;
             echo str_repeat(
                     ' ',
-                    strlen( $i )
+                    strlen($i)
                 ) . '  Line: ' . $chronology->file . ':' . $chronology->line . PHP_EOL . PHP_EOL;
             $i++;
         }

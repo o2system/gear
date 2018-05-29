@@ -8,6 +8,7 @@
  * @author         Steeve Andrian Salim
  * @copyright      Copyright (c) Steeve Andrian Salim
  */
+
 // ------------------------------------------------------------------------
 
 namespace O2System\Gear;
@@ -30,13 +31,13 @@ class UnitTesting
         $this->reports = new ArrayIterator();
     }
 
-    public function test( $label, $closure, $expected, $notes = null )
+    public function test($label, $closure, $expected, $notes = null)
     {
-        if ( $closure instanceof \Closure ) {
-            $closure = call_user_func( $closure, $this );
+        if ($closure instanceof \Closure) {
+            $closure = call_user_func($closure, $this);
         }
 
-        if ( in_array( $expected, [
+        if (in_array($expected, [
             'object',
             'string',
             'bool',
@@ -50,34 +51,34 @@ class UnitTesting
             'array',
             'null',
             'resource',
-        ], true ) ) {
+        ], true)) {
             $expectedDataType = $expected;
-            $passed = (bool)call_user_func( 'is_' . $expected, $closure );
+            $passed = (bool)call_user_func('is_' . $expected, $closure);
         } else {
-            $expectedDataType = gettype( $expected );
-            $passed = (bool)( $closure === $expected );
+            $expectedDataType = gettype($expected);
+            $passed = (bool)($closure === $expected);
         }
 
-        if ( is_bool( $closure ) ) {
-            $closure = ( $closure === true ) ? 'true' : 'false';
+        if (is_bool($closure)) {
+            $closure = ($closure === true) ? 'true' : 'false';
         }
 
-        if ( is_bool( $expected ) ) {
-            $expected = ( $expected === true ) ? 'true' : 'false';
+        if (is_bool($expected)) {
+            $expected = ($expected === true) ? 'true' : 'false';
         }
 
-        $this->reports[] = new \ArrayObject( [
+        $this->reports[] = new \ArrayObject([
             'label'    => $label,
             'result'   => $closure,
             'expected' => $expected,
-            'datatype' => new \ArrayObject( [
+            'datatype' => new \ArrayObject([
                 'expected' => $expectedDataType,
-                'result'   => gettype( $closure ),
-            ], \ArrayObject::ARRAY_AS_PROPS ),
-            'status'   => ( $passed === true ) ? 'passed' : 'failed',
+                'result'   => gettype($closure),
+            ], \ArrayObject::ARRAY_AS_PROPS),
+            'status'   => ($passed === true) ? 'passed' : 'failed',
             'trace'    => $this->getBacktrace(),
             'notes'    => $notes,
-        ], \ArrayObject::ARRAY_AS_PROPS );
+        ], \ArrayObject::ARRAY_AS_PROPS);
     }
 
     protected function getBacktrace()
@@ -85,7 +86,7 @@ class UnitTesting
         $backtrace = debug_backtrace();
         $backtrace = $backtrace[ 1 ];
 
-        if ( isset( $backtrace[ 'class' ] ) AND isset( $backtrace[ 'type' ] ) ) {
+        if (isset($backtrace[ 'class' ]) AND isset($backtrace[ 'type' ])) {
             $chronology[ 'call' ] = $backtrace[ 'class' ] . $backtrace[ 'type' ] . $backtrace[ 'function' ] . '()';
             $chronology[ 'type' ] = $backtrace[ 'type' ] === '->' ? 'non-static' : 'static';
         } else {
@@ -93,16 +94,16 @@ class UnitTesting
             $chronology[ 'type' ] = 'non-static';
         }
 
-        if ( isset( $backtrace[ 'file' ] ) ) {
-            $chronology[ 'file' ] = ( isset( $backtrace[ 'file' ] ) ? $backtrace[ 'file' ] : '' );
-            $chronology[ 'line' ] = ( isset( $backtrace[ 'line' ] ) ? $backtrace[ 'line' ] : '' );
+        if (isset($backtrace[ 'file' ])) {
+            $chronology[ 'file' ] = (isset($backtrace[ 'file' ]) ? $backtrace[ 'file' ] : '');
+            $chronology[ 'line' ] = (isset($backtrace[ 'line' ]) ? $backtrace[ 'line' ] : '');
         }
 
-        if ( defined( 'PATH_ROOT' ) ) {
-            $chronology[ 'file' ] = str_replace( PATH_ROOT, '', $chronology[ 'file' ] );
+        if (defined('PATH_ROOT')) {
+            $chronology[ 'file' ] = str_replace(PATH_ROOT, '', $chronology[ 'file' ]);
         }
 
-        return new Trace\Datastructures\Chronology( $chronology );
+        return new Trace\Datastructures\Chronology($chronology);
     }
 
     public function getReports()

@@ -16,16 +16,16 @@
         </tr>
         </thead>
         <tbody>
-        <?php foreach ( $trace as $chronology ): ?>
+        <?php foreach ($trace as $chronology): ?>
             <tr>
                 <td width="3%">
-                    <?php if ( strpos( $chronology->call, 'start' ) !== false ): ?>
+                    <?php if (strpos($chronology->call, 'start') !== false): ?>
                         <span class="label label-success">start</span>
-                    <?php elseif ( strpos( $chronology->call, 'line' ) !== false ): ?>
+                    <?php elseif (strpos($chronology->call, 'line') !== false): ?>
                         <span class="label label-info">line</span>
-                    <?php elseif ( strpos( $chronology->call, 'marker' ) !== false ): ?>
+                    <?php elseif (strpos($chronology->call, 'marker') !== false): ?>
                         <span class="label label-default">marker</span>
-                    <?php elseif ( strpos( $chronology->call, 'stop' ) !== false ): ?>
+                    <?php elseif (strpos($chronology->call, 'stop') !== false): ?>
                         <span class="label label-danger">stop</span>
                     <?php endif; ?>
                 </td>
@@ -33,8 +33,8 @@
                     <i class="text-muted"><?php echo $chronology->file . ':' . $chronology->line; ?></i>
                 </td>
                 <td>
-                    <?php if ( strpos( $chronology->call, 'line' ) !== false ): ?>
-                    <pre><code><?php echo( empty( $chronology->expression ) ? '' : trim( $chronology->expression ) ); ?></code></pre>
+                    <?php if (strpos($chronology->call, 'line') !== false): ?>
+                        <pre><code><?php echo(empty($chronology->expression) ? '' : trim($chronology->expression)); ?></code></pre>
                     <?php endif; ?>
                 </td>
             </tr>
@@ -44,5 +44,5 @@
 </div>
 
 <script type="text/javascript">
-    <?php echo file_get_contents( __DIR__ . '/assets/js/debugger.min.js' ) ?>
+    <?php echo file_get_contents(__DIR__ . '/assets/js/debugger.min.js') ?>
 </script>

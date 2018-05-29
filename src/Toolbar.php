@@ -8,6 +8,7 @@
  * @author         Steeve Andrian Salim
  * @copyright      Copyright (c) Steeve Andrian Salim
  */
+
 // ------------------------------------------------------------------------
 
 namespace O2System\Gear;
@@ -41,26 +42,30 @@ class Toolbar
     public function getOutput()
     {
         $totalExecution = profiler()->getTotalExecution();
-        $startTime = $totalExecution->getRawStartTime();
-        $totalTime = ( microtime( true ) - $startTime ) * 1000;
-        $profilerMetrics = profiler()->getMetrics();
+        $metrics = profiler()->getMetrics();
 
-        $increments = 1 / 5;
-        $segmentDuration = ( ceil( ( $totalTime / 7 ) * $increments ) / $increments );
-        $segmentCount = (int)ceil( $totalTime / $segmentDuration );
+        $totalTime = 0;
+        $totalMemory = 0;
+
+        foreach ($metrics as $metric) {
+            $totalTime += ($metric->endTime - $metric->startTime);
+            $totalMemory += ($metric->endMemory - $metric->startMemory);
+        }
+
+        $segmentDuration = $this->roundTo($totalTime * 1000, 5);
+        $segmentCount = (int)ceil($totalTime / $segmentDuration);
 
         $displayTime = $segmentCount * $segmentDuration;
 
-        $metrics = [];
-        foreach ( $profilerMetrics as $profilerMetric ) {
-            $profilerMetric->offset = ( ( $profilerMetric->getRawStartTime() - $startTime ) * 1000 / $displayTime ) * 100;
-            $profilerMetric->length = ( $profilerMetric->getRawDuration() * 1000 / $displayTime ) * 100;
-            $metrics[] = $profilerMetric;
+        foreach ($metrics as $metric) {
+            $metric->offset = (($metric->startTime - $totalExecution->startTime) * 1000 / $displayTime) * 100;
+            $metric->length = (($metric->endTime - $metric->startTime) * 1000 / $displayTime) * 100;
         }
 
-        array_pop( $metrics );
-
-        $metrics = array_reverse( $metrics );
+        $totalTime = $totalExecution->getFormattedTime($totalTime, 2);
+        $totalMemory = $totalExecution->getFormattedMemorySize($totalMemory);
+        $allocatedMemory = $totalExecution->getFormattedMemorySize(memory_get_usage(true));
+        $peakMemory = $totalExecution->getFormattedMemorySize(memory_get_peak_usage(true));
 
         $files = $this->getFiles();
         $logs = $this->getLogs();
@@ -78,6 +83,22 @@ class Toolbar
     // ------------------------------------------------------------------------
 
     /**
+     * Rounds a number to the nearest incremental value.
+     *
+     * @param float $number
+     * @param int   $increments
+     *
+     * @return float
+     */
+    protected function roundTo($number, $increments = 5)
+    {
+        $increments = 1 / $increments;
+
+        return (ceil($number * $increments) / $increments);
+    }
+    //--------------------------------------------------------------------
+
+    /**
      * Toolbar::getFiles
      *
      * @return \string[]
@@ -86,15 +107,15 @@ class Toolbar
     {
         $files = get_included_files();
 
-        if ( class_exists( '\O2System\Framework', false ) ) {
-            foreach ( $files as $key => $file ) {
+        if (class_exists('\O2System\Framework', false)) {
+            foreach ($files as $key => $file) {
 
-                if ( strpos( $file, 'autoload.php' ) !== false ) {
-                    unset( $files[ $key ] );
+                if (strpos($file, 'autoload.php') !== false) {
+                    unset($files[ $key ]);
                     continue;
                 }
 
-                $files[ $key ] = str_replace( PATH_ROOT, DIRECTORY_SEPARATOR, $file );
+                $files[ $key ] = str_replace(PATH_ROOT, DIRECTORY_SEPARATOR, $file);
             }
         }
 
@@ -107,10 +128,10 @@ class Toolbar
     {
         $database = [];
 
-        if(class_exists('O2System\Framework', false)) {
+        if (class_exists('O2System\Framework', false)) {
             $connections = database()->getIterator();
 
-            foreach($connections as $offset => $connection) {
+            foreach ($connections as $offset => $connection) {
                 $database[ $offset ] = $connection->getQueries();
             }
         }
@@ -127,7 +148,7 @@ class Toolbar
     {
         $logs = [];
 
-        if ( function_exists( 'logger' ) ) {
+        if (function_exists('logger')) {
             $logs = logger()->getLines();
         }
 
@@ -143,7 +164,7 @@ class Toolbar
      */
     public function getVars()
     {
-        $vars = new \ArrayObject( [], \ArrayObject::ARRAY_AS_PROPS );
+        $vars = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
 
         $vars->env = $_ENV;
         $vars->server = $_SERVER;
@@ -153,16 +174,16 @@ class Toolbar
         $vars->post = $_POST;
         $vars->files = $_FILES;
 
-        if ( function_exists( 'apache_request_headers' ) ) {
+        if (function_exists('apache_request_headers')) {
             $vars->headers = apache_request_headers();
-        } elseif ( function_exists( 'getallheaders' ) ) {
+        } elseif (function_exists('getallheaders')) {
             $vars->headers = getallheaders();
         } else {
             $vars->headers = [];
-            foreach ( $_SERVER as $name => $value ) {
-                if ( substr( $name, 0, 5 ) == 'HTTP_' ) {
-                    $vars->headers[ str_replace( ' ', '-',
-                        ucwords( strtolower( str_replace( '_', ' ', substr( $name, 5 ) ) ) ) ) ] = $value;
+            foreach ($_SERVER as $name => $value) {
+                if (substr($name, 0, 5) == 'HTTP_') {
+                    $vars->headers[ str_replace(' ', '-',
+                        ucwords(strtolower(str_replace('_', ' ', substr($name, 5))))) ] = $value;
                 }
             }
         }

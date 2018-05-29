@@ -19,7 +19,7 @@
     </ul>
 </div>
 
-<pre id="gear-precode"><code id="gear-code-container"><?php echo trim( $expression ); ?></code></pre>
+<pre id="gear-precode"><code id="gear-code-container"><?php echo trim($expression); ?></code></pre>
 
 <div id="gear-debug-backtrace">
     <div id="gear-debug-backtrace-heading">
@@ -27,13 +27,13 @@
 
         <ul id="gear-debug-backtrace-heading-info">
             <li><span>Duration <span><?php echo $metric->getDuration(); ?></span></span></li>
-            <li><span>Memory Usage <span><?php echo $metric->getPeakMemory(); ?></span></span></li>
+            <li><span>Memory Usage <span><?php echo $metric->getPeakMemoryUsage(); ?></span></span></li>
     </div>
 
     <div class="clear-both"></div>
 
     <ol id="gear-debug-backtrace-chronology">
-        <?php foreach ( $trace->getChronology() as $chronology ): ?>
+        <?php foreach ($trace->getChronology() as $chronology): ?>
             <li>
                 <strong><?php echo $chronology->call; ?></strong><br>
                 <i><?php echo $chronology->file; ?>:<?php echo $chronology->line; ?></i>
@@ -43,7 +43,7 @@
 </div>
 
 <script type="text/javascript">
-    <?php echo file_get_contents( __DIR__ . '/assets/js/print-out.min.js' ) ?>
+    <?php echo file_get_contents(__DIR__ . '/assets/js/print-out.min.js') ?>
 </script>
 
 </body>

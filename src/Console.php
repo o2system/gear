@@ -8,6 +8,7 @@
  * @author         Steeve Andrian Salim
  * @copyright      Copyright (c) Steeve Andrian Salim
  */
+
 // ------------------------------------------------------------------------
 
 namespace O2System\Gear;
@@ -33,7 +34,7 @@ class Console
 
     // ------------------------------------------------------------------------
 
-    public function __construct( $label, $expression, $messageType = self::LOG_MESSAGE )
+    public function __construct($label, $expression, $messageType = self::LOG_MESSAGE)
     {
         $this->label = $label;
         $this->expression = $expression;
@@ -42,7 +43,7 @@ class Console
 
     public function send()
     {
-        $this->expression = is_object( $this->expression ) || is_array( $this->expression )
+        $this->expression = is_object($this->expression) || is_array($this->expression)
             ? 'JSON.parse(\'' . json_encode(
                 $this->expression
             ) . '\')'
@@ -50,7 +51,7 @@ class Console
 
         echo '<script type="text/javascript">' . PHP_EOL;
 
-        switch ( $this->messageType ) {
+        switch ($this->messageType) {
             default:
             case self::LOG_MESSAGE :
                 $messageType = 'log';
@@ -79,11 +80,11 @@ class Console
                 break;
         }
 
-        if( ! empty( $this->label ) ) {
-            echo "console.". $messageType ."('%c " . $this->label . " ', 'background: ". $backgroundColor ."; color: ". $textColor ."');" . PHP_EOL;
+        if ( ! empty($this->label)) {
+            echo "console." . $messageType . "('%c " . $this->label . " ', 'background: " . $backgroundColor . "; color: " . $textColor . "');" . PHP_EOL;
         }
 
-        echo "console.". $messageType ."(" . $this->expression . ");" . PHP_EOL;
+        echo "console." . $messageType . "(" . $this->expression . ");" . PHP_EOL;
 
         echo '</script>' . PHP_EOL;
     }

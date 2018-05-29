@@ -8,6 +8,7 @@
  * @author         Steeve Andrian Salim
  * @copyright      Copyright (c) Steeve Andrian Salim
  */
+
 // ------------------------------------------------------------------------
 
 namespace O2System\Gear\Trace\Datastructures;
@@ -21,9 +22,9 @@ namespace O2System\Gear\Trace\Datastructures;
  */
 class Chronology extends \ArrayObject
 {
-    public function __construct( array $chronology = [] )
+    public function __construct(array $chronology = [])
     {
-        $chronology = empty( $chronology ) ? [
+        $chronology = empty($chronology) ? [
             'call' => null,
             'type' => null,
             'line' => null,
@@ -32,6 +33,6 @@ class Chronology extends \ArrayObject
             'file' => null,
         ] : $chronology;
 
-        parent::__construct( $chronology, \ArrayObject::ARRAY_AS_PROPS );
+        parent::__construct($chronology, \ArrayObject::ARRAY_AS_PROPS);
     }
 }

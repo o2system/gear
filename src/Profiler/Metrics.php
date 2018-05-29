@@ -21,7 +21,7 @@ use O2System\Gear\Profiler\Datastructures\Metric;
  *
  * @package O2System\Gear\Profiler\Collections
  */
-class Metrics extends \SplStack
+class Metrics extends \SplQueue
 {
     protected static $logged = [];
 
@@ -29,8 +29,12 @@ class Metrics extends \SplStack
 
     public function push( $metric )
     {
-        if ( $this->isEmpty() === false AND null !== $this->top() ) {
-            $this->top()->stop();
+        $metric->stop();
+
+        if ( ! $this->isEmpty() ) {
+            $metric->start($this->top()->endTime, $this->top()->endMemory);
+        } elseif(defined('STARTUP_MEMORY')) {
+            $metric->start(STARTUP_TIME, STARTUP_MEMORY);
         }
 
         parent::push( $metric );

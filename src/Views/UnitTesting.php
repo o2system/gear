@@ -19,15 +19,15 @@
         </tr>
         </thead>
         <tbody>
-        <?php foreach( $reports as $report ): ?>
-            <tr class="<?php echo ( $report->status === 'passed' ? 'success' : 'danger' ); ?>">
+        <?php foreach ($reports as $report): ?>
+            <tr class="<?php echo($report->status === 'passed' ? 'success' : 'danger'); ?>">
                 <td width="20">
                     <strong><?php echo $report->label; ?></strong>
                 </td>
                 <td width="20">
-                    <?php if( is_array( $report->result ) || is_object( $report->result ) ): ?>
+                    <?php if (is_array($report->result) || is_object($report->result)): ?>
                         <pre>
-                            <?php echo print_r( $report->result, true ); ?>
+                            <?php echo print_r($report->result, true); ?>
                         </pre>
                     <?php else: ?>
                         <?php echo $report->result; ?>
@@ -37,9 +37,9 @@
                     <span class="label label-info"><?php echo $report->datatype->result; ?></span>
                 </td>
                 <td width="20">
-                    <?php if( is_array( $report->expected ) || is_object( $report->expected ) ): ?>
+                    <?php if (is_array($report->expected) || is_object($report->expected)): ?>
                         <pre>
-                            <?php echo print_r( $report->expected, true ); ?>
+                            <?php echo print_r($report->expected, true); ?>
                         </pre>
                     <?php else: ?>
                         <?php echo $report->expected; ?>
@@ -49,7 +49,7 @@
                     <span class="label label-info"><?php echo $report->datatype->expected; ?></span>
                 </td>
                 <td width="5">
-                    <?php if( $report->status === 'passed' ): ?>
+                    <?php if ($report->status === 'passed'): ?>
                         <span class="label label-success">Passed</span>
                     <?php else: ?>
                         <span class="label label-danger">Failed</span>

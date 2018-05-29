@@ -8,6 +8,7 @@
  * @author         Steeve Andrian Salim
  * @copyright      Copyright (c) Steeve Andrian Salim
  */
+
 // ------------------------------------------------------------------------
 
 namespace O2System\Gear;
@@ -51,17 +52,17 @@ class Profiler
      */
     public function __construct()
     {
-        $this->startTime = defined( 'STARTUP_TIME' )
+        $this->startTime = defined('STARTUP_TIME')
             ? STARTUP_TIME
-            : microtime( true );
+            : microtime(true);
 
-        $this->startMemory = defined( 'STARTUP_MEMORY' )
+        $this->startMemory = defined('STARTUP_MEMORY')
             ? STARTUP_MEMORY
-            : memory_get_usage( true );
+            : memory_get_usage(true);
 
         $this->metrics = new Profiler\Metrics();
 
-        $this->watch( 'TOTAL_EXECUTION' );
+        $this->watch('TOTAL_EXECUTION');
     }
 
     // ------------------------------------------------------------------------
@@ -71,10 +72,10 @@ class Profiler
      *
      * @param string $marker
      */
-    public function watch( $marker )
+    public function watch($marker)
     {
         // Stop Last Benchmark
-        $this->metrics->push( new Profiler\Datastructures\Metric( $marker ) );
+        $this->metrics->push(new Profiler\Datastructures\Metric($marker));
     }
 
     /**
@@ -84,7 +85,7 @@ class Profiler
      *
      * @return Profiler
      */
-    public function setStartTime( $startTime )
+    public function setStartTime($startTime)
     {
         $this->startTime = $startTime;
 
@@ -100,7 +101,7 @@ class Profiler
      *
      * @return Profiler
      */
-    public function setStartMemory( $startMemory )
+    public function setStartMemory($startMemory)
     {
         $this->startMemory = $startMemory;
 

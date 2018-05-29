@@ -8,6 +8,7 @@
  * @author         Steeve Andrian Salim
  * @copyright      Copyright (c) Steeve Andrian Salim
  */
+
 // ------------------------------------------------------------------------
 
 namespace O2System\Gear;
@@ -45,16 +46,16 @@ class Trace
      *
      * @param string $flag tracer option
      */
-    public function __construct( $trace = [] )
+    public function __construct($trace = [])
     {
-        if ( ! empty( $trace ) ) {
+        if ( ! empty($trace)) {
             $this->backtrace = $trace;
         } else {
-            $this->backtrace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS );
+            $this->backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
         }
 
         // reverse array to make steps line up chronologically
-        $this->backtrace = array_reverse( $this->backtrace );
+        $this->backtrace = array_reverse($this->backtrace);
 
         // Generate Lines
         $this->setChronology();
@@ -72,10 +73,10 @@ class Trace
      */
     private function setChronology()
     {
-        foreach ( $this->backtrace as $trace ) {
-            $line = new Trace\Datastructures\Chronology( $trace );
+        foreach ($this->backtrace as $trace) {
+            $line = new Trace\Datastructures\Chronology($trace);
 
-            if ( isset( $trace[ 'class' ] ) AND isset( $trace[ 'type' ] ) ) {
+            if (isset($trace[ 'class' ]) AND isset($trace[ 'type' ])) {
                 $line->call = $trace[ 'class' ] . $trace[ 'type' ] . $trace[ 'function' ] . '()';
                 $line->type = $trace[ 'type' ] === '->' ? 'non-static' : 'static';
             } else {
@@ -83,19 +84,19 @@ class Trace
                 $line->type = 'non-static';
             }
 
-            if ( ! isset( $trace[ 'file' ] ) ) {
-                $currentTrace = current( $this->backtrace );
-                $line->file = isset( $currentTrace[ 'file' ] ) ? $currentTrace[ 'file' ] : null;
-                $line->line = isset( $currentTrace[ 'line' ] ) ? $currentTrace[ 'line' ] : null;
+            if ( ! isset($trace[ 'file' ])) {
+                $currentTrace = current($this->backtrace);
+                $line->file = isset($currentTrace[ 'file' ]) ? $currentTrace[ 'file' ] : null;
+                $line->line = isset($currentTrace[ 'line' ]) ? $currentTrace[ 'line' ] : null;
             }
 
-            if ( defined( 'PATH_ROOT' ) ) {
-                $line->file = str_replace( PATH_ROOT, '', $line->file );
+            if (defined('PATH_ROOT')) {
+                $line->file = str_replace(PATH_ROOT, '', $line->file);
             }
 
             $this->chronology[] = $line;
 
-            if ( in_array( $line->call, [ 'print_out()', 'print_line()', 'O2System\Core\Gear\Debug::stop()' ] ) ) {
+            if (in_array($line->call, ['print_out()', 'print_line()', 'O2System\Core\Gear\Debug::stop()'])) {
                 break;
             }
         }
@@ -114,11 +115,11 @@ class Trace
      *
      * @return  array
      */
-    public function getChronology( $reset = true )
+    public function getChronology($reset = true)
     {
         $chronology = $this->chronology;
 
-        if ( $reset === true ) {
+        if ($reset === true) {
             $this->chronology = [];
         }
 

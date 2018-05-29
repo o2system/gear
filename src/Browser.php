@@ -8,6 +8,7 @@
  * @author         Steeve Andrian Salim
  * @copyright      Copyright (c) Steeve Andrian Salim
  */
+
 // ------------------------------------------------------------------------
 
 namespace O2System\Gear;
@@ -24,24 +25,24 @@ use O2System\Gear\Profiler\Datastructures\Metric;
 class Browser
 {
     private $expression;
-    
-    public function __construct( $expression )
+
+    public function __construct($expression)
     {
-        $this->expression = var_format( $expression );
+        $this->expression = var_format($expression);
     }
-    
+
     public function render()
     {
-        $metric = new Metric( 'print-out' );
+        $metric = new Metric('print-out');
         $metric->start();
-        ini_set( 'memory_limit', '512M' );
+        ini_set('memory_limit', '512M');
 
-        if( ! is_string( $this->expression ) ) {
-            $this->expression = print_r( $this->expression, true );
+        if ( ! is_string($this->expression)) {
+            $this->expression = print_r($this->expression, true);
         }
 
-        $expression = htmlentities( $this->expression );
-        $expression = htmlspecialchars( htmlspecialchars_decode( $this->expression, ENT_QUOTES ), ENT_QUOTES, 'UTF-8' );
+        $expression = htmlentities($this->expression);
+        $expression = htmlspecialchars(htmlspecialchars_decode($this->expression, ENT_QUOTES), ENT_QUOTES, 'UTF-8');
         $trace = new Trace();
 
         $metric->stop();

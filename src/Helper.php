@@ -18,7 +18,7 @@
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists( 'var_format' ) ) {
+if ( ! function_exists('var_format')) {
     /**
      * var_format
      *
@@ -28,21 +28,21 @@ if ( ! function_exists( 'var_format' ) ) {
      *
      * @return mixed
      */
-    function var_format( $expression )
+    function var_format($expression)
     {
-        if ( is_bool( $expression ) ) {
-            if ( $expression === true ) {
+        if (is_bool($expression)) {
+            if ($expression === true) {
                 $expression = '(bool) TRUE';
             } else {
                 $expression = '(bool) FALSE';
             }
-        } elseif ( is_resource( $expression ) ) {
-            $expression = '(resource) ' . get_resource_type( $expression );
-        } elseif ( is_array( $expression ) || is_object( $expression ) ) {
-            $expression = @print_r( $expression, true );
-        } elseif ( is_int( $expression ) OR is_numeric( $expression ) ) {
+        } elseif (is_resource($expression)) {
+            $expression = '(resource) ' . get_resource_type($expression);
+        } elseif (is_array($expression) || is_object($expression)) {
+            $expression = @print_r($expression, true);
+        } elseif (is_int($expression) OR is_numeric($expression)) {
             $expression = '(int) ' . $expression;
-        } elseif ( is_null( $expression ) ) {
+        } elseif (is_null($expression)) {
             $expression = '(null)';
         }
 
@@ -52,7 +52,7 @@ if ( ! function_exists( 'var_format' ) ) {
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists( 'print_out' ) ) {
+if ( ! function_exists('print_out')) {
     /**
      * print_code
      *
@@ -61,30 +61,30 @@ if ( ! function_exists( 'print_out' ) ) {
      * @param mixed $expression The variable tobe formatted.
      * @param bool  $exit       The exit flag of the current script execution.
      */
-    function print_out( $expression, $exit = true )
+    function print_out($expression, $exit = true)
     {
-        if ( php_sapi_name() === 'cli' ) {
-            print_cli( $expression, $exit );
+        if (php_sapi_name() === 'cli') {
+            print_cli($expression, $exit);
 
             return;
-        } elseif( ! empty( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) && strtolower(
+        } elseif ( ! empty($_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) && strtolower(
                 $_SERVER[ 'HTTP_X_REQUESTED_WITH' ]
-            ) === 'xmlhttprequest' ) {
-            if ( is_array( $expression ) ) {
-                echo json_encode( $expression, JSON_PRETTY_PRINT );
-            } elseif(is_object($expression)) {
+            ) === 'xmlhttprequest') {
+            if (is_array($expression)) {
+                echo json_encode($expression, JSON_PRETTY_PRINT);
+            } elseif (is_object($expression)) {
                 print_r($expression);
             } else {
                 echo $expression;
             }
 
-            if ( $exit ) {
+            if ($exit) {
                 die;
             }
         } else {
-            echo ( new \O2System\Gear\Browser( $expression ) )->render();
+            echo (new \O2System\Gear\Browser($expression))->render();
 
-            if ( $exit ) {
+            if ($exit) {
                 die;
             }
         }
@@ -93,7 +93,7 @@ if ( ! function_exists( 'print_out' ) ) {
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists( 'print_console' ) ) {
+if ( ! function_exists('print_console')) {
     /**
      * print_console
      *
@@ -108,15 +108,15 @@ if ( ! function_exists( 'print_console' ) ) {
         $messageType = \O2System\Gear\Console::LOG_MESSAGE,
         $exit = true
     ) {
-        if ( php_sapi_name() === 'cli' ) {
-            print_cli( $expression, $exit );
+        if (php_sapi_name() === 'cli') {
+            print_cli($expression, $exit);
 
             return;
         }
 
-        ( new \O2System\Gear\Console( $label, $expression, $messageType ) )->send();
+        (new \O2System\Gear\Console($label, $expression, $messageType))->send();
 
-        if ( $exit ) {
+        if ($exit) {
             die;
         }
     }
@@ -124,7 +124,7 @@ if ( ! function_exists( 'print_console' ) ) {
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists( 'print_cli' ) ) {
+if ( ! function_exists('print_cli')) {
     /**
      * print_cli
      *
@@ -133,11 +133,11 @@ if ( ! function_exists( 'print_cli' ) ) {
      * @param mixed $expression The variable tobe formatted.
      * @param bool  $exit       The exit flag of the current script execution.
      */
-    function print_cli( $expression, $exit = true )
+    function print_cli($expression, $exit = true)
     {
-        ( new \O2System\Gear\Cli( $expression ) )->send();
+        (new \O2System\Gear\Cli($expression))->send();
 
-        if ( $exit ) {
+        if ($exit) {
             die;
         }
     }
@@ -145,7 +145,7 @@ if ( ! function_exists( 'print_cli' ) ) {
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists( 'print_code' ) ) {
+if ( ! function_exists('print_code')) {
     /**
      * print_code
      *
@@ -154,14 +154,14 @@ if ( ! function_exists( 'print_code' ) ) {
      * @param mixed $expression The variable tobe formatted.
      * @param bool  $exit       The exit flag of the current script execution.
      */
-    function print_code( $expression, $exit = false )
+    function print_code($expression, $exit = false)
     {
-        $expression = htmlentities( var_format( $expression ) );
-        $expression = htmlspecialchars( htmlspecialchars_decode( $expression, ENT_QUOTES ), ENT_QUOTES, 'UTF-8' );
+        $expression = htmlentities(var_format($expression));
+        $expression = htmlspecialchars(htmlspecialchars_decode($expression, ENT_QUOTES), ENT_QUOTES, 'UTF-8');
 
         echo '<pre>' . $expression . '</pre>';
 
-        if ( $exit === true ) {
+        if ($exit === true) {
             die;
         }
     }
@@ -169,7 +169,7 @@ if ( ! function_exists( 'print_code' ) ) {
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists( 'print_dump' ) ) {
+if ( ! function_exists('print_dump')) {
     /**
      * print_dump
      *
@@ -178,34 +178,34 @@ if ( ! function_exists( 'print_dump' ) ) {
      * @param mixed $expression The variable tobe formatted.
      * @param bool  $exit       The exit flag of the current script execution.
      */
-    function print_dump( $expression, $exit = false )
+    function print_dump($expression, $exit = false)
     {
         ob_start();
-        var_dump( $expression );
+        var_dump($expression);
         $output = ob_get_contents();
         ob_end_clean();
 
-        if ( strpos( $output, 'xdebug-var-dump' ) !== false ) {
-            if ( defined( 'PATH_ROOT' ) ) {
-                $helper_file = implode( DIRECTORY_SEPARATOR,
-                    [ 'vendor', 'o2system', 'gear', 'src', 'Helper.php:170:' ] );
-                $output = str_replace( '<small>' . PATH_ROOT . $helper_file . '</small>', '', $output );
+        if (strpos($output, 'xdebug-var-dump') !== false) {
+            if (defined('PATH_ROOT')) {
+                $helper_file = implode(DIRECTORY_SEPARATOR,
+                    ['vendor', 'o2system', 'gear', 'src', 'Helper.php:170:']);
+                $output = str_replace('<small>' . PATH_ROOT . $helper_file . '</small>', '', $output);
             }
 
             echo $output;
 
-            if ( $exit ) {
+            if ($exit) {
                 die;
             }
         } else {
-            print_code( $output, $exit );
+            print_code($output, $exit);
         }
     }
 }
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists( 'print_json' ) ) {
+if ( ! function_exists('print_json')) {
     /**
      * print_json
      *
@@ -215,30 +215,30 @@ if ( ! function_exists( 'print_json' ) ) {
      * @param int   $options    The optional json_encode options.
      * @param bool  $exit       The exit flag of the current script execution.
      */
-    function print_json( $expression, $options = null, $exit = true )
+    function print_json($expression, $options = null, $exit = true)
     {
-        if ( is_bool( $options ) ) {
+        if (is_bool($options)) {
             $exit = $options;
             $options = null;
         }
 
-        if ( is_array( $expression ) || is_object( $expression ) ) {
-            if ( empty( $options ) ) {
-                $output = json_encode( $expression );
+        if (is_array($expression) || is_object($expression)) {
+            if (empty($options)) {
+                $output = json_encode($expression);
             } else {
-                $output = json_encode( $expression, $options );
+                $output = json_encode($expression, $options);
             }
 
-            print_out( $output, $exit );
+            print_out($output, $exit);
         } else {
-            print_out( 'Invalid Expression!', $exit );
+            print_out('Invalid Expression!', $exit);
         }
     }
 }
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists( 'print_serialize' ) ) {
+if ( ! function_exists('print_serialize')) {
     /**
      * print_serialize
      *
@@ -247,19 +247,19 @@ if ( ! function_exists( 'print_serialize' ) ) {
      * @param mixed $expression The variable tobe formatted.
      * @param bool  $exit       The exit flag of the current script execution.
      */
-    function print_serialize( $expression, $exit = true )
+    function print_serialize($expression, $exit = true)
     {
-        if ( is_array( $expression ) || is_object( $expression ) ) {
-            print_out( serialize( $expression ), $exit );
+        if (is_array($expression) || is_object($expression)) {
+            print_out(serialize($expression), $exit);
         } else {
-            print_out( 'Invalid Expression!', $exit );
+            print_out('Invalid Expression!', $exit);
         }
     }
 }
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists( 'print_line' ) ) {
+if ( ! function_exists('print_line')) {
     /**
      * print_line
      *
@@ -272,33 +272,33 @@ if ( ! function_exists( 'print_line' ) ) {
      * @param mixed $expression The variable tobe formatted.
      * @param bool  $exit       The exit flag of the current script execution.
      */
-    function print_line( $expression, $exit = false )
+    function print_line($expression, $exit = false)
     {
         static $lines;
 
-        if ( strtoupper( $exit ) === 'FLUSH' ) {
+        if (strtoupper($exit) === 'FLUSH') {
             $lines = [];
             $lines[] = $expression;
         }
 
-        if ( is_array( $expression ) || is_object( $expression ) ) {
-            $lines[] = print_r( $expression, true );
+        if (is_array($expression) || is_object($expression)) {
+            $lines[] = print_r($expression, true);
         } else {
-            $lines[] = var_format( $expression );
+            $lines[] = var_format($expression);
         }
 
-        if ( $exit === true || $expression === '---' ) {
-            $expression = implode( PHP_EOL, $lines );
+        if ($exit === true || $expression === '---') {
+            $expression = implode(PHP_EOL, $lines);
             $lines = [];
 
-            print_out( $expression, $exit );
+            print_out($expression, $exit);
         }
     }
 }
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists( 'pre_open' ) ) {
+if ( ! function_exists('pre_open')) {
     /**
      * pre_open
      *
@@ -312,7 +312,7 @@ if ( ! function_exists( 'pre_open' ) ) {
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists( 'pre_line' ) ) {
+if ( ! function_exists('pre_line')) {
     /**
      * pre_line
      *
@@ -321,23 +321,23 @@ if ( ! function_exists( 'pre_line' ) ) {
      * @param mixed $expression The variable tobe formatted.
      * @param bool  $implode    The flag to implode lines.
      */
-    function pre_line( $expression, $implode = true )
+    function pre_line($expression, $implode = true)
     {
-        if ( is_array( $expression ) AND $implode === true ) {
-            $expression = implode( PHP_EOL, $expression );
-        } elseif ( is_bool( $expression ) ) {
-            if ( $expression === true ) {
+        if (is_array($expression) AND $implode === true) {
+            $expression = implode(PHP_EOL, $expression);
+        } elseif (is_bool($expression)) {
+            if ($expression === true) {
                 $expression = '(bool) TRUE';
             } else {
                 $expression = '(bool) FALSE';
             }
-        } elseif ( is_resource( $expression ) ) {
-            $expression = '(resource) ' . get_resource_type( $expression );
-        } elseif ( is_array( $expression ) || is_object( $expression ) ) {
-            $expression = @print_r( $expression, true );
-        } elseif ( is_int( $expression ) OR is_numeric( $expression ) ) {
+        } elseif (is_resource($expression)) {
+            $expression = '(resource) ' . get_resource_type($expression);
+        } elseif (is_array($expression) || is_object($expression)) {
+            $expression = @print_r($expression, true);
+        } elseif (is_int($expression) OR is_numeric($expression)) {
             $expression = '(int) ' . $expression;
-        } elseif ( is_null( $expression ) ) {
+        } elseif (is_null($expression)) {
             $expression = '(null)';
         }
 
@@ -347,17 +347,17 @@ if ( ! function_exists( 'pre_line' ) ) {
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists( 'pre_close' ) ) {
+if ( ! function_exists('pre_close')) {
     /**
      * pre_close
      *
      * Prints a close pre HTML tag.
      */
-    function pre_close( $exit = false )
+    function pre_close($exit = false)
     {
         echo '</pre>';
 
-        if ( $exit ) {
+        if ($exit) {
             die;
         }
     }
@@ -365,7 +365,7 @@ if ( ! function_exists( 'pre_close' ) ) {
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists( 'debug_start' ) ) {
+if ( ! function_exists('debug_start')) {
     /**
      * debug_start
      *
@@ -379,7 +379,7 @@ if ( ! function_exists( 'debug_start' ) ) {
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists( 'debug_line' ) ) {
+if ( ! function_exists('debug_line')) {
     /**
      * debug_line
      *
@@ -388,15 +388,15 @@ if ( ! function_exists( 'debug_line' ) ) {
      * @param mixed $expression The variable tobe formatted.
      * @param bool  $export     The variable export flag, to export the variable into parsable string representation.
      */
-    function debug_line( $expression, $export = false )
+    function debug_line($expression, $export = false)
     {
-        \O2System\Gear\Debugger::line( $expression, $export );
+        \O2System\Gear\Debugger::line($expression, $export);
     }
 }
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists( 'debug_marker' ) ) {
+if ( ! function_exists('debug_marker')) {
     /**
      * debug_marker
      *
@@ -410,7 +410,7 @@ if ( ! function_exists( 'debug_marker' ) ) {
 
 // ------------------------------------------------------------------------
 
-if ( ! function_exists( 'debug_stop' ) ) {
+if ( ! function_exists('debug_stop')) {
     /**
      * debug_stop
      *
