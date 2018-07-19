@@ -62,7 +62,7 @@ class Profiler
 
         $this->metrics = new Profiler\Metrics();
 
-        $this->watch('TOTAL_EXECUTION');
+        $this->watch('INSTANTIATE_PROFILER_SERVICE');
     }
 
     // ------------------------------------------------------------------------

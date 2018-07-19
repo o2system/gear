@@ -14,6 +14,9 @@
     font-size: 12px;
     line-height: 1.5;
     background: #fff;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 #gear-toolbar-icon {

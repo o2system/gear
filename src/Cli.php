@@ -26,7 +26,7 @@ class Cli
 
     public function __construct($expression)
     {
-        $this->expression = $expression;
+        $this->expression = var_format($expression);
     }
 
     public function send()
@@ -36,8 +36,11 @@ class Cli
         echo chr(27) . chr(91) . 'H' . chr(27) . chr(91) . 'J';
         echo PHP_EOL . 'START of gears:print_cli' . PHP_EOL;
         echo "--------------------------------------------------------------------------------------" . PHP_EOL . PHP_EOL;
-        print_r($this->expression) . PHP_EOL;
-        echo PHP_EOL . PHP_EOL . '--------------------------------------------------------------------------------------' . PHP_EOL . PHP_EOL;
+        if ( ! is_string($this->expression)) {
+            $this->expression = print_r($this->expression, true);
+        }
+        echo $this->expression . PHP_EOL;
+        echo PHP_EOL . '--------------------------------------------------------------------------------------' . PHP_EOL . PHP_EOL;
 
         echo 'DEBUG BACKTRACE' . PHP_EOL;
         echo '--------------------------------------------------------------------------------------' . PHP_EOL . PHP_EOL;
@@ -49,6 +52,10 @@ class Cli
                     strlen($i)
                 ) . '  Line: ' . $chronology->file . ':' . $chronology->line . PHP_EOL . PHP_EOL;
             $i++;
+
+            if($chronology->call === 'print_cli()') {
+                break;
+            }
         }
 
         echo PHP_EOL . "-------------------------------------------------------------------------------------- " . PHP_EOL;
