@@ -110,10 +110,16 @@ function toolbar_table($array) {
                 <h2>Files <small><?= count( $files ); ?> loaded files</small></h2>
 
                 <table>
+	                <thead>
+	                    <tr>
+		                    <th>FILENAME</th>
+		                    <th>PATH</th>
+	                    </tr>
+	                </thead>
                     <tbody>
                     <?php foreach ( $files as $file ): ?>
                         <tr>
-                            <td style="width: 20em;"><?= pathinfo( $file, PATHINFO_FILENAME ); ?></td>
+                            <td style="width: 20em;"><?= pathinfo( $file, PATHINFO_BASENAME ); ?></td>
                             <td><?= $file; ?></td>
                         </tr>
                     <?php endforeach; ?>
