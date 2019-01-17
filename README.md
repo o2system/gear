@@ -1,3 +1,18 @@
+<div align="center" markdown="1">
+
+[![O2System Framework](http://o2system.id/assets/img/logo/logo-white-200px.png?logo)](http://o2system.id)
+</div>
+
+<div align="center" markdown="1">
+
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/o2system/gear/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/o2system/gear/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/o2system/gear/badges/build.png?b=master)](https://scrutinizer-ci.com/g/o2system/gear/build-status/master)
+[![Latest Stable Version](https://poser.pugx.org/o2system/gear/v/stable)](https://packagist.org/packages/o2system/gear)
+[![Total Downloads](https://poser.pugx.org/o2system/gear/downloads)](https://packagist.org/packages/o2system/gear)
+[![License](https://poser.pugx.org/o2system/gear/license)](https://packagist.org/packages/o2system/gear)
+
+</div>
+
 # O2System Gear
 O2System Gear is a PHP Library for all PHP Developer to simplify debugging, profiling and testing process.
 
