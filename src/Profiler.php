@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the O2System PHP Framework package.
+ * This file is part of the O2System Framework package.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -23,6 +23,8 @@ namespace O2System\Gear;
 class Profiler
 {
     /**
+     * Profiler::$startTime
+     *
      * Profiler Start Time
      *
      * @var float
@@ -30,6 +32,8 @@ class Profiler
     private $startTime;
 
     /**
+     * Profiler::$startMemory
+     *
      * Profiler Start Memory Usage
      *
      * @var float
@@ -37,6 +41,8 @@ class Profiler
     private $startMemory;
 
     /**
+     * Profiler::$metrics
+     *
      * Profiler Metrics Stack
      *
      * @var Profiler\Metrics
@@ -68,15 +74,17 @@ class Profiler
     // ------------------------------------------------------------------------
 
     /**
-     * Watch
+     * Profiler::watch
      *
      * @param string $marker
      */
     public function watch($marker)
     {
         // Stop Last Benchmark
-        $this->metrics->push(new Profiler\Datastructures\Metric($marker));
+        $this->metrics->push(new Profiler\DataStructures\Metric($marker));
     }
+
+    // ------------------------------------------------------------------------
 
     /**
      * Profiler::setStartTime
@@ -110,11 +118,23 @@ class Profiler
 
     // ------------------------------------------------------------------------
 
+    /**
+     * Profiler::getMetrics
+     *
+     * @return \O2System\Gear\Profiler\Metrics
+     */
     public function getMetrics()
     {
         return $this->metrics;
     }
 
+    // ------------------------------------------------------------------------
+
+    /**
+     * Profiler::getTotalExecution
+     *
+     * @return mixed
+     */
     public function getTotalExecution()
     {
         return $this->metrics->bottom();

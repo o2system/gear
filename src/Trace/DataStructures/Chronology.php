@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the O2System PHP Framework package.
+ * This file is part of the O2System Framework package.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,7 +11,7 @@
 
 // ------------------------------------------------------------------------
 
-namespace O2System\Gear\Trace\Datastructures;
+namespace O2System\Gear\Trace\DataStructures;
 
 // ------------------------------------------------------------------------
 
@@ -22,6 +22,11 @@ namespace O2System\Gear\Trace\Datastructures;
  */
 class Chronology extends \ArrayObject
 {
+    /**
+     * Chronology::__construct
+     *
+     * @param array $chronology
+     */
     public function __construct(array $chronology = [])
     {
         $chronology = empty($chronology) ? [

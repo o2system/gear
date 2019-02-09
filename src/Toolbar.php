@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the O2System PHP Framework package.
+ * This file is part of the O2System Framework package.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -83,6 +83,8 @@ class Toolbar
     // ------------------------------------------------------------------------
 
     /**
+     * Toolbar::roundTo
+     *
      * Rounds a number to the nearest incremental value.
      *
      * @param float $number
@@ -101,7 +103,7 @@ class Toolbar
     /**
      * Toolbar::getFiles
      *
-     * @return \string[]
+     * @return array
      */
     public function getFiles()
     {
@@ -123,23 +125,6 @@ class Toolbar
     }
 
     // ------------------------------------------------------------------------
-
-    public function getDatabase()
-    {
-        $database = [];
-
-        if (class_exists('O2System\Framework', false)) {
-            if(services()->has('database')) {
-                $connections = database()->getIterator();
-
-                foreach ($connections as $offset => $connection) {
-                    $database[$offset] = $connection->getQueries();
-                }
-            }
-        }
-
-        return $database;
-    }
 
     /**
      * Toolbar::getLogs
@@ -191,5 +176,29 @@ class Toolbar
         }
 
         return $vars;
+    }
+
+    // ------------------------------------------------------------------------
+
+    /**
+     * Toolbar::getDatabase
+     *
+     * @return array
+     */
+    public function getDatabase()
+    {
+        $database = [];
+
+        if (class_exists('O2System\Framework', false)) {
+            if (services()->has('database')) {
+                $connections = database()->getIterator();
+
+                foreach ($connections as $offset => $connection) {
+                    $database[ $offset ] = $connection->getQueries();
+                }
+            }
+        }
+
+        return $database;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the O2System PHP Framework package.
+ * This file is part of the O2System Framework package.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@ namespace O2System\Gear;
 
 // ------------------------------------------------------------------------
 
-use O2System\Gear\Profiler\Datastructures\Metric;
+use O2System\Gear\Profiler\DataStructures\Metric;
 
 /**
  * Class Browser
@@ -24,13 +24,32 @@ use O2System\Gear\Profiler\Datastructures\Metric;
  */
 class Browser
 {
+    /**
+     * Browser::$expression
+     *
+     * @var mixed
+     */
     private $expression;
 
+    // ------------------------------------------------------------------------
+
+    /**
+     * Browser::__construct
+     *
+     * @param mixed $expression
+     */
     public function __construct($expression)
     {
         $this->expression = var_format($expression);
     }
 
+    // ------------------------------------------------------------------------
+
+    /**
+     * Browser::render
+     *
+     * @return false|string
+     */
     public function render()
     {
         $metric = new Metric('print-out');

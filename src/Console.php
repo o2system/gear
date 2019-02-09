@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the O2System PHP Framework package.
+ * This file is part of the O2System Framework package.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -22,18 +22,73 @@ namespace O2System\Gear;
  */
 class Console
 {
+    /**
+     * Console::LOG_MESSAGE
+     *
+     * @var int
+     */
     const LOG_MESSAGE = 0;
+
+    /**
+     * Console::LOG_MESSAGE
+     *
+     * @var int
+     */
     const INFO_MESSAGE = 1;
+
+    /**
+     * Console::LOG_MESSAGE
+     *
+     * @var int
+     */
     const WARNING_MESSAGE = 2;
+
+    /**
+     * Console::LOG_MESSAGE
+     *
+     * @var int
+     */
     const ERROR_MESSAGE = 3;
+
+    /**
+     * Console::LOG_MESSAGE
+     *
+     * @var int
+     */
     const DEBUG_MESSAGE = 4;
 
+    // ------------------------------------------------------------------------
+
+    /**
+     * Console::$label
+     *
+     * @var string
+     */
     private $label;
+
+    /**
+     * Console::$expression
+     *
+     * @var mixed
+     */
     private $expression;
+
+    /**
+     * Console::$messageType
+     *
+     * @var int
+     */
     private $messageType;
 
     // ------------------------------------------------------------------------
 
+    /**
+     * Console::__construct
+     *
+     * @param string   $label
+     * @param mixed    $expression
+     * @param int      $messageType
+     */
     public function __construct($label, $expression, $messageType = self::LOG_MESSAGE)
     {
         $this->label = $label;
@@ -41,6 +96,11 @@ class Console
         $this->messageType = $messageType;
     }
 
+    // ------------------------------------------------------------------------
+
+    /**
+     * Console::send
+     */
     public function send()
     {
         $this->expression = is_object($this->expression) || is_array($this->expression)

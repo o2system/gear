@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the O2System PHP Framework package.
+ * This file is part of the O2System Framework package.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -23,9 +23,8 @@ namespace O2System\Gear;
 class Trace
 {
     /**
-     * Class Name
+     * Trace::$backtrace
      *
-     * @access  protected
      * @type    string name of called class
      */
     protected $backtrace = null;
@@ -40,11 +39,9 @@ class Trace
     // ------------------------------------------------------------------------
 
     /**
-     * Class Constructor
+     * Trace::__construct
      *
-     * @access public
-     *
-     * @param string $flag tracer option
+     * @param array $trace
      */
     public function __construct($trace = [])
     {
@@ -64,6 +61,8 @@ class Trace
     // ------------------------------------------------------------------------
 
     /**
+     * Trace::setChronology
+     *
      * Generate Chronology Method
      *
      * Generate array of Backtrace Chronology
@@ -74,7 +73,7 @@ class Trace
     private function setChronology()
     {
         foreach ($this->backtrace as $trace) {
-            $line = new Trace\Datastructures\Chronology($trace);
+            $line = new Trace\DataStructures\Chronology($trace);
 
             if (isset($trace[ 'class' ]) AND isset($trace[ 'type' ])) {
                 $line->call = $trace[ 'class' ] . $trace[ 'type' ] . $trace[ 'function' ] . '()';
@@ -105,15 +104,11 @@ class Trace
     // ------------------------------------------------------------------------
 
     /**
-     * Chronology Method
+     * Trace::getChronology
      *
-     * Backtrace chronology
+     * @param bool $reset
      *
-     * @access public
-     *
-     * @param   bool $reset option for resetting the chronology data
-     *
-     * @return  array
+     * @return array
      */
     public function getChronology($reset = true)
     {

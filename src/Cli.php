@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the O2System PHP Framework package.
+ * This file is part of the O2System Framework package.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -22,13 +22,30 @@ namespace O2System\Gear;
  */
 class Cli
 {
+    /**
+     * Cli::$expression
+     *
+     * @var mixed
+     */
     private $expression;
 
+    // ------------------------------------------------------------------------
+
+    /**
+     * Cli::__construct
+     *
+     * @param mixed $expression
+     */
     public function __construct($expression)
     {
         $this->expression = var_format($expression);
     }
 
+    // ------------------------------------------------------------------------
+
+    /**
+     * Cli::send
+     */
     public function send()
     {
         $trace = new \O2System\Gear\Trace();
@@ -53,7 +70,7 @@ class Cli
                 ) . '  Line: ' . $chronology->file . ':' . $chronology->line . PHP_EOL . PHP_EOL;
             $i++;
 
-            if($chronology->call === 'print_cli()') {
+            if ($chronology->call === 'print_cli()') {
                 break;
             }
         }

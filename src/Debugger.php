@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the O2System PHP Framework package.
+ * This file is part of the O2System Framework package.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -23,6 +23,8 @@ namespace O2System\Gear;
 class Debugger
 {
     /**
+     * Debugger::$chronology
+     *
      * List of Debug Chronology
      *
      * @access  private
@@ -35,7 +37,7 @@ class Debugger
     // ------------------------------------------------------------------------
 
     /**
-     * Start
+     * Debugger::start
      *
      * Start Debug Process
      *
@@ -51,6 +53,8 @@ class Debugger
     // ------------------------------------------------------------------------
 
     /**
+     * Debugger::whereCall
+     *
      * Where Call Method
      *
      * Finding where the call is made
@@ -79,7 +83,7 @@ class Debugger
     // ------------------------------------------------------------------------
 
     /**
-     * Line
+     * Debugger::line
      *
      * Add debug line output
      *
@@ -102,7 +106,7 @@ class Debugger
     // ------------------------------------------------------------------------
 
     /**
-     * Marker
+     * Debugger::marker
      *
      * Set Debug Marker
      */
@@ -115,6 +119,8 @@ class Debugger
     // ------------------------------------------------------------------------
 
     /**
+     * Debugger::stop
+     *
      * Stop Debug
      */
     public static function stop()
@@ -123,6 +129,11 @@ class Debugger
         static::render();
     }
 
+    // ------------------------------------------------------------------------
+
+    /**
+     * Debugger::render
+     */
     public static function render()
     {
         $trace = static::$chronology;

@@ -1,5 +1,5 @@
-/**
- * This file is part of the O2System PHP Framework package.
+/*
+ * This file is part of the O2System Framework package.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -29,8 +29,8 @@ var gearToolbar = {
         var tabActive = document.getElementById('gear-toolbar-tab-' + tabId);
         var tabButtonActive = document.getElementById('tab-button-' + tabId);
 
-        if(gearToolbar.tabActive === tabId) {
-            if(tabContainer.classList.contains('show')){
+        if (gearToolbar.tabActive === tabId) {
+            if (tabContainer.classList.contains('show')) {
                 tabActive.classList.remove('show');
                 tabContainer.classList.remove('show');
                 tabButtonActive.classList.remove('active');
@@ -53,8 +53,7 @@ var gearToolbar = {
     addClass: function (el, className) {
         if (el.classList) {
             el.classList.add(className);
-        }
-        else {
+        } else {
             el.className += ' ' + className;
         }
     },
@@ -64,8 +63,7 @@ var gearToolbar = {
     removeClass: function (el, className) {
         if (el.classList) {
             el.classList.remove(className);
-        }
-        else {
+        } else {
             el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
         }
 
@@ -96,11 +94,11 @@ var gearToolbar = {
         var tabs = document.querySelectorAll('.tab');
         var tabContainer = document.getElementById('gear-toolbar-tabs');
 
-        if(tabContainer.classList.contains('show')){
+        if (tabContainer.classList.contains('show')) {
             tabContainer.classList.remove('show');
         } else {
             tabContainer.classList.add('show');
-            if( gearToolbar.tabActive === null ) {
+            if (gearToolbar.tabActive === null) {
                 gearToolbar.showTab('metrics');
             }
         }

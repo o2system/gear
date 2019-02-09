@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the O2System PHP Framework package.
+ * This file is part of the O2System Framework package.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -24,13 +24,33 @@ use O2System\Spl\Iterators\ArrayIterator;
  */
 class UnitTesting
 {
+    /**
+     * UnitTesting::$reports
+     *
+     * @var \O2System\Spl\Iterators\ArrayIterator
+     */
     private $reports;
 
+    // ------------------------------------------------------------------------
+
+    /**
+     * UnitTesting::__construct
+     */
     public function __construct()
     {
         $this->reports = new ArrayIterator();
     }
 
+    // ------------------------------------------------------------------------
+
+    /**
+     * UnitTesting::test
+     *
+     * @param string       $label
+     * @param \Closure     $closure
+     * @param mixed        $expected
+     * @param string|null  $notes
+     */
     public function test($label, $closure, $expected, $notes = null)
     {
         if ($closure instanceof \Closure) {
@@ -81,6 +101,13 @@ class UnitTesting
         ], \ArrayObject::ARRAY_AS_PROPS);
     }
 
+    // ------------------------------------------------------------------------
+
+    /**
+     * UnitTesting::getBacktrace
+     *
+     * @return \O2System\Gear\Trace\DataStructures\Chronology
+     */
     protected function getBacktrace()
     {
         $backtrace = debug_backtrace();
@@ -103,14 +130,26 @@ class UnitTesting
             $chronology[ 'file' ] = str_replace(PATH_ROOT, '', $chronology[ 'file' ]);
         }
 
-        return new Trace\Datastructures\Chronology($chronology);
+        return new Trace\DataStructures\Chronology($chronology);
     }
 
+    // ------------------------------------------------------------------------
+
+    /**
+     * UnitTesting::getReports
+     *
+     * @return \O2System\Spl\Iterators\ArrayIterator
+     */
     public function getReports()
     {
         return $this->reports;
     }
 
+    // ------------------------------------------------------------------------
+
+    /**
+     * UnitTesting::render
+     */
     public function render()
     {
         $reports = $this->reports;
