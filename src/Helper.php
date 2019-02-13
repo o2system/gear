@@ -115,10 +115,6 @@ if ( ! function_exists('print_console')) {
         }
 
         (new \O2System\Gear\Console($label, $expression, $messageType))->send();
-
-        if ($exit) {
-            die;
-        }
     }
 }
 
