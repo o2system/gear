@@ -45,5 +45,3 @@ Temporary Items
 # Others
 .svn
 .idea
-vendor
-composer.lock
