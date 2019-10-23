@@ -190,11 +190,13 @@ class Toolbar
         $database = [];
 
         if (class_exists('O2System\Framework', false)) {
-            if (services()->has('database')) {
-                $connections = database()->getIterator();
+            if (function_exists('database')) {
+                if(database() instanceof \O2System\Database\Connections) {
+                    $connections = database()->getIterator();
 
-                foreach ($connections as $offset => $connection) {
-                    $database[ $offset ] = $connection->getQueries();
+                    foreach ($connections as $offset => $connection) {
+                        $database[ $offset ] = $connection->getQueries();
+                    }
                 }
             }
         }
