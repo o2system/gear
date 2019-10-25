@@ -24,6 +24,13 @@ composer require o2system/gear
 > Packagist: [https://packagist.org/packages/o2system/gear](https://packagist.org/packages/o2system/gear)
 
 ### Usage
+```php
+$vars = [
+    'foo' => 'bar'
+];
+
+print_out($vars);
+```
 Documentation is available on this repository [wiki](https://github.com/o2system/gear/wiki) or visit this repository [github page](https://o2system.github.io/gear).
 
 ### Ideas and Suggestions
