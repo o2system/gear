@@ -1,4 +1,4 @@
-![alt text](https://www.o2system.id/assets/img/covers/cover-o2system-atom-gear.png "O2System Gear Atom")
+![alt text](https://repository-images.githubusercontent.com/67472250/1da28600-5c9e-11ea-85bf-a085fce7c9e8 "O2System Gear Atom")
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/o2system/gear/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/o2system/gear/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/o2system/gear/badges/build.png?b=master)](https://scrutinizer-ci.com/g/o2system/gear/build-status/master)
